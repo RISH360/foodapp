@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order</title>
+    <script src="footer.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(253, 181, 181);
+            margin: 0;
+            padding: 20px;
+            padding-top: 130px;
+            padding-bottom: 100px;
+        }
+
+         /* Back Button */
+        .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+
+        .container {
+            background: rgb(255, 255, 255);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .track-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 90%;
+    max-width: 350px;
+    font-weight: bold;
+    position: relative;
+    z-index: 10; /* Brings header to the front */
+    margin-bottom: 10px; /* Adds space below header */
+}
+
+
+        .track-header img {
+            width: 20px;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .food-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .food-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+        }
+
+     .timer-container {
+            background: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+        }
+
+        /* Red Header Styling */
+/* Red Header Styling - Remove Absolute Position */
+/* Red Header Styling - Remove Absolute Position */
+.section-header {
+    background-color: #ff4757;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 6px 10px;
+    border-radius: 6px 6px 0 0;
+    width: 100%;
+    position: relative; /* Change from absolute to relative */
+    top: 0; /* Remove unwanted offset */
+    left: 0;
+}
+
+
+/* Ensure Delivery Status Container is Positioned Correctly */
+.delivery-status {
+    display: flex;
+    flex-direction: column-reverse; /* Moves header below content */
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* Ensure Section Header (Red Container) is Positioned Below */
+.delivery-status .section-header {
+    background-color: #ff4757;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 6px 12px;
+    border-radius: 6px 6px 0 0;
+    width: 100%;
+    position: relative;
+    margin-top: -10px; /* Moves the header down */
+}
+
+/* Ensure Status Text is Above the Header */
+#status {
+    display: inline-block; /* Ensures spacing applies */
+    margin-top: 5px; /* Moves only the timer down */
+
+}
+
+
+
+
+/* Adjust Content Padding to Avoid Overlap */
+.container {
+    padding-top: 35px; /* Space for the red header */
+}
+        .delivery-status {
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+ 
+        .otp-container {
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Move OTP code down */
+#otp-code {
+    margin-bottom: 15px; /* Adds space between OTP code and the button */
+}
+
+/* Move OTP button up */
+.otp-container button {
+    background: #ff2727;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: -5px; /* Move button up slightly */
+}
+
+        .timer-container {
+    background: #ffffff;
+    text-align: center;
+    padding: 5px 10px; /* Reduce padding */
+    border-radius: 5px;
+    height: auto; /* Let content define height */
+    max-height: 60px; /* Set a maximum height */
+    overflow: hidden; /* Prevent extra spacing */
+}
+
+        #timer-display {
+    display: inline-block; /* Ensures spacing applies */
+    margin-top: 15px; /* Moves only the timer down */
+}
+     
+
+.section-header {
+    background-color: #ff4757;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 6px 10px;
+    border-radius: 6px 6px 0 0;
+    width: 100%;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 25px; 
+    background-color: rgb(253, 181, 181); /* Ensure correct background */
+    padding: 10px 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: none; /* Prevents unwanted shadows */
+}
+
+/* Footer Menu - Ensure proper spacing */
+.footer-menu {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px; /* Adds spacing between buttons */
+    width: 100%; /* Ensures buttons spread evenly */
+}
+
+/* Remove background and border from footer buttons */
+.footer-button {
+    background: none !important;
+    border: none !important;
+    outline: none !important;
+    padding: 10px; /* Adjusts spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+    font-size: 12px;
+    flex: 1; /* Makes buttons take equal width */
+}
+
+/* Ensure images inside footer buttons do not have any unwanted background */
+.footer-button img {
+    background: none !important;
+    border: none !important;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+    width: 24px;
+    height: 24px;
+}
+
+/* Add hover effect */
+.footer-button:hover {
+    transform: scale(1.1);
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+}
+
+/* Moving underline effect */
+.underline {
+    position: absolute;
+    bottom: 45px;
+    height: 4px;
+    background-color: black;
+    width: 60px;
+    transition: transform 0.3s ease, width 0.3s ease;
+}
+
+
+/* Red Header for Ordered Food */
+.section-header {
+    background-color: #ff4757;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px 10px;
+    border-radius: 6px 6px 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+.food-item:last-child {
+    border-bottom: none;
+}
+
+
+/* Food Name */
+.food-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2px; /* Reduced space */
+}
+
+/* Food Price */
+.food-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff4757;
+}
+
+
+.delivery-info, .payment-method, .otp-container, .order-details {
+    background: #ffffff;
+    padding: 10px; 
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* Allow it to expand */
+    height: auto; /* Let content decide height */
+    max-height: none; /* 🚀 Allow full expansion */
+}
+
+/* Adjust Section Headers */
+.section-header {
+    padding: 5px 8px; /* Reduce padding */
+}
+
+#ordered-food-container {
+    padding-top: 20px;
+    max-height: none; /* Remove any height limit */
+    overflow-y: visible; /* Allow it to expand naturally */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px;
+    width: 100%; /* Ensure it takes full width */
+}
+
+
+/* Adjust Text Spacing */
+.food-details {
+    margin-left: 3px; /* Reduce left margin */
+}
+
+/* Delivery Boy Container - Fix Overflow */
+.delivery-boy {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%; /* Set relative width */
+    min-width: 420px; /* Set minimum width */
+    max-width: 1000px; /* Prevent going too wide */
+    margin: 10px auto; /* Center horizontally */
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box; /* Ensure padding doesn’t cause overflow */
+}
+
+/* Move the red header up and increase width */
+.delivery-boy .section-header {
+    width: calc(100% + 20px);
+    text-align: center;
+    padding: 12px 0;
+    border-radius: 10px 10px 0 0;
+    position: absolute;
+    top: -10px;
+    left: -10px;
+}
+/* Delivery Boy Info */
+.delivery-boy-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start; /* Align items to the left */
+    width: 100%;
+}
+
+/* Ensure Image and Name Stay Together */
+.delivery-boy-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 30px;
+}
+
+.delivery-boy-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap; /* Prevents wrapping */
+    flex-grow: 1; /* Allows name to take space without pushing right */
+    margin-top: 30px;
+}
+/* Buttons Container */
+/* Buttons Container */
+/* Buttons Container */
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: -60px; /* Moves buttons up */
+}
+
+/* Message & Cancel Order in the Same Row */
+.button-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+/* Button Styling */
+.buttons button {
+    border: 1px solid black; /* Border for Contact & Message buttons */
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-align: center;
+    width: fit-content;
+    background-color: white; /* Default background for Contact & Message */
+    color: black; /* Default text color */
+}
+
+/* Cancel Button - Red Background, White Text, No Border */
+.cancel-btn {
+    background-color: #ff0015 !important;
+    color: white !important;
+    border: none !important; /* No border */
+}
+
+/* Hover Effects */
+.buttons button:hover {
+    background-color: #ff9797; /* Light red hover for all buttons */
+}
+
+/* Ensure Contact Button Stays Wider */
+.contact-btn {
+    min-width: 180px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+@media (max-width: 450px) {
+    .buttons {
+        flex-direction: column;
+        align-items: flex-end;
+        width: 100%;
+    }
+
+    .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 5px;
+        width: 100%;
+    }
+
+    .buttons button {
+        min-width: 100px; /* Reduce button width */
+        padding: 4px 8px; /* Reduce padding for smaller size */
+        font-size: 10px; /* Reduce font size */
+    }
+
+    .message-btn, .cancel-btn {
+        min-width: 80px; /* Smaller width */
+        padding: 3px 6px;
+        font-size: 9px;
+    }
+
+    .contact-btn {
+    width: 58% !important; /* Force full width within the container */
+    padding: 14px 20px; /* Increase padding */
+    font-size: 16px; /* Make text slightly larger */
+    margin-left: 80px !important; /* Adjust left movement */
+    text-align: center;
+    display: block; /* Ensure proper width application */
+}
+
+}
+
+
+#cancellation-policy {
+    font-size: 12px;
+    color: #666; /* Light gray text */
+    text-align: center;
+    max-width: 90%;
+    margin: 40px auto 20px auto; /* Increased top margin */
+    padding: 10px;
+    border-radius: 8px;
+    clear: both; /* Ensures it appears below floated elements */
+    display: block; /* Makes sure it's a separate section */
+}
+
+.payment-method p {
+    margin-top: 30px; /* Adjust the value as needed */
+}
+
+.delivery-info p:first-of-type {
+    margin-top: 25px; /* Adjust the value as needed */
+}
+
+.delivery-boy {
+    min-width: unset; /* Remove fixed min-width */
+    width: 100%; /* Allow flexible width */
+    max-width: 100%; /* Prevent overflow */
+    margin: 10px auto; /* Keep it centered */
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="N-foodinterfacepage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+<!-- track Heading with Small Image -->
+<div class="track-header">
+    <span>Track</span> 
+    <img src="static/pngwing.com (18).png" alt="track-icon">
+</div>
+
+
+
+    <!-- Google Map (India) -->
+    <div class="map-container">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509364!2d144.9537353159045!3d-37.81720974201417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0x5045675218ce6e0!2sMelbourne%20Central!5e0!3m2!1sen!2sau!4v1630942132135!5m2!1sen!2sau" 
+            width="100%" height="100%" style="border:0;" allowfullscreen="">
+        </iframe>
+    </div>
+
+    
+ <!-- Delivery Status -->
+<div class="container delivery-status">
+   <span id="status">Your order is on the way 🚀</span>
+    <div class="section-header">Delivery Status</div>
+</div>
+
+
+<div class="timer-container">
+    <div class="section-header">Estimated Time</div>
+    <h3>Arriving in: <span id="timer-display">15:00</span></h3>
+</div>
+
+<!-- Delivery Details -->
+<div class="container delivery-info">
+    <div class="section-header">Delivery Details</div>
+    <p><strong>Address:</strong> <span id="delivery-address">Loading...</span></p>
+    <p><strong>Phone Number:</strong> <span id="phone-number">Loading...</span></p>
+</div>
+
+<!-- Payment Method -->
+<div class="container payment-method">
+    <div class="section-header">Payment Method</div>
+    <p><strong>Selected:</strong> <span id="payment-method">Loading...</span></p>
+</div>
+
+<!-- OTP Container -->
+<div class="container otp-container">
+    <div class="section-header">Your Delivery OTP</div>
+    <p id="otp-code">Loading...</p>
+    <button onclick="copyOTP()">Copy OTP</button>
+</div>
+
+<!-- Order Details -->
+<div class="container order-details">
+    <div class="section-header">Ordered Food</div>
+    <div id="ordered-food-container"></div>
+</div>
+
+<div class="container delivery-boy">
+    <div class="section-header">Delivery Boy</div>
+    
+    <div class="delivery-boy-info">
+        <img src="static/22de8dbda07ba5571a97736b12905a17.jpg" alt="Delivery Boy">
+        <div class="delivery-boy-name">Libin Raj</div>
+    </div>
+<!-- Action Buttons -->
+<div class="buttons">
+    <button class="contact-btn" onclick="window.location.href='contact.html'">Contact</button>
+    <div class="button-row">
+        <button class="message-btn" onclick="window.location.href='chat.html'">Message</button>
+        <button class="cancel-btn" onclick="window.location.href='confirmcancellation.html'">Cancel Order</button>
+    </div>
+</div>
+</div>
+
+<!-- Ensure Cancellation Policy is OUTSIDE -->
+<p id="cancellation-policy">
+    <strong>CANCELLATION POLICY</strong><br>
+    Help us to reduce food waste by avoiding cancellations. The amount paid is non-refundable after placing the order.
+</p>
+
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log("🚀 Track Order Page Loaded...");
+
+    // ✅ Select elements safely
+    const deliveryAddress = document.getElementById("delivery-address");
+    const phoneNumber = document.getElementById("phone-number");
+    const paymentMethod = document.getElementById("payment-method");
+    const otpCode = document.getElementById("otp-code");
+    const orderedContainer = document.getElementById("ordered-food-container");
+    const timerDisplay = document.getElementById("timer-display");
+    const trackOrderContainer = document.getElementById("track-order-container");
+
+    if (!deliveryAddress || !phoneNumber || !paymentMethod || !otpCode || !orderedContainer || !timerDisplay) {
+        console.error("🚨 Some required elements are missing in the HTML.");
+        return;
+    }
+
+    // ✅ Check if order was canceled
+    let canceledMessage = localStorage.getItem("orderCanceled");
+    if (canceledMessage) {
+        // Clear the page and show a message
+        document.body.innerHTML = `<h2 style="text-align:center;">${canceledMessage}</h2>`;
+        localStorage.removeItem("orderCanceled"); // Remove after displaying
+        return; // Stop execution
+    }
+
+    // ✅ Load Address, Phone, and Payment Method
+    deliveryAddress.textContent = localStorage.getItem("activeAddress") || "Not set";
+    phoneNumber.textContent = localStorage.getItem("activePhone") || "Not set";
+    paymentMethod.textContent = localStorage.getItem("selectedPaymentMethod") || "Not set";
+
+    // ✅ Generate and Store OTP
+    let storedOTP = localStorage.getItem("deliveryOTP");
+    if (!storedOTP) {
+        storedOTP = Math.floor(100000 + Math.random() * 900000); // Generate new OTP
+        localStorage.setItem("deliveryOTP", storedOTP);
+    }
+    otpCode.textContent = storedOTP;
+
+    // ✅ Load Ordered Products
+    let orderedProducts = JSON.parse(localStorage.getItem("orderedProducts")) || [];
+    orderedContainer.innerHTML = orderedProducts.length > 0 
+        ? orderedProducts.map(product => `
+            <div class="food-item">
+                <img src="${product.img}" class="food-image" alt="Food Image">
+                <div>
+                    <strong>${product.name}</strong>
+                    <p>₹${product.price} x ${product.quantity}</p>
+                </div>
+            </div>`).join("")
+        : "<p>No items found.</p>";
+
+    // ✅ Timer Handling
+    let timeLeft = parseInt(localStorage.getItem("orderTimer")) || 900; // 15 minutes default
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    }
+
+    function startTimer() {
+        updateTimerDisplay();
+        const timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                localStorage.removeItem("orderTimer");
+                timerDisplay.textContent = "Time Expired!";
+                return;
+            }
+            timeLeft--;
+            localStorage.setItem("orderTimer", timeLeft);
+            updateTimerDisplay();
+        }, 1000);
+    }
+
+    if (timerDisplay) {
+        startTimer();
+    }
+});
+
+    </script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+</body>
+</html>

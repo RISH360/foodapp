@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Placed</title>
+    <script src="footer.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(253, 181, 181);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px; /* Ensures spacing on mobile */
+            box-sizing: border-box;
+        }
+
+          /* Back Button */
+          .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 300px;
+            max-width: 300px; /* Limits container width */
+        }
+
+        .circle-container {
+            width: 150px;
+            height: 150px;
+            background-color: rgb(255, 175, 175);
+            border-radius: 50%;
+            display: flex;
+            border-color: #fcb0b0;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            animation: popUp 0.8s ease-in-out;
+            margin-top: 25px;
+            margin-bottom: 1px; /* Adds space between circle and button */
+        }
+
+
+        @keyframes popUp {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .message {
+            font-size: 16px;
+            font-weight: bold;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            padding: 10px;
+        }
+
+        .track-order {
+            padding: 10px 20px;
+            background: #fcb0b0;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 50px;
+        }
+
+        .track-order:hover {
+            background-color: #ff9797;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 400px) {
+            .container {
+                padding: 30px 20px; /* Adds spacing from screen edges */
+            }
+        }
+
+        .footer {
+    background-color: rgb(253, 181, 181);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 5px 0;
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between; /* Push icons to edges */
+    align-items: center;
+    width: 100%;  /* Full width so no space on edges */
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 20px;
+    height: 20px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+    margin-bottom: 0; /* Remove any extra margin */
+}
+
+.footer-button span {
+    margin-top: 5px; /* Adjust this value to bring text closer */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 50px;
+            height: 4px;
+    background-color: black;
+    width: 50px; /* Adjust width as needed */
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="N-foodinterfacepage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <div class="container">
+        <div class="circle-container">
+            <p class="message">Your Order Has Been Placed</p>
+        </div>
+
+        <button class="track-order" onclick="trackOrder()">Track Your Order</button>
+    </div>
+
+    <script>
+        function trackOrder() {
+            window.location.href = "trackorder.html"; // Redirects to tracking page
+        }
+    </script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+
+</body>
+</html>

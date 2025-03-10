@@ -1,0 +1,252 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #ebadad;
+    font-family: Arial, sans-serif;
+}
+/* Main Container Styles */
+.container {
+    width: 301px;
+    height: 434px;
+    border-radius: 20px;
+    position: relative;
+    background: rgb(255, 235, 235); /* White background for the login box */
+    padding: 0%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.login-box {
+    padding: 20px;
+    text-align: center;
+}
+
+.logo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.icon1 {
+    width: 110px;
+    height: 55px;
+    margin-right: 5px;
+}
+
+.brand-name {
+
+        font-family: alex brush; /* Elegant script font */
+        font-size: 40px; /* Adjust the size */
+        font-weight: bold;
+        color: black; /* Main text color */
+        position: relative;
+        display: inline-block;
+        padding: 5px 10px;
+        
+        /* Thick white border effect */
+        text-shadow: 
+            -3px -3px 0px white, 
+            3px -3px 0px white, 
+            -3px 3px 0px white, 
+            3px 3px 0px white, 
+            2px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle drop shadow */
+}
+
+.login-title {
+    font-size: 17px;
+    font-family: "Almarai", sans-serif;
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+.input-field input  {
+    width: 220px;
+    height: 28px;
+    background: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    border: 1px solid #ffffff;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-family: "Alike Angular", sans-serif;
+    padding-left: 12px;  /* Moves text inside the box to the left */
+    text-align: left;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input:focus {
+    border: 2px solid rgb(255, 172, 172); /* Change this color */
+    outline: none; /* Removes the default blue outline */
+}
+
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Aligns items properly */
+    font-size: 10px;
+    font-family: "Alkatra", sans-serif;
+    margin: 10px 30px;
+    white-space: nowrap; /* Prevents text from wrapping to a new line */
+    width: 100%; /* Ensures both items stay in one line */
+}
+
+.remember-me {
+    display: flex;
+    font-size: 14px;
+    font-family: "Alkatra", sans-serif;
+    align-items: center;
+    gap: 18px; /* Adjust spacing between checkbox and text */
+    margin-top: -22px;
+}
+
+.remember-me input {
+    margin-right: 0%; /* Adjust this value to move it left */
+    position: relative;
+    right: -13px; /* Fine-tune the movement */
+}
+
+input[type="checkbox"] {
+    accent-color: rgb(255, 191, 191); /* Change this to any color */
+}
+
+/* Button Styles */
+.button {
+    width: 110px;
+    height: 29px;
+    background: #fcb0b0;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 17px;
+    font-family: "Alkatra", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px; /* Added margin-bottom to create space below */
+    cursor: pointer;
+    border-radius: 30px;
+    position: relative;
+    z-index: 2; /* Ensure the button stays above */
+}
+
+/* Hover effect for Button */
+.button:hover {
+    background-color: #ff9797;
+}
+
+/* Forget Password Wrapper */
+.forget-password-wrapper {
+    display: flex;
+    justify-content: center; /* Aligns the content horizontally */
+    width: 100%;  /* Ensure full width */
+    margin-top: 20px; /* Space between button and forget password */
+}
+
+/* Forget Password Styles */
+.forget-password {
+    text-decoration: none;
+    color: inherit;
+    font-size: 10px;
+    position: relative;
+    top: 0px;  /* Adjust to move up */
+    z-index: 1; /* Behind the button */
+    display: block;
+    left: 35px;  /* Move it slightly to the right */
+    top: -41px;
+}
+
+/* Forget Password Hover Effect */
+.forget-password:hover {
+    color: rgb(255, 204, 204);  /* Change color on hover */
+}
+
+.social-login {
+    margin-top: 10px;
+}
+
+.google-login, .mobile-login {
+    width: 200px;
+    height: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #FFFBFB;
+    border: 1px solid black;
+    border-radius: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    color: #333;
+    align-items: center;
+    justify-content: center;
+    margin: 30px auto;
+    font-family: "Alice", sans-serif;
+    margin-top: -25px; /* Adjust the negative value as needed */
+}
+
+.google-login a, .mobile-login a {
+    text-decoration: none; /* Removes the blue underline */
+    color: inherit; /* Inherits the surrounding text color */
+    font-weight: bold;
+}
+
+.google-login:hover, .mobile-login:hover {
+    background-color: #e4e4e4;
+}
+
+.google-login img {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 50px;
+    
+}
+
+.mobile-login img {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    left: 50px;
+    
+}
+
+#emailError {
+    color: red;
+    font-size: 11px;
+    position: absolute;
+    margin-top: -60px; /* Moves the "Password is required" message upwards */
+    left: 12%;
+}
+
+#passwordError {
+    color: red;
+    font-size: 11px;
+    position: absolute;
+    margin-top: 13px;
+    left: 12%;
+}
+
+.hidden-link {
+            color: inherit; /* Inherits the surrounding text color */
+            text-decoration: none; /* Removes underline */
+            font-size: 11px; /* Reduces font size */
+            position: relative;
+}
+        .hidden-link:hover {
+            color: rgb(255, 204, 204);  /* Optional: Change color on hover */
+}
+
+        .move-up {
+            position: relative;
+            top: -30px; /* Adjust as needed */
+            font-size: 11px; 
+}

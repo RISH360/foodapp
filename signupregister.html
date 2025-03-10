@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="signupregister.css">
+</head>
+<body>
+    <div class="container">
+        <div class="head-title">Sign Up</div>
+
+        <div class="back-logo">
+            <a href="N-foodloginpage.html" class="back-log">
+                <div class="back-loco">
+                    <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+                </div>
+            </a>
+        </div>
+
+        <form id="signupForm">
+            <div class="input-group">
+                <label for="firstName">First Name</label>
+                <input type="text" name="firstname" id="firstName">
+                <span class="error-msg" id="firstNameError">* Required</span>
+            </div>
+
+            <div class="input-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" name ="lastname" id="lastName">
+                <span class="error-msg" id="lastNameError">* Required</span>
+            </div>
+
+            <div class="input-group">
+                <label for="nickName">Nick Name <span class="note">(View on profile)</span></label>
+                <input type="text" name ="nickname" id="nickName">
+                <span class="error-msg" id="nickNameError">* Required</span>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" name ="email" id="email">
+                <span class="error-msg" id="emailError">* Invalid email</span>
+            </div>
+
+            <div class="input-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="number" name ="number" id="mobile">
+                <span class="error-msg" id="mobileError">* Invalid number</span>
+            </div>
+
+            <div>
+                <button type="button" name="submit" class="btn" onclick="validateForm()">Next</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+
+            function showError(id, condition) {
+                let errorElement = document.getElementById(id);
+                if (condition) {
+                    errorElement.style.display = "inline"; // Show error next to input
+                    isValid = false;
+                } else {
+                    errorElement.style.display = "none";
+                    
+                }
+            }
+
+            let firstName = document.getElementById("firstName").value.trim();
+            let lastName = document.getElementById("lastName").value.trim();
+            let nickName = document.getElementById("nickName").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let mobile = document.getElementById("mobile").value.trim();
+
+            showError("firstNameError", firstName === "");
+            showError("lastNameError", lastName === "");
+            showError("nickNameError", nickName === "");
+            showError("emailError", email === "" || !email.includes("@"));
+            showError("mobileError", mobile === "" || mobile.length < 10);
+
+            if (isValid) {
+                window.location.href = "passcnfm.html";
+            }
+        }
+    </script>
+</body>
+</html>

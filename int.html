@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-moving Carousel</title>
+    <!-- Link CSS and JS -->
+<script src="sort.js" defer></script>
+<script src="nearandfast.js" defer></script>
+<script src="ratings.js" defer></script>
+<script src="location.js" defer></script>
+<script src="footer.js" defer></script>
+<script src="foodlist.js" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #ebadad;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f4cccc;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+/* Profile Picture */
+.profile-pic {
+    width: 35px;  /* Reduced from 40px to 35px */
+    height: 35px; /* Keep it proportional */
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 700px; /* Keeps the increased width */
+    height: 38px; /* Reduced height */
+}
+
+
+
+.search-box {
+    width: 100%;
+    max-width: 680px; 
+    padding: 8px 12px 8px 45px; /* Adjusted padding */
+    border: 1px solid #ccc;
+    border-radius: 30px; /* Keeps the rounded shape */
+    outline: none;
+    border: 2px solid #ffffff;
+    font-size: 14px; /* Slightly smaller font for a compact look */
+    height: 100%; /* Matches the container height */
+}
+
+.search-box:hover {
+     border-color: #ff9797;
+}
+
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    width: 20px; /* Adjusted icon size */
+    height: 20px;
+    pointer-events: none;
+}
+
+.suggestions-box {
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    top: 55px; /* Adjust this to move it down */
+    display: none;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari, Edge */
+.suggestions-box::-webkit-scrollbar {
+    display: none;
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.suggestion-item:hover {
+    background-color: #f5f5f5; /* ✅ Hover Effect */
+}
+
+
+
+    .settings-icon {
+    width: 30px; /* Adjust size */
+    height: 30px;
+    object-fit: contain; /* Ensures it doesn't stretch */
+}
+
+
+/* Location & Cart Container */
+.location-cart-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 950px;
+    margin-top: 90px;
+    padding: 0 15px;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    gap: 15px;
+}
+
+/* LOCATION BAR */
+.location-bar {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 6px 10px;
+    border-radius: 18px;
+    flex: 0.9; /* Slightly increased width */
+    max-width: 600px; /* Increased max width */
+    border: 2px solid #ffffff;
+}
+
+.location-bar:hover {
+    border-color: #ff9797;
+}
+
+/* MOBILE VIEW */
+@media (max-width: 768px) {
+    .location-bar {
+        flex: 1;
+        max-width: 80%; /* Reduced width for mobile */
+    }
+
+    .location-dropdown {
+        width: 75%; /* Adjust dropdown width */
+        left: 12.5%;
+    }
+}
+
+
+/* LOCATION DROPDOWN */
+.location-dropdown {
+    display: none;
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 550px; /* Increased width slightly */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    padding: 10px;
+    margin-top: 100px;
+    left: 10px;
+}
+
+
+
+.location-icon {
+    width: 22px; /* Slightly smaller */
+    height: 22px;
+    margin-right: 6px;
+}
+
+.location-input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: transparent;
+    width: 100%;
+}
+
+
+/* MOBILE VIEW */
+@media (max-width: 768px) {
+    .location-dropdown {
+        width: 65%; /* Full width for mobile */
+        left: 3%; /* Centering it */
+    }
+}
+
+/* LOCATION LIST */
+.location-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;   
+}
+
+.location-dropdown ul li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    height: 1px;
+}
+
+.location-dropdown ul li:hover {
+    background: #f1f1f1;
+}
+
+/* BUTTONS INSIDE DROPDOWN */
+.dropdown-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 8px;
+}
+
+.dropdown-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px;
+    color: #444;
+}
+
+#addLocationBtn:hover {
+    color: green;
+}
+
+#clearLocationsBtn:hover {
+    color: red;
+}
+
+/* Hide href styling on the "Add" button */
+#addLocationLink {
+    text-decoration: none; 
+    color: inherit;
+    display: inline-block;
+}
+
+/* CART BUTTON */
+.cart-button {
+    display: flex;
+    align-items: center;
+    background: #ff5848;
+    color: white;
+    border: none;
+    padding: 6px 12px; /* Reduced padding for smaller height */
+    border-radius: 18px; /* Adjusted for consistency */
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cart-button img {
+    width: 18px; /* Slightly smaller */
+    height: 18px;
+    margin-left: 5px;
+}
+
+.cart-button:hover {
+    background: #e0554a;
+}
+        /* Filters Section */
+.filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Space between buttons */
+    margin-top: 8px;
+}
+
+/* Default Button Styling */
+.filter-btn {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Reduce Height for "Near and Fast" & "Great Offers" */
+#fastBtn, #offersBtn {
+    padding: 5px 12px;
+    font-size: 13px;
+}
+
+/* Hover Effect */
+.filter-btn:hover {
+    background-color: #f8f8f8;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* DROPDOWN MENU */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 10;
+    top: 35px;
+}
+
+/* Show dropdown on button click */
+.dropdown.active .dropdown-content {
+    display: block;
+}
+
+/* Dropdown Items */
+.dropdown-content label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    padding: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+/* Highlight dropdown option on hover */
+.dropdown-content label:hover {
+    background: #f2f2f2;
+    border-radius: 5px;
+}
+
+/* Checkbox Styling */
+.dropdown-content input[type="checkbox"] {
+    accent-color: #ff6b6b; /* Custom checkbox color */
+    cursor: pointer;
+}
+
+/* Responsive - Mobile Adjustments */
+@media (max-width: 768px) {
+    .filters {
+        gap: 5px;
+    }
+
+    .filter-btn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .dropdown-content {
+        min-width: 140px;
+        top: 30px;
+    }
+}
+
+/* Sort Dropdown */
+.sort-dropdown {
+    position: absolute;
+    background-color: #fff;
+    min-width: 180px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 999; /* Higher than carousel */
+    top: 35px;
+    left: 0;
+    display: none;
+}
+
+/* Ratings Dropdown */
+#ratingsDropdown {
+    position: absolute;
+    background-color: #fff;
+    min-width: 150px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 999; /* Ensure above carousel */
+    top: 100%; /* Positions dropdown exactly below button */
+    left: 0;
+    display: none;
+}
+
+/* Show dropdown when active */
+.dropdown.active .sort-dropdown,
+.dropdown.active #ratingsDropdown {
+    display: block;
+}
+
+/* Active red border animation */
+.active-border {
+    border: 2px solid red !important;
+    animation: borderFlash 0.3s ease-in-out infinite alternate; /* Faster animation */
+}
+
+/* Border flashing animation */
+@keyframes borderFlash {
+    from {
+        border-color: red;
+    }
+    to {
+        border-color: transparent; 
+    }
+}
+
+
+        /* CAROUSEL */
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin-top: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #ebadad;
+            padding: 10px;
+        }
+
+        .carousel-container {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .location-cart-container {
+                flex-direction: row; /* Keep location & cart in the same row */
+            }
+
+            .cart-button {
+                margin-top: 0; /* Remove extra space */
+            }
+
+            .settings-icon {
+                width: 25px;
+                height: 25px;
+                margin-left: 10px;
+            }
+
+            /* Adjust Carousel for Mobile */
+            .carousel img {
+                height: 200px; /* Decrease height */
+            }
+
+            .container {
+                width: 95%; /* Increase width */
+            }
+        }
+
+/* Food Category Container */
+.food-category {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Small gap between items */
+    margin-top: 15px; /* Increased to move down */
+    width: 100%;
+    max-width: 900px; /* Increased max-width */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 10px; /* Small edge gap */
+}
+
+/* Common Style for Both Categories */
+.category-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 50px 0; /* Increased height */
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+}
+
+/* Text Style */
+.category-box span {
+    position: absolute;
+    bottom: 20px; /* Move text slightly up */
+    font-size: 20px; /* Slightly larger */
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Vegetarian Category */
+.vegetarian {
+    background-image: url("static/d8381727-dfed-435c-9bfb-45dc9e945ebd-shutterstock_553662235.jpg");
+}
+
+.vegetarian span {
+    left: 15px; /* More spacing from left */
+}
+
+/* Non-Vegetarian Category */
+.non-vegetarian {
+    background-image: url("static/chicken-food-lunch-meal.jpg");
+}
+
+.non-vegetarian span {
+    right: 15px; /* More spacing from right */
+}
+
+/* Hover Effect */
+.category-box:hover {
+    transform: scale(1.03);
+}
+
+/* 📱 Mobile View Adjustments */
+@media (max-width: 768px) {
+    .food-category {
+        margin-top: 10px; /* Move down slightly on mobile */
+        max-width: 100%;
+        padding: 0 10px;
+    }
+    .category-box {
+        font-size: 16px;
+        padding: 35px 0; /* Slightly reduced height */
+        border-radius: 8px;
+    }
+    .category-box span {
+        font-size: 16px;
+        bottom: 15px; /* Move text up slightly */
+    }
+}
+
+.food-slider-container {
+    max-width: 100%;
+    width: 95vw;
+    max-width: 880px;
+    padding: 12px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+    height: 370px;
+    margin-top: 20px; /* Moves container down */
+}
+
+/* Each row container */
+.food-row {
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal scroll */
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 5px 0;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+/* Hide scrollbar for Chrome & Safari */
+.food-row::-webkit-scrollbar {
+    display: none;
+}
+
+/* Food item styling */
+.food-item {
+    text-align: center;
+    min-width: 70px; /* Slightly increased width */
+    white-space: normal; /* Allow text to wrap */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Food item images */
+.food-item img {
+    max-width: 100%;
+    width: 60px; /* Adjusted size */
+    height: 60px; /* Adjusted size */
+    object-fit: contain;
+    border-radius: 6px;
+    margin-bottom: 4px; /* Space between image & text */
+}
+
+/* Food name styling (Text now fully visible) */
+.food-item div {
+    font-size: 13px; /* Slightly larger for readability */
+    font-weight: 400; /* Thin text */
+    color: #333; /* Darker for better visibility */
+    text-align: center;
+    width: 80px; /* Increased width for text space */
+    word-wrap: break-word; /* Allow text to wrap */
+}
+
+@media (max-width: 768px) { /* Target mobile screens */
+    .food-slider-container {
+        margin-top: 20px; /* Moves the container down */
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 90vw; /* More space on the sides */
+    }
+}
+
+/* Food item hover effect */
+.food-item:hover {
+    animation: pulse 1s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1); /* Slight increase */
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+.event-container {
+    position: relative;
+    width: 90%;
+    max-width: 350px;
+    margin-top: 20px; /* Moves container down */
+    margin-bottom: 15px;
+}
+
+        .event-img {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+        }
+        .book-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: red;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .footer {
+    background-color: rgb(253, 181, 181);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 5px 0;
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between; /* Push icons to edges */
+    align-items: center;
+    width: 100%;  /* Full width so no space on edges */
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 20px;
+    height: 20px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+    margin-bottom: 0; /* Remove any extra margin */
+}
+
+.footer-button span {
+    margin-top: 5px; /* Adjust this value to bring text closer */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 50px;
+            height: 4px;
+    background-color: black;
+    width: 50px; /* Adjust width as needed */
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+
+    </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+<div class="top-bar">
+    <a href="profile.html">
+        <img src="static/nwdn_file_temp_1617387658077-01.jpeg" alt="Profile" class="profile-pic">
+    </a>
+    <div class="search-container">
+        <img src="static/search-icon.png" class="search-icon" alt="Search">  
+        <input type="text" class="search-box" id="search" placeholder="Search your cookie">
+        <div class="suggestions-box" id="suggestions"></div> <!-- ✅ Keep inside search-container -->
+    </div>
+    
+    <a href="settings.html">
+        <img src="static/settings_3524636.png" alt="Settings" class="settings-icon">
+    </a>
+</div>
+
+
+    <script src="search.1.js"></script>
+
+    <!-- Location & Cart -->
+    <div class="location-cart-container">
+        <div class="location-bar">
+            <img src="static/location_535239.png" alt="Location" class="location-icon">
+            <input type="text" class="location-input" id="locationInput" placeholder="Enter your city">
+        </div>
+
+        <button class="cart-button" onclick="location.href='cart.html'">
+            Cart <img src="static/pngwing.com (87).png" alt="Cart">
+        </button>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="filters">
+        <button class="filter-btn" id="sortBtn">Sort ▼</button>
+        <button class="filter-btn" id="fastBtn">Near And Fast ⚡</button>
+        <button class="filter-btn" id="offersBtn">Great Offers 🎉</button>
+    
+        <!-- Wrap Ratings Button and Dropdown Together -->
+        <div class="dropdown">
+            <button class="filter-btn" id="ratingsBtn">Ratings ⭐</button>
+            <div class="dropdown-content" id="ratingsDropdown">
+                <label><input type="checkbox" value="1"> ⭐ 1</label>
+                <label><input type="checkbox" value="2"> ⭐ 2</label>
+                <label><input type="checkbox" value="3"> ⭐ 3</label>
+                <label><input type="checkbox" value="4"> ⭐ 4</label>
+                <label><input type="checkbox" value="5"> ⭐ 5</label>
+            </div>
+        </div>
+    </div>
+
+          <!-- Dropdown for saved locations -->
+          <div class="location-dropdown" id="locationDropdown">
+            <ul id="locationList">
+                <li>Thiruvananthapuram, Kerala</li>
+                <li>Nagercoil, Tamil Nadu</li>
+                <li>Chennai, Tamil Nadu</li>
+            </ul>
+            <div class="dropdown-buttons">
+                <a href="#" id="addLocationLink">
+                    <button id="addLocationBtn">➕ Add</button>
+                </a>
+                <button id="clearLocationsBtn">❌ Clear All</button>
+            </div>
+        </div>
+    </div>
+    
+
+<!-- Sort Dropdown -->
+<div class="sort-dropdown" id="sortDropdown">
+    <ul>
+        <li><label><input type="checkbox" name="sort" value="relevance"> Relevance</label></li>
+        <li><label><input type="checkbox" name="sort" value="ratings"> Ratings: High to Low</label></li>
+        <li><label><input type="checkbox" name="sort" value="delivery"> Delivery Time: Low to High</label></li>
+        <li><label><input type="checkbox" name="sort" value="costLow"> Cost: Low to High</label></li>
+        <li><label><input type="checkbox" name="sort" value="costHigh"> Cost: High to Low</label></li>
+        <li><label><input type="checkbox" name="sort" value="distance"> Distance: Low to High</label></li>
+    </ul>
+</div>
+
+
+    <!-- Carousel -->
+    <div class="container">
+        <div class="carousel-container">
+            <div class="carousel">
+                <img src="static/Picsart_25-03-04_02-28-39-536.jpg" alt="Slide 1">
+                <img src="static/Picsart_25-03-04_02-34-31-472.jpg" alt="Slide 2">
+                <img src="static/Picsart_25-03-04_02-23-28-951.jpg" alt="Slide 3">
+                <img src="static/Picsart_25-03-04_02-40-09-391.jpg" alt="Slide 4">
+                <img src="static/d8381727-dfed-435c-9bfb-45dc9e945ebd-shutterstock_553662235.jpg" alt="Slide 5">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const carousel = document.querySelector('.carousel');
+        let index = 0;
+        function moveCarousel() {
+            index = (index + 1) % 2;
+            carousel.style.transform = `translateX(${-index * 100}%)`;
+        }
+        setInterval(moveCarousel, 3000);
+    </script>
+  <div class="food-category">
+    <a href="vegetarion.html" class="category-box vegetarian">
+        <span>Vegetarian</span>
+    </a>
+
+    <a href="non-vegetarion.html" class="category-box non-vegetarian">
+        <span>Non-Vegetarian</span>
+    </a>
+</div>
+
+
+<div class="food-slider-container" id="foodContainer">
+    <!-- Food rows will be dynamically added here -->
+</div>
+
+<script>
+  const foodItems = [
+// First Row Items
+{ name: "Pizza", img: "static/pngwing.com (20).png" },
+{ name: "Burger", img: "static/pngwing.com (21).png" },
+{ name: "KFC", img: "static/pngwing.com (23).png" },
+{ name: "Sandwich", img: "static/pngwing.com (25).png" },
+{ name: "Biryani", img: "static/pngwing.com (29).png" },
+{ name: "Chicken", img: "static/pngwing.com (28).png" },
+{ name: "Parotta", img: "static/pngwing.com (33).png" },
+{ name: "Fried Rice", img: "static/pngwing.com (34).png" },
+{ name: "Cup Cake", img: "static/pngwing.com (35).png" },
+
+// Second Row Items
+{ name: "Biryani", img: "static/pngwing.com (22).png" },
+{ name: "Chicken", img: "static/pngwing.com (30).png" },
+{ name: "Parotta", img: "static/pngwing.com (27).png" },
+{ name: "Fried Rice", img: "static/pngwing.com (31).png" },
+{ name: "Idli", img: "static/—Pngtree—idly with sambar and chutney_9171058.png" },
+{ name: "Puri", img: "static/pngwing.com (26).png" },
+{ name: "Paratha", img: "static/pngwing.com (36).png" },
+{ name: "Manchurian", img: "static/pngwing.com (43).png" },
+{ name: "Keema", img: "static/pngwing.com (44).png" },
+{ name: "Fish Fry", img: "static/pngwing.com (37).png" },
+{ name: "Thali", img: "static/pngwing.com (39).png" },
+{ name: "Paneer", img: "static/pngwing.com (38).png" },
+{ name: "Appam", img: "static/pngwing.com (40).png" },
+{ name: "Mutton", img: "static/pngwing.com (41).png" },
+{ name: "Prawns", img: "static/pngwing.com (42).png" },
+
+// Third Row Items
+{ name: "Cup Cake", img: "static/pngwing.com (32).png" },
+{ name: "Cake", img: "static/pngwing.com (45).png" },
+{ name: "Pastry", img: "static/pngwing.com (55).png" },
+{ name: "Milkshake", img: "static/pngwing.com (47).png" },
+{ name: "Doughnut", img: "static/pngwing.com (54).png" },
+{ name: "Pudding", img: "static/pngwing.com (56).png" },
+{ name: "Ice Cream", img: "static/pngwing.com (46).png" },
+{ name: "Falooda", img: "static/pngwing.com (49).png" },
+{ name: "Juice", img: "static/pngwing.com (48).png" },
+{ name: "Sundae", img: "static/pngwing.com (53).png" },
+{ name: "Lassi", img: "static/pngwing.com (50).png" },
+{ name: "Muffin", img: "static/pngwing.com (57).png" },
+{ name: "Brownie", img: "static/pngwing.com (52).png" },
+{ name: "Mousse", img: "static/pngwing.com (51).png" },
+{ name: "Tiramisu", img: "static/pngwing.com (58).png" },
+
+// Fourth Row Items
+{ name: "Tea", img: "static/pngwing.com (59).png" },
+{ name: "Coffee", img: "static/pngwing.com (60).png" },
+{ name: "Vada", img: "static/pngwing.com (66).png" },
+{ name: "Starbucks", img: "static/pngwing.com (61).png" },
+{ name: "Cutlet", img: "static/pngwing.com (67).png" },
+{ name: "Soup", img: "static/pngwing.com (65).png" }, // Fixed "Soap" to "Soup"
+{ name: "Steak", img: "static/pngwing.com (70).png" },
+{ name: "Cookies", img: "static/pngwing.com (72).png" },
+{ name: "Samosa", img: "static/pngwing.com (64).png" },
+{ name: "Chicken Rolls", img: "static/pngwing.com (63).png" },
+{ name: "Pav Bhaji", img: "static/pngwing.com (69).png" },
+{ name: "Tacos", img: "static/pngwing.com (74).png" },
+{ name: "Pazham Puri", img: "static/pngwing.com (68).png" },
+{ name: "Puffs", img: "static/pngwing.com (75).png" },
+{ name: "Hot Dogs", img: "static/pngwing.com (77).png" },
+{ name: "Kebabs", img: "static/pngwing.com (71).png" },
+{ name: "Nachos", img: "static/pngwing.com (73).png" },
+{ name: "Chaap", img: "static/pngwing.com (76).png" }
+];
+
+
+
+const foodContainer = document.getElementById("foodContainer");
+
+// Create 4 rows
+for (let row = 0; row < 4; row++) {
+const foodRow = document.createElement("div");
+foodRow.classList.add("food-row");
+
+// Add 10 food items per row
+for (let col = 0; col < 10; col++) {
+    const index = row * 10 + col;
+    if (index < foodItems.length) {
+        const foodDiv = document.createElement("div");
+        foodDiv.classList.add("food-item");
+
+        // ✅ Fixed Image & Text Issue
+        foodDiv.innerHTML = `
+            <img src="${foodItems[index].img}" alt="${foodItems[index].name}">
+            <div>${foodItems[index].name}</div>
+        `;
+
+        foodRow.appendChild(foodDiv);
+    }
+}
+
+foodContainer.appendChild(foodRow);
+}
+
+</script>
+
+<div class="event-container">
+    <img src="static/Picsart_25-02-23_19-27-59-557.jpg" alt="Live Concert" class="event-img">
+    <a href="event-details.html" class="book-btn" 
+       onclick="storeEvent('static/Picsart_25-02-23_19-27-59-557.jpg', 'Live Concert', 'Electrifying music night!', '₹1200', 'Experience the best live concert!')">
+       Book Now
+    </a>
+</div>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+    
+</body>
+</html>

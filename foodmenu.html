@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Details</title>
+    <script src="footer.js" defer></script>
+    <style>
+        body {
+            background: #fcb0b0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px;
+        }
+
+        
+           /* Back Button */
+           .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+        .sort-buttons {
+    display: flex;
+    gap: 5px; /* Reduce gap between buttons */
+    margin-bottom: 10px; /* Reduce bottom margin */
+}
+
+button {
+    padding: 5px 8px; /* Smaller padding */
+    font-size: 12px; /* Smaller text size */
+    background-color: #ff6a9c;
+    color: white;
+    border: none;
+    border-radius: 4px; /* Slightly smaller border radius */
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #ff4885;
+}
+
+
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            width: 90vw;
+            padding: 10px;
+        }
+
+        .food-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .food-card img {
+            width: 100%;
+            height: 140px;
+            border-radius: 8px;
+        }
+
+        .quantity-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .footer {
+    background-color: rgb(253, 181, 181);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 5px 0;
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between; /* Push icons to edges */
+    align-items: center;
+    width: 100%;  /* Full width so no space on edges */
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 20px;
+    height: 20px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+    margin-bottom: 0; /* Remove any extra margin */
+}
+
+.footer-button span {
+    margin-top: 5px; /* Adjust this value to bring text closer */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 50px;
+            height: 4px;
+    background-color: black;
+    width: 50px; /* Adjust width as needed */
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="non-vegetarion.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+    <h2 id="food-title"></h2>
+    <div class="sort-buttons">
+        <button onclick="sortMenu('relevance')">Sort by Relevance</button>
+        <button onclick="sortMenu('high-to-low')">Cost: High to Low</button>
+        <button onclick="sortMenu('low-to-high')">Cost: Low to High</button>
+    </div>
+    
+    <div class="menu-container" id="menu"></div>
+
+    <script>
+        const foodName = localStorage.getItem("selectedFood") || "Food Item";
+        document.getElementById("food-title").textContent = foodName;
+
+        const relatedItems = [
+            { name: "Crispy Chicken Burger", price: 349, img: "static/crispy-chicken-burger-3b4f47d62f7d58bef17dd8aa1f932c3d.png" },
+            { name: "Parotta", price: 299, img: "static/pngwing.com (27).png", link: "#" },
+            { name: "Chicken Sandwitch", price: 369, img: "static/pngwing.com (25).png", link: "#" },
+            { name: "Chicken Biriyani", price: 329, img: "static/pngwing.com (22).png", link: "#" },
+            { name: "Momo Mia Pizza", price: 319, img: "static/momo-mia-non-veg379d4c86ba9551f194bfc68ad9d77bc51.jpg" },
+            { name: "Shawarma", price: 289, img: "static/pngwing.com (22).png", link: "#" },
+            { name: "Chicken Cutlet", price: 279, img: "static/pngwing.com (67).png", link: "#" },
+            { name: "Delicious Beef Burger", price: 359, img: "static/delicious-beef-burger-05c72cc08b933716e4cc97cb9656089c.png" },
+            { name: "Chicken Rolls", price: 349, img: "static/pngwing.com (63).png", link: "#" },
+            { name: "Chicken Golden Delight", price: 299, img: "static/MicrosoftTeams-image_(14).png" },
+            { name: "Tandoori Chicken", price: 369, img: "static/pngegg (1).png" },
+            { name: "Grilled Chicken", price: 349, img: "static/pngegg (2).png" },
+            { name: "Fried Chicken Egg Noodles", price: 299, img: "static/pngegg (3).png" },
+            { name: "Cheese Burger Whooper Buffalo", price: 369, img: "static/cheeseburger-whopper-buffalo-wing-street-food-french-fries-chicken-tikka-burger-20160507d6794d972c6675e2ca3bba4a.png" },
+            { name: "Chinese Noodles Yakisoba", price: 329, img: "static/pngegg (4).png" },
+            { name: "Non-Veg Supreme", price: 319, img: "static/MicrosoftTeams-image_(13).png"},
+            { name: "Chicken Noodles", price: 289, img: "static/pngwing.com.png" },
+            { name: "Chicken Tikka Masala", price: 279, img: "static/pngwing.com (1).png" },
+            { name: "Hyaderabhadi Chicken Biriyani", price: 359, img: "static/pngwing.com (3).png" },
+            { name: "Chicken Nuggets, Crispy Fried Chicken", price: 349, img: "static/pngwing.com (4).png" },
+            { name: "Chicken Samoosa", price: 299, img: "static/pngwing.com (64).png" },
+            { name: "Indian cuisine Dal Non-Vegetarian cuisine Roti", price: 369, img: "static/pngwing.com (12).png" },
+            { name: "Chicken Dominator", price: 349, img: "static/MicrosoftTeams-image_(11).png" },
+            { name: "Mutton Curry", price: 299, img: "static/pngwing.com (2).png" },
+            { name: "Korean Fried Chicken", price: 369, img: "static/pngwing.com (5).png" },
+            { name: "Cooked meat with red salsa", price: 329, img: "static/pngwing.com (13).png" },
+            { name: "Spare ribs Barbecue Chicken curry Buffalo wing", price: 319, img: "static/pngwing.com (14).PNg" },
+            { name: "Pepper Barbecue & Onion", price: 289, img: "static/Pepper_Barbeque_&_Onion.jpg" },
+            { name: " Indian Cuisine Non-Vegetarian", price: 279, img: "static/pngwing.com (15).png" },
+            { name: "McDonald's Chicken McNuggets KFC", price: 359, img: "static/pngwing.com (6).png" },
+            { name: "Chicken karahi Indian cuisine Shrimp curry Vindaloo,", price: 349, img: "static/pngwing.com (16).png" },
+            { name: "Indian cuisine Gravy Kebab Buffet Asian cuisine", price: 299, img: "static/pngwing.com (17).png" },
+            { name: "Pepper Barbecue Chicken", price: 369, img: "static/MicrosoftTeams-image_(15).png" },
+            { name: "Mattar paneer Indian cuisine Paneer tikka masala", price: 349, img: "static/pngwing.com (78).png" },
+            { name: "KFC Full Meal Bundle", price: 299, img: "static/pngwing.com (7).png" },
+            { name: "Mediterranean cuisine Indian cuisine Falafel", price: 369, img: "static/pngwing.com (79).png" },
+            { name: "Indian cuisine Malai Asian cuisine Kofta", price: 329, img: "static/pngwing.com (80).png" },
+            { name: "Chicken Sausage", price: 319, img: "static/MicrosoftTeams-image_(17).png" },
+            { name: "Fish Fry", price: 289, img: "static/pngwing.com (37).png" },
+            { name: "KFC Chicken Bundle, Large", price: 279, img: "static/pngwing.com (10).png" },
+            { name: "South Asian cuisine, Rice With Meals", price: 359, img: "static/pngegg (5).png" },
+            { name: "KFC Fried Chicken Bundle, Medium", price: 349, img: "static/pngwing.com (8).png" },
+            { name: "Butter Indian Tandoori Chicken", price: 299, img: "static/pngegg (6).png" },
+            { name: "Chicken Fiesta", price: 369, img: "static/MicrosoftTeams-image_(10).png" },
+            { name: "Momo Mia Pizza", price: 349, img: "static/momo-mia-veg.4e51f4733bea47a514c107c9fd2341e3.1.jpg", link: "#" },
+            { name: "Ramen Chinese noodles", price: 299, img: "static/pngwing.com (94).png", link: "#" },
+            { name: "Cuisine South Indian cuisine Thali Vegetable", price: 369, img: "static/pngwing.com (100).png", link: "#" },
+            { name: "Telugu cuisine Idiyappam", price: 349, img: "static/pngwing.com - 2025-03-08T002436.005.png", link: "#" },
+            { name: "Peppy Paneer", price: 299, img: "static/Peppy_Paneer.jpg", link: "#" },
+            { name: "Thai fried rice Chinese cuisine", price: 369, img: "static/pngegg (7).png", link: "#" },
+            { name: "French fries Potato chip", price: 349, img: "static/pngegg (10).png", link: "#" },
+            { name: "Veg Extravaganza", price: 299, img: "static/Veg_Extravaganz.jpg", link: "#" },
+            { name: "Fried seafood noodles", price: 369, img: "static/pngwing.com (95).png", link: "#" },
+            { name: "South Indian cuisine", price: 349, img: "static/pngwing.com - 2025-03-08T002335.647.png", link: "#" },
+            { name: "Yangzhou fried rice", price: 299, img: "static/pngegg (8).png", link: "#" },
+            { name: "Margherita", price: 369, img: "static/Margherit.jpg", link: "#" },
+            { name: "Double Cheese Margherita", price: 349, img: "static/Double_Cheese_Margherita.jpg", link: "#" },
+            { name: "burger and potato fries dish", price: 299, img: "static/pngegg (11).png", link: "#" },
+            { name: "Chow mein Chinese noodles", price: 369, img: "static/pngwing.com (96).png", link: "#" },
+            { name: "French fries, medium", price: 349, img: "static/pngegg (12).png", link: "#" },
+            { name: "Asian cuisine", price: 299, img: "static/pngwing.com - 2025-03-08T002537.938.png", link: "#" },
+            { name: "Farm House", price: 369, img: "static/Farmhouse.jpg", link: "#" },
+            { name: "Thai fried rice", price: 299, img: "static/pngegg (9).png", link: "#" },
+            { name: "French fries in red sachet,", price: 369, img: "static/pngegg (13).png", link: "#" },
+            { name: "Rolls", price: 349, img: "static/pngwing.com (63).png", link: "#" },
+            { name: "chana masala", price: 299, img: "static/pngwing.com - 2025-03-08T004335.664.png", link: "#" },
+            { name: "Laksa Braised noodles", price: 369, img: "static/pngwing.com (97).png", link: "#" },
+            { name: "Samosa", price: 349, img: "static/pngwing.com (64).png", link: "#" },
+            { name: "Peppy Paneer", price: 299, img: "static/Peppy_Paneer.jpg", link: "#" },
+            { name: "Masala Dosa", price: 369, img: "static/pngwing.com - 2025-03-08T005044.633.png", link: "#" },
+            { name: "Fried rice with carrots and green peas", price: 299, img: "static/pngegg (14).png", link: "#" },
+            { name: "Puffs", price: 369, img: "static/pngwing.com (75).png", link: "#" },
+            { name: "Mexican Green Wave", price: 349, img: "static/Mexican_Green_Wave.jpg", link: "#" },
+            { name: "Cutlet", price: 299, img: "static/pngwing.com (67).png", link: "#" },
+            { name: "Mattar paneer", price: 369, img: "static/pngwing.com - 2025-03-08T004450.985.png", link: "#" },
+            { name: "Deluxe Veggie", price: 349, img: "static/Deluxe_Veggie.jpg", link: "#" },
+            { name: "Idle Sambar", price: 299, img: "static/pngwing.com - 2025-03-08T005158.903.png", link: "#" },
+            { name: "Palak paneer", price: 369, img: "static/pngwing.com - 2025-03-08T004606.928.png", link: "#" }, 
+            { name: "Dandan noodles", price: 369, img: "static/pngwing.com (98).png", link: "#" },
+            { name: "Dosa", price: 349, img: "static/pngwing.com - 2025-03-08T005327.982.png", link: "#" },
+            { name: "Chapati", price: 299, img: "static/pngwing.com - 2025-03-08T005451.860.png", link: "#" },
+            { name: "Aloo gobi", price: 369, img: "static/pngwing.com - 2025-03-08T004929.852.png", link: "#" },
+            { name: "Parotta", price: 349, img: "static/pngwing.com - 2025-03-08T005559.901.png", link: "#" },
+            { name: "Eggplant curry", price: 299, img: "static/pngwing.com - 2025-03-08T005826.306.png", link: "#" },
+            { name: "Dal makhani Indian cuisine", price: 369, img: "static/pngwing.com - 2025-03-08T010142.275.png", link: "#" }, 
+            { name: "Pav bhaji", price: 369, img: "static/pngwing.com - 2025-03-08T010244.265.png", link: "#" },
+            { name: "Califlower masala", price: 349, img: "static/pngwing.com - 2025-03-08T010609.908.png", link: "#" },
+            { name: "Chow mein Lo mein Biryani Chinese noodles", price: 299, img: "static/pngwing.com (99).png", link: "#" },
+            { name: "Appam with egg curry", price: 369, img: "static/pngwing.com - 2025-03-08T005559.901.png", link: "#" },
+            { name: "Tteok-bokki Red curry", price: 349, img: "static/pngwing.com - 2025-03-08T010754.521.png", link: "#" },
+            { name: "Salchipapas French fries", price: 299, img: "static/pngwing.com - 2025-03-08T010754.521.png", link: "#" },
+            { name: "Salad illustration", price: 369, img: "static/pngwing.com - 2025-03-08T011003.742.png", link: "#" },
+        ];
+        function loadMenu(items) {
+    const menuContainer = document.getElementById("menu");
+    menuContainer.innerHTML = "";
+
+    const selectedFood = localStorage.getItem("selectedFood");
+    
+    // If a selected food exists, move it to the top
+    if (selectedFood) {
+        const selectedItemIndex = items.findIndex(item => item.name === selectedFood);
+        if (selectedItemIndex !== -1) {
+            const selectedItem = items.splice(selectedItemIndex, 1)[0]; // Remove it from array
+            items.unshift(selectedItem); // Add it to the beginning
+        }
+    }
+
+    items.forEach((food, index) => {
+        const foodCard = document.createElement("div");
+        foodCard.className = "food-card";
+        foodCard.innerHTML = `
+            <img src="${food.img}" alt="${food.name}">
+            <h4>${food.name}</h4>
+            <p id="price-${index}">Price: ₹${food.price}</p>
+            
+            <div class="quantity-container">
+                <button onclick="changeQuantity(${index}, -1, ${food.price})">-</button>
+                <span id="quantity-${index}">1</span>
+                <button onclick="changeQuantity(${index}, 1, ${food.price})">+</button>
+            </div>
+
+            <div class="button-container">
+                <button onclick="buyNow(${index}, '${food.name}', ${food.price})">Buy Now</button>
+            </div>
+        `;
+        menuContainer.appendChild(foodCard);
+    });
+}
+
+function changeQuantity(index, change, basePrice) {
+    let quantityElement = document.getElementById(`quantity-${index}`);
+    let priceElement = document.getElementById(`price-${index}`);
+
+    let quantity = parseInt(quantityElement.textContent) + change;
+    if (quantity < 1) quantity = 1; // Prevent going below 1
+
+    quantityElement.textContent = quantity;
+    priceElement.textContent = `Price: ₹${quantity * basePrice}`;
+}
+
+
+function sortMenu(order) {
+    let sortedItems = [...relatedItems]; // Create a copy of the original array
+
+    if (order === "high-to-low") {
+        sortedItems.sort((a, b) => b.price - a.price);
+    } else if (order === "low-to-high") {
+        sortedItems.sort((a, b) => a.price - b.price);
+    } else {
+        sortedItems = [...relatedItems]; // Default to original order (Relevance)
+    }
+
+    loadMenu(sortedItems);
+}
+
+
+// Call the updated function
+loadMenu(relatedItems);
+    </script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+</body>
+</html>

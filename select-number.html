@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Select Mobile Number</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobile responsive meta tag -->
+    <style>
+        /* Reset and base styles */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #ebadad;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Main Container Styles */
+        .container {
+            width: 90%; /* Responsive width */
+            max-width: 350px; /* Ensures it doesn’t get too wide on large screens */
+            padding: 20px;
+            border-radius: 20px;
+            background: rgb(255, 235, 235); /* White background */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            text-align: center;
+        }
+
+        .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 50px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem; /* Responsive font size */
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        button {
+            background: #fcb0b0;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 15px;
+            width: 100%;
+            font-size: 13px;
+            width: 30%;
+        }
+
+        button:hover {
+            background-color: #ff9797;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                max-width: 320px; /* Slightly smaller on very small devices */
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .back-logo {
+               top: 40px;  /* Moves it to the top */
+               left: 30px; /* Reset right positioning */
+           }
+
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="N-foodloginpage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+    <div class="container">
+        <h2>Select a Number for OTP</h2>
+        <form id="mobileForm">
+            <label>
+                <input type="radio" name="mobileNumber" value="9876543210"> SIM 1 (9876543210)
+            </label><br>
+            <label>
+                <input type="radio" name="mobileNumber" value="9123456789"> SIM 2 (9123456789)
+            </label><br><br>
+            <button type="button" onclick="sendOTP()">Send OTP</button>
+        </form>
+    </div>
+
+    <script>
+        function sendOTP() {
+            let selectedNumber = document.querySelector('input[name="mobileNumber"]:checked');
+            if (selectedNumber) {
+                let number = selectedNumber.value;
+                localStorage.setItem("selectedNumber", number); // Save for next page
+                window.location.href = "otp-verification.html"; // Redirect to OTP page
+            } else {
+                alert("Please select a number");
+            }
+        }
+    </script>
+</body>
+</html>

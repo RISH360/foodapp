@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="otpsignup.css">
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="N-foodloginpage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div class="head-title">Sign Up</div>
+        <form id="signupForm">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" required>
+
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" required>
+
+            <label for="nickName">Nick Name <span class="note">(View on profile)</span></label>
+            <p id="error-msg" style="color: red; display: none; margin: 5px 0;">Nick Name is required!</p>
+            <input type="text" id="nickName">
+
+            <div>
+                <button type="button" class="btn" onclick="validateForm()">Create</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            let nickName = document.getElementById("nickName").value;
+            let errorMsg = document.getElementById("error-msg");
+
+            if (nickName.trim() === "") {
+                errorMsg.style.display = "block"; // Show error message
+            } else {
+                errorMsg.style.display = "none"; // Hide error if already shown
+                window.location.href = "N-foodinterfacepage.html"; // Redirect on success
+            }
+        }
+    </script>
+</body>
+</html>

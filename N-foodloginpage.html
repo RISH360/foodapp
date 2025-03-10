@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="N-foodloginpage.css">
+    <script defer src="N-foodloginpage.js"></script> <!-- Link to JavaScript -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="logo">
+                <img class="icon1" src="static/Screenshot 2025-02-18 151453 copy.png" alt="Icon 1">
+            </div>&emsp14;
+            <div class="login-title">Login</div>
+            &emsp14;<div class="input-field">
+                <input type="email" placeholder = "Email" required >
+                <small class="error-message" id="emailError"></small>
+            </div>
+            <div class="input-field">
+                <input type="password" placeholder = "Password" required >
+                <small class="error-message" id="passwordError"></small>
+            </div>
+                <div class="remember-me">
+                    <input type="checkbox" name="remember">
+                    <h6><label for="remember">Remember Me</label></h6>
+            </div>
+            <div>
+            <a href="N-foodinterfacepage.html" class="button">login</a>
+            </div>
+            <div class="forget-password">
+                <h6><a href="forgetpass.html" class="forget-password">Forget Password</a></h6>
+                </div>
+                <p class="small-text move-up">Don't have an account? <a href="signupregister.html" class="hidden-link">Register</a></p>
+                <!-- Google Sign-In Initialization -->
+    <div id="g_id_onload"
+    data-client_id="YOUR_GOOGLE_CLIENT_ID"
+    data-callback="handleCredentialResponse"
+    data-auto_prompt="false">
+</div>
+
+<!-- Custom Google Sign-In Button -->
+<div class="social-login">
+   <div class="google-login" id="customGoogleButton">
+       <img src="static/—Pngtree—google internet icon vector_12256707.png" alt="Google Icon">
+       <a href="#">Sign in with Google</a>
+   </div>
+</div>
+<div class="mobile-login">
+    <img src="static/—Pngtree—calling vector icon_3791329.png" alt="Mobile Icon">
+    <a href="select-number.html"> Mobile Number </a>
+</div>
+
+
+<div id="number-selection" style="display: none;">
+    <h3>Select a Number for OTP:</h3>
+    <input type="radio" name="mobile" id="sim1" value="">
+    <label for="sim1" id="sim1-label"></label><br>
+    <input type="radio" name="mobile" id="sim2" value="">
+    <label for="sim2" id="sim2-label"></label><br>
+    <button id="send-otp">Send OTP</button>
+</div>
+
+<script>
+    let selectedNumber = "";
+
+    document.getElementById("mobile-number").addEventListener("click", async function(event) {
+        event.preventDefault(); // Prevent page reload
+
+        try {
+            let response = await fetch("http://localhost:3000/get-numbers");
+            let data = await response.json();
+
+            if (data.success) {
+                document.getElementById("sim1").value = data.sim1;
+                document.getElementById("sim1-label").textContent = `SIM1: ${data.sim1}`;
+                document.getElementById("sim2").value = data.sim2;
+                document.getElementById("sim2-label").textContent = `SIM2: ${data.sim2}`;
+                document.getElementById("number-selection").style.display = "block";
+            } else {
+                alert("Failed to get mobile numbers.");
+            }
+        } catch (error) {
+            console.error("Error fetching numbers:", error);
+            alert("Error connecting to the server.");
+        }
+    });
+
+    document.getElementById("send-otp").addEventListener("click", async function() {
+        let selectedRadio = document.querySelector('input[name="mobile"]:checked');
+        if (!selectedRadio) {
+            alert("Please select a mobile number.");
+            return;
+        }
+
+        selectedNumber = selectedRadio.value;
+
+        try {
+            let response = await fetch("http://localhost:3000/send-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ mobile: selectedNumber })
+            });
+
+            let data = await response.json();
+            if (data.success) {
+                alert(`OTP sent to ${selectedNumber}`);
+            } else {
+                alert("Failed to send OTP.");
+            }
+        } catch (error) {
+            console.error("Error sending OTP:", error);
+            alert("Error sending OTP.");
+        }
+    });
+</script>
+</body>
+</html>
+

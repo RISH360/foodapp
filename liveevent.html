@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Events</title>
+    <script src="footer.js" defer></script>
+    <style>
+        body {
+            background-color: rgb(253, 181, 181); /* Light Pink Background */
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+          /* Back Button */
+          .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+         /* Header */
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 90%;
+        max-width: 350px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .header img {
+        width: 20px;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+        .event-container {
+            position: relative;
+            width: 90%;
+            max-width: 350px;
+            margin-bottom: 15px;
+        }
+        .event-img {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+        }
+        .book-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: red;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .footer {
+    background-color: rgb(253, 181, 181);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 5px 0;
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between; /* Push icons to edges */
+    align-items: center;
+    width: 100%;  /* Full width so no space on edges */
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 20px;
+    height: 20px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+    margin-bottom: 0; /* Remove any extra margin */
+}
+
+.footer-button span {
+    margin-top: 5px; /* Adjust this value to bring text closer */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 50px;
+            height: 4px;
+    background-color: black;
+    width: 50px; /* Adjust width as needed */
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+    </style>
+</head>
+<body>
+
+       
+    <div class="back-logo">
+        <a href="N-foodinterfacepage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <span>Live Events</span>
+        <img src="static/icons8-live-50.png" alt="Back">
+    </div>
+
+    <div class="event-container">
+        <img src="static/Picsart_25-02-23_19-27-59-557.jpg" alt="Live Concert" class="event-img">
+        <a href="event-details.html" class="book-btn" 
+           onclick="storeEvent('static/Picsart_25-02-23_19-27-59-557.jpg', 'Live Concert', 'Electrifying music night!', '₹1200', 'Experience the best live concert!')">
+           Book Now
+        </a>
+    </div>
+
+    <div class="event-container">
+        <img src="static/Picsart_25-03-04_01-46-07-331.jpg" alt="Comedy Night" class="event-img">
+        <a href="event-details.html" class="book-btn" 
+           onclick="storeEvent('static/Picsart_25-03-04_01-46-07-331.jpg', 'Comedy Night', 'Laugh out loud with top comedians!', '₹800', 'Enjoy a fun-filled comedy evening!')">
+           Book Now
+        </a>
+    </div>
+
+    <div class="event-container">
+        <img src="static/Picsart_25-03-04_02-03-09-704.jpg" alt="Food Festival" class="event-img">
+        <a href="event-details.html" class="book-btn" 
+           onclick="storeEvent('static/Picsart_25-03-04_02-03-09-704.jpg', 'Food Festival', 'Taste world cuisines!', '₹500', 'Over 50+ food stalls with live cooking.')">
+           Book Now
+        </a>
+    </div>
+
+    <script>
+
+function storeEvent(image, title, description, price, details) {
+    let eventData = { image, title, description, price, details };
+    localStorage.setItem("selectedEvent", JSON.stringify(eventData));
+}
+
+    </script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+</body>
+</html>
