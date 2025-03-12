@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-moving Carousel</title>
+    <!-- Link CSS and JS -->
+<script src="sort.js" defer></script>
+<script src="nearandfast.js" defer></script>
+<script src="ratings.js" defer></script>
+<script src="location.js" defer></script>
+<script src="footer.js" defer></script>
+<script src="foodlist.js" defer></script>
+<script src="foodconitem.js" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #ebadad;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f4cccc;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+/* Profile Picture */
+.profile-pic {
+    width: 35px;  /* Reduced from 40px to 35px */
+    height: 35px; /* Keep it proportional */
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 700px; /* Keeps the increased width */
+    height: 38px; /* Reduced height */
+}
+
+
+.search-box {
+    width: 100%;
+    max-width: 680px; 
+    padding: 8px 12px 8px 45px; /* Adjusted padding */
+    border: 1px solid #ccc;
+    border-radius: 30px; /* Keeps the rounded shape */
+    outline: none;
+    border: 2px solid #ffffff;
+    font-size: 14px; /* Slightly smaller font for a compact look */
+    height: 100%; /* Matches the container height */
+    transition: border 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effect */
+}
+
+.search-box:focus {
+    border-color: #ff9797;
+    box-shadow: 0 0 8px rgba(255, 136, 136, 0.5); /* Soft glowing effect */
+    outline: none; /* Removes default outline */
+}
+
+
+
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    width: 20px; /* Adjusted icon size */
+    height: 20px;
+    pointer-events: none;
+}
+
+.suggestions-box {
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    top: 55px; /* Adjust this to move it down */
+    display: none;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari, Edge */
+.suggestions-box::-webkit-scrollbar {
+    display: none;
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.suggestion-item:hover {
+    background-color: #f5f5f5; /* ✅ Hover Effect */
+}
+
+
+
+    .settings-icon {
+    width: 30px; /* Adjust size */
+    height: 30px;
+    object-fit: contain; /* Ensures it doesn't stretch */
+}
+
+
+/* Location & Cart Container */
+.location-cart-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 950px;
+    margin-top: 90px;
+    padding: 0 15px;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    gap: 15px;
+}
+
+/* LOCATION BAR */
+.location-bar {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 6px 10px;
+    border-radius: 18px;
+    flex: 0.9; /* Slightly increased width */
+    max-width: 600px; /* Increased max width */
+    border: 2px solid #ffffff;
+    transition: border 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    flex: 1; /* Expands to fill available space */
+    max-width: none; /* Remove the width limit */
+    width: 100%; /* Ensures it stretches fully */
+    padding: 6px 15px; /* Adds more padding for spacing */
+}
+
+.location-bar:focus-within {
+    border-color: #ff9797;
+    box-shadow: 0 0 8px rgba(255, 136, 136, 0.5); /* Soft glowing effect */
+    outline: none; /* Removes default outline */
+}
+
+
+/* MOBILE VIEW */
+@media (max-width: 768px) {
+    .location-bar {
+        flex: 1;
+        max-width: 80%; /* Reduced width for mobile */
+    }
+
+    .location-dropdown {
+        width: 75%; /* Adjust dropdown width */
+        left: 12.5%;
+    }
+}
+
+
+/* LOCATION DROPDOWN */
+.location-dropdown {
+    display: none;
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 550px; /* Increased width slightly */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    padding: 10px;
+    margin-top: 100px;
+    left: 10px;
+}
+
+
+
+.location-icon {
+    width: 22px; /* Slightly smaller */
+    height: 22px;
+    margin-right: 6px;
+}
+
+.location-input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background: transparent;
+    width: 100%;
+}
+
+
+/* MOBILE VIEW */
+@media (max-width: 768px) {
+    .location-dropdown {
+        width: 65%; /* Full width for mobile */
+        left: 3%; /* Centering it */
+    }
+}
+
+/* LOCATION LIST */
+.location-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;   
+}
+
+.location-dropdown ul li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    height: 1px;
+}
+
+.location-dropdown ul li:hover {
+    background: #f1f1f1;
+}
+
+/* BUTTONS INSIDE DROPDOWN */
+.dropdown-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 8px;
+}
+
+.dropdown-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px;
+    color: #444;
+}
+
+#addLocationBtn:hover {
+    color: green;
+}
+
+#clearLocationsBtn:hover {
+    color: red;
+}
+
+/* Hide href styling on the "Add" button */
+#addLocationLink {
+    text-decoration: none; 
+    color: inherit;
+    display: inline-block;
+}
+
+/* CART BUTTON */
+.cart-button {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    background: #ff5848;
+    color: white;
+    border: none;
+    padding: 6px 12px; /* Reduced padding for smaller height */
+    border-radius: 18px; /* Adjusted for consistency */
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cart-button img {
+    width: 18px; /* Slightly smaller */
+    height: 18px;
+    margin-left: 5px;
+}
+
+.cart-button:hover {
+    background: #e0554a;
+}
+ 
+        /* CAROUSEL */
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin-top: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #ebadad;
+            padding: 10px;
+        }
+
+        .carousel-container {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .location-cart-container {
+                flex-direction: row; /* Keep location & cart in the same row */
+            }
+
+            .cart-button {
+                margin-top: 0; /* Remove extra space */
+            }
+
+            .settings-icon {
+                width: 25px;
+                height: 25px;
+                margin-left: 10px;
+            }
+
+            /* Adjust Carousel for Mobile */
+            .carousel img {
+                height: 200px; /* Decrease height */
+            }
+
+            .container {
+                width: 95%; /* Increase width */
+            }
+        }
+
+/* Food Category Container */
+.food-category {
+    display: flex;
+    flex-direction: column;
+    gap: 6px; /* Small gap between items */
+    margin-top: 15px; /* Increased to move down */
+    width: 100%;
+    max-width: 900px; /* Increased max-width */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 10px; /* Small edge gap */
+}
+
+/* Common Style for Both Categories */
+.category-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 50px 0; /* Increased height */
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+}
+
+/* Text Style */
+.category-box span {
+    position: absolute;
+    bottom: 20px; /* Move text slightly up */
+    font-size: 20px; /* Slightly larger */
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Vegetarian Category */
+.vegetarian {
+    background-image: url("static/d8381727-dfed-435c-9bfb-45dc9e945ebd-shutterstock_553662235.jpg");
+}
+
+.vegetarian span {
+    left: 15px; /* More spacing from left */
+}
+
+/* Non-Vegetarian Category */
+.non-vegetarian {
+    background-image: url("static/chicken-food-lunch-meal.jpg");
+}
+
+.non-vegetarian span {
+    right: 15px; /* More spacing from right */
+}
+
+/* Hover Effect */
+.category-box:hover {
+    transform: scale(1.03);
+}
+
+/* 📱 Mobile View Adjustments */
+@media (max-width: 768px) {
+    .food-category {
+        margin-top: 10px; /* Move down slightly on mobile */
+        max-width: 98%;
+        padding: 0 10px;
+    }
+    .category-box {
+        font-size: 16px;
+        padding: 35px 0; /* Slightly reduced height */
+        border-radius: 8px;
+    }
+    .category-box span {
+        font-size: 16px;
+        bottom: 15px; /* Move text up slightly */
+    }
+}
+
+.food-slider-container {
+    max-width: 100%;
+    width: 95vw;
+    max-width: 880px;
+    padding: 12px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+    height: 370px;
+    margin-top: 20px; /* Moves container down */
+}
+
+/* Each row container */
+.food-row {
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal scroll */
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 5px 0;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+/* Hide scrollbar for Chrome & Safari */
+.food-row::-webkit-scrollbar {
+    display: none;
+}
+
+/* Food item styling */
+.food-item {
+    text-align: center;
+    min-width: 70px; /* Slightly increased width */
+    white-space: normal; /* Allow text to wrap */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Food item images */
+.food-item img {
+    max-width: 100%;
+    width: 60px; /* Adjusted size */
+    height: 60px; /* Adjusted size */
+    object-fit: contain;
+    border-radius: 6px;
+    margin-bottom: 4px; /* Space between image & text */
+}
+
+/* Food name styling (Text now fully visible) */
+.food-item div {
+    font-size: 13px; /* Slightly larger for readability */
+    font-weight: 400; /* Thin text */
+    color: #333; /* Darker for better visibility */
+    text-align: center;
+    width: 80px; /* Increased width for text space */
+    word-wrap: break-word; /* Allow text to wrap */
+}
+
+@media (max-width: 768px) { /* Target mobile screens */
+    .food-slider-container {
+        margin-top: 20px; /* Moves the container down */
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 91vw; /* More space on the sides */
+    }
+}
+
+/* Food item hover effect */
+.food-item:hover {
+    animation: pulse 1s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1); /* Slight increase */
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+.event-container {
+    position: relative;
+    width: 90%;
+    max-width: 350px;
+    margin-top: 20px; /* Moves container down */
+    margin-bottom: 15px;
+}
+
+        .event-img {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+        }
+        .book-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: red;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .food-card {
+            width: 250px;
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .food-card img {
+            width: 100%;
+            height: 150px;
+            border-radius: 5px;
+        }
+        .food-card h4 {
+            margin: 10px 0;
+        }
+        .food-card button {
+            padding: 8px 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .food-card button:hover {
+            background-color: #218838;
+        }
+
+        .footer {
+    background-color: rgb(253, 181, 181);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; /* Increased height */
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 10px 0; /* Increased padding for better spacing */
+    z-index: 1000; /* Ensures footer stays above other elements */
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 14px; /* Improved text readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 24px; /* Larger icons for better visibility */
+    height: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease; /* Added smooth scaling */
+    margin-bottom: 5px; /* Improved spacing */
+}
+
+.footer-button span {
+    margin-top: 8px; /* Better spacing for text */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 70px; /* Aligned with increased footer height */
+    height: 5px; /* Slightly thicker underline for visibility */
+    background-color: black;
+    width: 50px;
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+
+.menu-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Food Card */
+.food-card {
+    flex: 0 0 390px; 
+    width: 390px !important; 
+    height: 440px; 
+    margin: 18px;
+    padding: 24px;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    box-shadow: 4px 4px 18px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #ffffff; 
+    position: relative; /* Added for non-veg tag positioning */
+}
+
+/* Food Image */
+.food-card img {
+    width: 100%;
+    height: 260px;
+    border-radius: 12px;
+}
+
+.food-info {
+    display: block;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.food-name {
+    color: #000 !important;       /* Strong black for higher contrast */
+    font-weight: 900;             /* Maximum bold effect */
+    font-size: 1.8em;             /* Further increased size */
+    line-height: 1.6;             /* Improved spacing for clarity */
+    text-transform: uppercase;    /* Optional: Makes text more noticeable */
+}
+#menu .food-card .food-price {
+    color: #ff0000 !important;
+    font-weight: 600;
+    font-size: 1.5em; /* Larger size */
+    margin-top: 10px;
+}
+
+
+
+/* Veg Tag - Green */
+.food-card .green-tag {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    background-color: #66eb13;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
+
+/* Non-Veg Tag - Red */
+.food-card .red-tag {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    background-color: #ff0800;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
+
+
+/* Food Item Link - Hidden */
+.food-item {
+    text-decoration: none; /* Removes underline */
+    color: inherit; /* Inherits text color */
+    cursor: default; /* Prevents click action */
+}
+
+/* Button Styling */
+.food-card button {
+    padding: 8px 12px;
+    background: #fcb0b0;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 35px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.food-card button:hover {
+    background-color: #fcb9b9;
+    transform: scale(1.05);
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+    .food-card {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+<div class="top-bar">
+    <a href="profile.html">
+        <img src="static/nwdn_file_temp_1617387658077-01.jpeg" alt="Profile" class="profile-pic">
+    </a>
+    <div class="search-container">
+        <img src="static/pngegg (15).png" class="search-icon" alt="Search">  
+        <input type="text" class="search-box" id="search" placeholder="Search your cookie">
+        <div class="suggestions-box" id="suggestions"></div> <!-- ✅ Keep inside search-container -->
+    </div>
+    
+    <a href="settings.html">
+        <img src="static/settings_3524636.png" alt="Settings" class="settings-icon">
+    </a>
+</div>
+
+
+    <script src="search.1.js"></script>
+
+    <!-- Location & Cart -->
+    <div class="location-cart-container">
+        <div class="location-bar">
+            <img src="static/location_535239.png" alt="Location" class="location-icon">
+            <input type="text" class="location-input" id="locationInput" placeholder="Enter your city">
+        </div>
+
+        <button class="cart-button" onclick="location.href='cart.html'">
+            Cart <img src="static/pngwing.com (87).png" alt="Cart">
+        </button>
+    </div>
+
+ 
+          <!-- Dropdown for saved locations -->
+          <div class="location-dropdown" id="locationDropdown">
+            <ul id="locationList">
+                <li>Thiruvananthapuram, Kerala</li>
+                <li>Nagercoil, Tamil Nadu</li>
+                <li>Chennai, Tamil Nadu</li>
+            </ul>
+            <div class="dropdown-buttons">
+                <a href="add-location.html" id="addLocationLink">
+                    <button id="addLocationBtn">➕ Add</button>
+                </a>
+                </a>
+                <button id="clearLocationsBtn">❌ Clear All</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+window.onload = function () {
+    const storedAddresses = JSON.parse(localStorage.getItem('savedAddresses')) || [];
+    const locationList = document.getElementById('locationList');
+    const locationInput = document.getElementById('locationInput'); // Search bar reference
+
+    storedAddresses.forEach(address => {
+        const li = document.createElement("li");
+        li.textContent = address;
+
+        // Add click event to fill search bar with clicked address
+        li.onclick = function () {
+            locationInput.value = address; 
+        };
+
+        locationList.appendChild(li);
+    });
+}
+
+
+    </script>
+    
+  <!-- Carousel -->
+    <div class="container">
+        <div class="carousel-container">
+            <div class="carousel">
+                <img src="static/Picsart_25-03-04_02-28-39-536.jpg" alt="Slide 1">
+                <img src="static/Picsart_25-03-04_02-34-31-472.jpg" alt="Slide 2">
+                <img src="static/Picsart_25-03-04_02-23-28-951.jpg" alt="Slide 3">
+                <img src="static/Picsart_25-03-04_02-40-09-391.jpg" alt="Slide 4">
+                <img src="static/d8381727-dfed-435c-9bfb-45dc9e945ebd-shutterstock_553662235.jpg" alt="Slide 5">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const carousel = document.querySelector('.carousel');
+        let index = 0;
+        function moveCarousel() {
+            index = (index + 1) % 2;
+            carousel.style.transform = `translateX(${-index * 100}%)`;
+        }
+        setInterval(moveCarousel, 3000);
+    </script>
+  <div class="food-category">
+    <a href="vegetarion.html" class="category-box vegetarian">
+        <span>Vegetarian</span>
+    </a>
+
+    <a href="non-vegetarion.html" class="category-box non-vegetarian">
+        <span>Non-Vegetarian</span>
+    </a>
+</div>
+
+
+<div class="food-slider-container" id="foodContainer">
+    <!-- Food rows will be dynamically added here -->
+</div>
+<div class="event-container">
+    <img src="static/Picsart_25-02-23_19-27-59-557.jpg" alt="Live Concert" class="event-img">
+    <a href="event-details.html" class="book-btn" 
+       onclick="storeEvent('static/Picsart_25-02-23_19-27-59-557.jpg', 'Live Concert', 'Electrifying music night!', '₹1200', 'Experience the best live concert!')">
+       Book Now
+    </a>
+</div>
+
+<div id="menu" class="menu-container"></div>
+
+<script>
+
+const menuItems = [
+    "Crispy Chicken Burger",
+    "Parotta",
+    "Chicken Sandwitch",
+    "Chicken Biriyani",
+    "Momo Mia Pizza",
+    "Shawarma",
+    "Chicken Cutlet",
+    "Delicious Beef Burger",
+    "Chicken Rolls",
+    "Chicken Golden Delight",
+    "Tandoori Chicken",
+    "Grilled Chicken",
+    "Fried Chicken Egg Noodles",
+    "Cheese Burger Whooper Buffalo",
+    "Chinese Noodles Yakisoba",
+    "Non-Veg Supreme",
+    "Chicken Noodles",
+    "Chicken Tikka Masala",
+    "Hyaderabhadi Chicken Biriyani",
+    "Chicken Nuggets, Crispy Fried Chicken",
+    "Chicken Samoosa",
+    "Indian cuisine Dal Non-Vegetarian cuisine Roti",
+    "Chicken Dominator",
+    "Mutton Curry",
+    "Korean Fried Chicken",
+    "Cooked meat with red salsa",
+    "Spare ribs Barbecue Chicken curry Buffalo wing",
+    "Pepper Barbecue & Onion",
+    "Indian Cuisine Non-Vegetarian",
+    "McDonald's Chicken McNuggets KFC",
+    "Chicken karahi Indian cuisine Shrimp curry Vindaloo",
+    "Indian cuisine Gravy Kebab Buffet Asian cuisine",
+    "Pepper Barbecue Chicken",
+    "Mattar paneer Indian cuisine Paneer tikka masala",
+    "KFC Full Meal Bundle",
+    "Mediterranean cuisine Indian cuisine Falafel",
+    "Indian cuisine Malai Asian cuisine Kofta",
+    "Chicken Sausage",
+    "Fish Fry",
+    "KFC Chicken Bundle, Large",
+    "South Asian cuisine, Rice With Meals",
+    "KFC Fried Chicken Bundle, Medium",
+    "Butter Indian Tandoori Chicken",
+    "Chicken Fiesta",
+    "Momo Mia Pizza",
+    "Ramen Chinese noodles",
+    "Cuisine South Indian cuisine Thali Vegetable",
+    "Telugu cuisine Idiyappam",
+    "Peppy Paneer",
+    "Thai fried rice Chinese cuisine",
+    "French fries Potato chip",
+    "Veg Extravaganza",
+    "Fried seafood noodles",
+    "South Indian cuisine",
+    "Yangzhou fried rice",
+    "Margherita",
+    "Double Cheese Margherita",
+    "Burger and potato fries dish",
+    "Chow mein Chinese noodles",
+    "French fries, medium",
+    "Asian cuisine",
+    "Farm House",
+    "Thai fried rice",
+    "French fries in red sachet",
+    "Rolls",
+    "Chana masala",
+    "Laksa Braised noodles",
+    "Samosa",
+    "Peppy Paneer",
+    "Masala Dosa",
+    "Fried rice with carrots and green peas",
+    "Puffs",
+    "Mexican Green Wave",
+    "Cutlet",
+    "Mattar paneer",
+    "Deluxe Veggie",
+    "Idle Sambar",
+    "Palak paneer",
+    "Dandan noodles",
+    "Dosa",
+    "Chapati",
+    "Aloo gobi",
+    "Parotta",
+    "Eggplant curry",
+    "Dal makhani Indian cuisine",
+    "Pav bhaji",
+    "Cauliflower masala",
+    "Chow mein Lo mein Biryani Chinese noodles",
+    "Appam with egg curry",
+    "Tteok-bokki Red curry",
+    "Salchipapas French fries",
+    "Salad illustration"
+];
+
+document.getElementById("search").addEventListener("input", function() {
+    const searchValue = this.value.toLowerCase();
+    const suggestionsBox = document.getElementById("suggestions");
+
+    suggestionsBox.innerHTML = "";
+    
+    const filteredItems = menuItems.filter(item => item.toLowerCase().includes(searchValue));
+
+    if (searchValue && filteredItems.length > 0) {
+        suggestionsBox.style.display = "block";
+        filteredItems.forEach(food => {
+            const suggestion = document.createElement("div");
+            suggestion.textContent = food;
+            suggestion.classList.add("suggestion-item"); // ✅ Ensures hover works
+            suggestion.addEventListener("click", function() {
+                localStorage.setItem("selectedFood", food);
+                window.location.href = "foodmenu.html";
+            });
+            suggestionsBox.appendChild(suggestion);
+        });
+    } else {
+        suggestionsBox.style.display = "none";
+    }
+});
+
+// ✅ Hide suggestions when clicking outside
+document.addEventListener("click", function(event) {
+    if (!document.querySelector(".search-container").contains(event.target)) {
+        document.getElementById("suggestions").style.display = "none";
+    }
+});
+
+     
+
+     const foodMenu = [
+    { name: "Crispy Chicken Burger", price: 349, img: "static/crispy-chicken-burger-3b4f47d62f7d58bef17dd8aa1f932c3d.png", type: "non-veg" },
+        { name: "Parotta", price: 299, img: "static/pngwing.com (27).png", link: "#",type: "veg" },
+        { name: "Chicken Sandwitch", price: 369, img: "static/pngwing.com (25).png", link: "#" },
+        { name: "Chicken Biriyani", price: 329, img: "static/pngwing.com (22).png", link: "#" },
+        { name: "Momo Mia Pizza", price: 319, img: "static/momo-mia-non-veg379d4c86ba9551f194bfc68ad9d77bc51.jpg" },
+        { name: "Shawarma", price: 289, img: "static/pngwing.com (22).png", link: "#" },
+        { name: "Chicken Cutlet", price: 279, img: "static/pngwing.com (67).png", link: "#" },
+        { name: "Delicious Beef Burger", price: 359, img: "static/delicious-beef-burger-05c72cc08b933716e4cc97cb9656089c.png" },
+        { name: "Chicken Rolls", price: 349, img: "static/pngwing.com (63).png", link: "#" },
+        { name: "Chicken Golden Delight", price: 299, img: "static/MicrosoftTeams-image_(14).png" },
+        { name: "Tandoori Chicken", price: 369, img: "static/pngegg (1).png" },
+        { name: "Grilled Chicken", price: 349, img: "static/pngegg (2).png" },
+        { name: "Fried Chicken Egg Noodles", price: 299, img: "static/pngegg (3).png" },
+        { name: "Cheese Burger Whooper Buffalo", price: 369, img: "static/cheeseburger-whopper-buffalo-wing-street-food-french-fries-chicken-tikka-burger-20160507d6794d972c6675e2ca3bba4a.png" },
+        { name: "Chinese Noodles Yakisoba", price: 329, img: "static/pngegg (4).png" },
+        { name: "Non-Veg Supreme", price: 319, img: "static/MicrosoftTeams-image_(13).png"},
+        { name: "Chicken Noodles", price: 289, img: "static/pngwing.com.png" },
+        { name: "Chicken Tikka Masala", price: 279, img: "static/pngwing.com (1).png" },
+        { name: "Hyaderabhadi Chicken Biriyani", price: 359, img: "static/pngwing.com (3).png" },
+        { name: "Chicken Nuggets, Crispy Fried Chicken", price: 349, img: "static/pngwing.com (4).png" },
+        { name: "Chicken Samoosa", price: 299, img: "static/pngwing.com (64).png" },
+        { name: "Indian cuisine Dal Non-Vegetarian cuisine Roti", price: 369, img: "static/pngwing.com (12).png" },
+        { name: "Chicken Dominator", price: 349, img: "static/MicrosoftTeams-image_(11).png" },
+        { name: "Mutton Curry", price: 299, img: "static/pngwing.com (2).png" },
+        { name: "Korean Fried Chicken", price: 369, img: "static/pngwing.com (5).png" },
+        { name: "Cooked meat with red salsa", price: 329, img: "static/pngwing.com (13).png" },
+        { name: "Spare ribs Barbecue Chicken curry Buffalo wing", price: 319, img: "static/pngwing.com (14).PNg" },
+        { name: "Pepper Barbecue & Onion", price: 289, img: "static/Pepper_Barbeque_&_Onion.jpg" },
+        { name: " Indian Cuisine Non-Vegetarian", price: 279, img: "static/pngwing.com (15).png" },
+        { name: "McDonald's Chicken McNuggets KFC", price: 359, img: "static/pngwing.com (6).png" },
+        { name: "Chicken karahi Indian cuisine Shrimp curry Vindaloo,", price: 349, img: "static/pngwing.com (16).png" },
+        { name: "Indian cuisine Gravy Kebab Buffet Asian cuisine", price: 299, img: "static/pngwing.com (17).png" },
+        { name: "Pepper Barbecue Chicken", price: 369, img: "static/MicrosoftTeams-image_(15).png" },
+        { name: "Mattar paneer Indian cuisine Paneer tikka masala", price: 349, img: "static/pngwing.com (78).png" },
+        { name: "KFC Full Meal Bundle", price: 299, img: "static/pngwing.com (7).png" },
+        { name: "Mediterranean cuisine Indian cuisine Falafel", price: 369, img: "static/pngwing.com (79).png" },
+        { name: "Indian cuisine Malai Asian cuisine Kofta", price: 329, img: "static/pngwing.com (80).png" },
+        { name: "Chicken Sausage", price: 319, img: "static/MicrosoftTeams-image_(17).png" },
+        { name: "Fish Fry", price: 289, img: "static/pngwing.com (37).png" },
+        { name: "KFC Chicken Bundle, Large", price: 279, img: "static/pngwing.com (10).png" },
+        { name: "South Asian cuisine, Rice With Meals", price: 359, img: "static/pngegg (5).png" },
+        { name: "KFC Fried Chicken Bundle, Medium", price: 349, img: "static/pngwing.com (8).png" },
+        { name: "Butter Indian Tandoori Chicken", price: 299, img: "static/pngegg (6).png" },
+        { name: "Chicken Fiesta", price: 369, img: "static/MicrosoftTeams-image_(10).png" },
+        { name: "Momo Mia Pizza", price: 349, img: "static/momo-mia-veg.4e51f4733bea47a514c107c9fd2341e3.1.jpg", link: "#" },
+        { name: "Ramen Chinese noodles", price: 299, img: "static/pngwing.com (94).png", link: "#" },
+        { name: "Cuisine South Indian cuisine Thali Vegetable", price: 369, img: "static/pngwing.com (100).png", link: "#" },
+        { name: "Telugu cuisine Idiyappam", price: 349, img: "static/pngwing.com - 2025-03-08T002436.005.png", link: "#" },
+        { name: "Peppy Paneer", price: 299, img: "static/Peppy_Paneer.jpg", link: "#" },
+        { name: "Thai fried rice Chinese cuisine", price: 369, img: "static/pngegg (7).png", link: "#" },
+        { name: "French fries Potato chip", price: 349, img: "static/pngegg (10).png", link: "#" },
+        { name: "Veg Extravaganza", price: 299, img: "static/Veg_Extravaganz.jpg", link: "#" },
+        { name: "Fried seafood noodles", price: 369, img: "static/pngwing.com (95).png", link: "#" },
+        { name: "South Indian cuisine", price: 349, img: "static/pngwing.com - 2025-03-08T002335.647.png", link: "#" },
+        { name: "Yangzhou fried rice", price: 299, img: "static/pngegg (8).png", link: "#" },
+        { name: "Margherita", price: 369, img: "static/Margherit.jpg", link: "#" },
+        { name: "Double Cheese Margherita", price: 349, img: "static/Double_Cheese_Margherita.jpg", link: "#" },
+        { name: "burger and potato fries dish", price: 299, img: "static/pngegg (11).png", link: "#" },
+        { name: "Chow mein Chinese noodles", price: 369, img: "static/pngwing.com (96).png", link: "#" },
+        { name: "French fries, medium", price: 349, img: "static/pngegg (12).png", link: "#" },
+        { name: "Asian cuisine", price: 299, img: "static/pngwing.com - 2025-03-08T002537.938.png", link: "#" },
+        { name: "Farm House", price: 369, img: "static/Farmhouse.jpg", link: "#" },
+        { name: "Thai fried rice", price: 299, img: "static/pngegg (9).png", link: "#" },
+        { name: "French fries in red sachet,", price: 369, img: "static/pngegg (13).png", link: "#" },
+        { name: "Rolls", price: 349, img: "static/pngwing.com (63).png", link: "#" },
+        { name: "chana masala", price: 299, img: "static/pngwing.com - 2025-03-08T004335.664.png", link: "#" },
+        { name: "Laksa Braised noodles", price: 369, img: "static/pngwing.com (97).png", link: "#" },
+        { name: "Samosa", price: 349, img: "static/pngwing.com (64).png", link: "#" },
+        { name: "Peppy Paneer", price: 299, img: "static/Peppy_Paneer.jpg", link: "#" },
+        { name: "Masala Dosa", price: 369, img: "static/pngwing.com - 2025-03-08T005044.633.png", link: "#" },
+        { name: "Fried rice with carrots and green peas", price: 299, img: "static/pngegg (14).png", link: "#" },
+        { name: "Puffs", price: 369, img: "static/pngwing.com (75).png", link: "#" },
+        { name: "Mexican Green Wave", price: 349, img: "static/Mexican_Green_Wave.jpg", link: "#" },
+        { name: "Cutlet", price: 299, img: "static/pngwing.com (67).png", link: "#" },
+        { name: "Mattar paneer", price: 369, img: "static/pngwing.com - 2025-03-08T004450.985.png", link: "#" },
+        { name: "Deluxe Veggie", price: 349, img: "static/Deluxe_Veggie.jpg", link: "#" },
+        { name: "Idle Sambar", price: 299, img: "static/pngwing.com - 2025-03-08T005158.903.png", link: "#" },
+        { name: "Palak paneer", price: 369, img: "static/pngwing.com - 2025-03-08T004606.928.png", link: "#" }, 
+        { name: "Dandan noodles", price: 369, img: "static/pngwing.com (98).png", link: "#" },
+        { name: "Dosa", price: 349, img: "static/pngwing.com - 2025-03-08T005327.982.png", link: "#" },
+        { name: "Chapati", price: 299, img: "static/pngwing.com - 2025-03-08T005451.860.png", link: "#" },
+        { name: "Aloo gobi", price: 369, img: "static/pngwing.com - 2025-03-08T004929.852.png", link: "#" },
+        { name: "Parotta", price: 349, img: "static/pngwing.com - 2025-03-08T005559.901.png", link: "#" },
+        { name: "Eggplant curry", price: 299, img: "static/pngwing.com - 2025-03-08T005826.306.png", link: "#" },
+        { name: "Dal makhani Indian cuisine", price: 369, img: "static/pngwing.com - 2025-03-08T010142.275.png", link: "#" }, 
+        { name: "Pav bhaji", price: 369, img: "static/pngwing.com - 2025-03-08T010244.265.png", link: "#" },
+        { name: "Califlower masala", price: 349, img: "static/pngwing.com - 2025-03-08T010609.908.png", link: "#" },
+        { name: "Chow mein Lo mein Biryani Chinese noodles", price: 299, img: "static/pngwing.com (99).png", link: "#" },
+        { name: "Appam with egg curry", price: 369, img: "static/pngwing.com - 2025-03-08T005559.901.png", link: "#" },
+        { name: "Tteok-bokki Red curry", price: 349, img: "static/pngwing.com - 2025-03-08T010754.521.png", link: "#" },
+        { name: "Salchipapas French fries", price: 299, img: "static/pngwing.com - 2025-03-08T010754.521.png", link: "#" },
+        { name: "Salad illustration", price: 369, img: "static/pngwing.com - 2025-03-08T011003.742.png", link: "#" },
+    ];
+
+    function displayMenu() {
+    const menuSection = document.getElementById("menu");
+    menuSection.innerHTML = "";
+
+    foodMenu.forEach(item => {
+        const menuCard = document.createElement("div");
+        menuCard.className = "food-card";
+
+        // Create a link to the food details page with query parameters
+        const foodLink = document.createElement("a");
+        foodLink.href = `food-details.html?name=${encodeURIComponent(item.name)}&price=${item.price}&img=${encodeURIComponent(item.img)}`;
+        foodLink.className = "food-item";
+
+        // Add 'Veg' or 'Non-Veg' tag with respective colors
+        const foodTypeTag = item.type 
+            ? `<div class="veg-tag ${item.type === 'veg' ? 'green-tag' : 'red-tag'}">${item.type}</div>` 
+            : "";
+
+        foodLink.innerHTML = `
+            <img src="${item.img}" alt="${item.name}" class="food-image">
+            <div class="food-info">
+                <div class="food-name">${item.name}</div>
+                ${foodTypeTag}
+            </div>
+            <div class="food-price">₹${item.price}</div>
+        `;
+
+        // Append the food link to the menu card
+        menuCard.appendChild(foodLink);
+
+        // Append the menu card to the menu section
+        menuSection.appendChild(menuCard);
+    });
+}
+
+displayMenu();
+
+</script>
+
+
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+    
+</body>
+</html>
