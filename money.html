@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: pink;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            justify-content: center;
+        }
+
+        
+         /* Back Button */
+         .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+        .message {
+    text-align: center;
+    color: gray;
+    font-weight: bold;
+    margin-bottom: 5px; /* Reduced margin to move it up */
+    margin-top: -300px; /* Moves it further up */
+}
+
+.create-account-btn {
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px; /* Moves the button closer to the message */
+}
+
+        .create-account-btn:hover {
+            background-color: #e04a4a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="N-foodinterfacepage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <p class="message">You don't have a cookie account.</p>
+    <a href="cookieaccountsignin.html">
+        <button class="create-account-btn">Create Account</button>
+    </a>
+
+</body>
+</html>
