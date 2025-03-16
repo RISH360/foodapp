@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Events</title>
+    <script src="footer.js" defer></script>
+    <style>
+        body {
+            background-color: rgb(253, 181, 181); /* Light Pink Background */
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+            padding-bottom: 100px;
+        }
+
+          /* Back Button */
+          .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;  /* Keeps the text aligned to the left */
+    width: 90%;
+    max-width: 350px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 18px;  /* Increased font size */
+    padding-left: 0px;  /* Remove padding to move it further left */
+    margin-left: -90px;  /* Negative margin to shift it left */
+}
+
+.header img {
+    width: 20px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.event-container {
+    position: relative;
+    width: 100%;  /* You can adjust this as per your layout needs */
+    max-width: 450px; /* Increase the max-width of the container */
+    margin-bottom: 15px;
+    padding: 20px;
+}
+
+.event-img {
+    width: 100%;  /* Make it fill the container */
+    height: 500px;  /* Increased the height to 500px */
+    object-fit: cover;  /* Ensures the image covers the container area */
+    border-radius: 10px;
+    display: block;
+}
+.book-btn {
+    position: absolute;
+    bottom: 50px;  /* Move the button slightly up */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: red;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+       
+.footer {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Increased height */
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 10px 0; /* Increased padding for better spacing */
+    z-index: 1000; /* Ensures footer stays above other elements */
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 14px; /* Improved text readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 24px; /* Larger icons for better visibility */
+    height: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease; /* Added smooth scaling */
+    margin-bottom: 5px; /* Improved spacing */
+}
+
+.footer-button span {
+    margin-top: 8px; /* Better spacing for text */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 70px; /* Aligned with increased footer height */
+    height: 5px; /* Slightly thicker underline for visibility */
+    background-color: black;
+    width: 50px;
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+    </style>
+</head>
+<body>
+
+       
+    <div class="back-logo">
+        <a href="N-foodinterfacepage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <span>Live Events</span>
+        <img src="static/icons8-live-50.png" alt="Back">
+    </div>
+
+   <div class="event-container">
+    <img src="static/Picsart_25-02-23_19-27-59-557.jpg" alt="Live Concert" class="event-img">
+    <a href="event-details.html" class="book-btn" 
+       onclick="storeEvent('static/Picsart_25-02-23_19-27-59-557.jpg', 'Live Concert', 'Electrifying music night!', '₹1200', 'Experience the best live concert!')">
+       Book Now
+    </a>
+</div>
+
+<div class="event-container">
+    <img src="static/Picsart_25-03-04_01-46-07-331.jpg" alt="Comedy Night" class="event-img">
+    <a href="event-details.html" class="book-btn" 
+       onclick="storeEvent('static/Picsart_25-03-04_01-46-07-331.jpg', 'Comedy Night', 'Laugh out loud with top comedians!', '₹800', 'Enjoy a fun-filled comedy evening!')">
+       Book Now
+    </a>
+</div>
+
+<div class="event-container">
+    <img src="static/Picsart_25-03-04_02-03-09-704.jpg" alt="Food Festival" class="event-img">
+    <a href="event-details.html" class="book-btn" 
+       onclick="storeEvent('static/Picsart_25-03-04_02-03-09-704.jpg', 'Food Festival', 'Taste world cuisines!', '₹500', 'Over 50+ food stalls with live cooking.')">
+       Book Now
+    </a>
+</div>
+
+<div class="event-container">
+    <img src="static/Picsart_25-03-04_01-54-49-216.jpg" alt="Dance Performance" class="event-img">
+    <a href="event-details.html" class="book-btn" 
+       onclick="storeEvent('static/Picsart_25-03-04_01-54-49-216.jpg', 'Dance Performance', 'Experience mesmerizing dance performances!', '₹1000', 'Enjoy a night of stunning choreography and music!')">
+       Book Now
+    </a>
+</div>
+
+<script>
+function storeEvent(image, title, description, price, details) {
+    let eventData = { image, title, description, price, details };
+    localStorage.setItem("selectedEvent", JSON.stringify(eventData));
+}
+</script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+</body>
+</html>

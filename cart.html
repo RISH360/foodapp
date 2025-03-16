@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <script src="footer.js" defer></script>
+    
+    <style>
+   body {
+    font-family: Arial, sans-serif;
+    background-color: pink;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: 40px; /* Adds extra space on top */
+    padding-bottom: 150px; /* Adds extra space at the bottom */
+}
+
+   /* Back Button */
+   .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+        .container, .product-container {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            width: 90%; /* Increased width */
+            max-width: 645px; /* Increased max width */
+            margin-bottom: 12px;
+        }
+
+        .product-container {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    width: 78vw;
+    max-width: 900px;
+    margin-bottom: 12px;
+    margin-top: 20px; /* Adds more top spacing */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+  /* Header */
+  .cart-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 90%;
+            max-width: 350px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .cart-header img {
+            width: 25px;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
+
+
+
+        .food-image {
+            width: 90px;
+            height: 90px;
+            border-radius: 10px;
+        }
+
+        .product-info {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .quantity {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .divider {
+            border: 0;
+            height: 1px;
+            background-color: #ccc;
+            margin: 10px 0;
+        }
+
+        .remove-button {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            position: absolute;
+            right: 15px;
+        }
+
+        .remove-button:hover {
+            background-color: #cc0000;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #empty-cart-message {
+            font-size: 18px;
+            color: #555;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #total-bill-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px;
+}
+
+.bill-row {
+    display: flex;
+    align-items: center; /* Aligns Total Bill and Amount in the same row */
+}
+
+#total-bill-amount {
+    color: red; /* Bill amount in red */
+    font-size: 20px;
+    margin-left: 10px; /* Keeps it close to "Total Bill" */
+}
+
+#bill-info {
+    font-size: 10px;
+    font-weight: bold;
+    color: rgb(172, 160, 160); /* Dark black text */
+    margin-top: 5px; /* Space below Total Bill */
+}
+
+.hidden {
+    display: none !important; /* Force hides the container */
+}
+
+#cancellation-policy {
+    font-size: 10px;
+    color: #666; /* Light black color */
+    text-align: center;
+    margin-top: 10px;
+    max-width: 90%;
+}
+
+/* Payment Section (Above Footer) */
+.payment-container {
+    position: fixed;
+    bottom: 1px; /* Increased to move it up */
+    width: 100%;
+    background-color: white;
+    padding: 12px 15px;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 11;
+    height: 50px; /* Adjusted height */
+}
+
+/* Left side - Payment method */
+.payment-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 10px;
+}
+
+.payment-method {
+    border: 1px solid black;
+    background: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Right side - Total Bill & Order Button */
+.payment-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 10px;
+}
+
+.total-bill {
+    font-size: 12px;
+}
+
+.bill-amount {
+    color: red;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.place-order {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.total-amount-label {
+        font-weight: bold;
+    }
+
+    .total-amount {
+        font-size: 18px;
+        font-weight: bold;
+        color: #ff0000;
+    }
+
+    .footer {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Increased height */
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 10px 0; /* Increased padding for better spacing */
+    
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 14px; /* Improved text readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 24px; /* Larger icons for better visibility */
+    height: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease; /* Added smooth scaling */
+    margin-bottom: 5px; /* Improved spacing */
+}
+
+.footer-button span {
+    margin-top: 8px; /* Better spacing for text */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 70px; /* Aligned with increased footer height */
+    height: 5px; /* Slightly thicker underline for visibility */
+    background-color: black;
+    width: 50px;
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+
+.loading-overlay {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background with transparency */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 20px;
+    z-index: 9999; /* Ensure it appears above everything */
+}
+
+.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ffffff;
+    border-top: 4px solid #ff6f6f; /* Highlight spinner */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="N-foodinterfacepage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+   <!-- Cart Heading with Small Image -->
+   <div class="cart-header">
+    <span>Cart</span>
+    <img src="static/pngwing.com (87).png" alt="cart-icon">
+</div>
+
+
+<!-- Cart Container -->
+<div id="cart-container">
+    <!-- Product Items (Dynamically added from JS) -->
+</div>
+
+<!-- Delivery Address & Phone Number (Grouped together) -->
+<div class="container">
+    <strong>Delivery Address:</strong>
+    <p id="cart-deliveryAddress">Not set</p>
+</div>
+
+<div class="container">
+    <strong>Phone Number:</strong>
+    <p id="cart-phoneNumber">Not set</p>
+</div>
+
+<!-- Restaurant Info -->
+<div class="container">
+    <strong>Restaurant Name:</strong>
+    <p id="cart-restaurantName">Not Available</p>
+    <hr class="divider">
+    <strong>Ratings:</strong>
+    <p id="cart-ratings">4.5 / 5.0</p>
+    <hr class="divider">
+    <strong>Delivery Time:</strong>
+    <p>15 to 25 minutes</p>
+</div>
+<!-- Total Bill Container (Now at the bottom) -->
+<div id="total-bill-container" class="container hidden">
+    <div class="bill-row">
+        <strong>Total Bill:</strong> 
+        <span id="total-bill-amount">₹0</span>
+    </div>
+    <p id="bill-info">Incl. taxes, charges & donation</p>
+</div>
+
+<!-- Empty Cart Message -->
+<p id="empty-cart-message" class="hidden">No items in cart</p>
+
+<!-- Cancellation Policy -->
+<p id="cancellation-policy">
+    <strong>CANCELLATION POLICY</strong><br>
+    Help us to reduce food waste by avoiding cancellations. The amount paid is non-refundable after placing the order.
+</p>
+
+<!-- Loading Screen -->
+<div id="loading-screen" class="loading-overlay hidden">
+    <div class="spinner"></div>
+    <p>Processing your order...</p>
+</div>
+
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const cartContainer = document.getElementById("cart-container");
+    const emptyCartMessage = document.getElementById("empty-cart-message");
+    const totalBillContainer = document.getElementById("total-bill-container");
+    const paymentContainer = document.querySelector(".payment-container");
+    const totalBillAmount = document.getElementById("total-bill-amount");
+    const footerBillAmount = document.getElementById("footer-bill-amount");
+
+    // Payment Button
+    const paymentButton = document.getElementById("selected-payment");
+
+    // Additional Containers to Hide
+    const addressContainer = document.getElementById("cart-deliveryAddress").closest('.container');
+    const phoneContainer = document.getElementById("cart-phoneNumber").closest('.container');
+    const restaurantContainer = document.getElementById("cart-restaurantName").closest('.container');
+    const cancellationPolicy = document.getElementById("cancellation-policy");
+
+    // ✅ Correctly Display Delivery Details
+    const activeAddress = localStorage.getItem("activeAddress") || "Not set";
+    const activePhone = localStorage.getItem("activePhone") || "Not set";
+
+    document.getElementById("cart-deliveryAddress").textContent = activeAddress;
+    document.getElementById("cart-phoneNumber").textContent = activePhone;
+
+    // ✅ Load saved payment method
+    const savedPayment = localStorage.getItem("selectedPaymentMethod") || "Cash on Delivery";
+    if (paymentButton) {
+        paymentButton.textContent = savedPayment;
+    }
+
+    let cartProducts = JSON.parse(localStorage.getItem("cartProducts")) || [];
+    let totalBill = 0;
+
+    cartContainer.innerHTML = ""; // Clear previous content to prevent duplicates
+
+    if (cartProducts.length > 0) {
+        cartProducts.forEach((product, index) => {
+            const productElement = document.createElement("div");
+            productElement.classList.add("product-container");
+            productElement.innerHTML = `
+                <img src="${product.img}" class="food-image" alt="Food Image">
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <p>₹${product.price} | Quantity: ${product.quantity}</p>
+                </div>
+                <button class="remove-button" data-index="${index}">Remove</button>
+            `;
+            cartContainer.appendChild(productElement);
+
+            totalBill += product.price;
+        });
+
+        totalBillContainer.classList.remove("hidden");
+        paymentContainer.classList.remove("hidden");
+        totalBillAmount.textContent = `₹${totalBill}`;
+        if (footerBillAmount) {
+            footerBillAmount.textContent = `₹${totalBill}`;
+        }
+
+        // Show all relevant containers
+        addressContainer.classList.remove("hidden");
+        phoneContainer.classList.remove("hidden");
+        restaurantContainer.classList.remove("hidden");
+        cancellationPolicy.classList.remove("hidden");
+
+    } else {
+        // Hide everything when the cart is empty
+        emptyCartMessage.textContent = "You have not added anything yet!";
+        emptyCartMessage.classList.remove("hidden");
+
+        cartContainer.classList.add("hidden");
+        totalBillContainer.classList.add("hidden");
+        paymentContainer.classList.add("hidden");
+        addressContainer.classList.add("hidden");
+        phoneContainer.classList.add("hidden");
+        restaurantContainer.classList.add("hidden");
+        cancellationPolicy.classList.add("hidden");
+    }
+
+    // Remove item from cart
+    cartContainer.addEventListener("click", (event) => {
+        if (event.target.classList.contains("remove-button")) {
+            const index = parseInt(event.target.getAttribute("data-index"));
+            if (!isNaN(index) && index >= 0 && index < cartProducts.length) {
+                cartProducts.splice(index, 1);
+                localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+
+                if (cartProducts.length === 0) {
+                    localStorage.removeItem("cartProducts");
+                    location.reload();
+                } else {
+                    location.reload();
+                }
+            }
+        }
+    });
+
+    // Payment Selection
+    if (paymentButton) {
+        paymentButton.addEventListener("click", () => {
+            openPaymentOptions();
+        });
+    }
+});
+
+function openPaymentOptions() {
+    window.location.href = "payment-options.html"; // Redirect to payment options page
+}
+
+ </script>
+
+<!-- Payment Section (Above Footer) -->
+<div class="payment-container">
+    <div class="payment-left">
+        <strong>Pay Using ▲</strong>
+        <button class="payment-method" id="selected-payment" onclick="openPaymentOptions()">
+            Cash on Delivery
+        </button>
+    </div>
+
+     <!-- Total Amount Near Place Order -->
+     <div class="payment-right">
+        <span class="total-amount-label">Total:</span>
+        <span id="footer-bill-amount" class="total-amount">₹0</span>
+        <button class="place-order" onclick="placeOrder()">Place Order</button>
+    </div>
+</div>
+
+    <script>
+function placeOrder() {
+    let cartProducts = JSON.parse(localStorage.getItem("cartProducts")) || [];
+
+    if (cartProducts.length > 0) {
+        // Store ordered products in localStorage for ordered.html page
+        const existingOrders = JSON.parse(localStorage.getItem("orderedProducts")) || [];
+        const updatedOrders = [...existingOrders, ...cartProducts];
+        localStorage.setItem("orderedProducts", JSON.stringify(updatedOrders));
+
+        // Clear cart after ordering
+        localStorage.removeItem("cartProducts");
+
+        const loadingScreen = document.getElementById("loading-screen");
+        loadingScreen.classList.remove("hidden"); // Show loading screen
+
+        setTimeout(() => {
+            window.location.href = "orderedview.html"; // Redirect to orderedview.html
+        }, 2000); // Loading screen duration (2 seconds for effect)
+    } else {
+        alert("Your cart is empty!"); // Prevents redirect if no items
+    }
+}
+
+    </script>
+    
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+</footer>
+
+
+
+</body>
+</html>

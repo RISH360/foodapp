@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookiees</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F8C7C5;
+            background-image: url('Downloads/candy\ pro.jpg'); /* Use the pattern image */
+            background-repeat: repeat;
+            background-size: contain;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Prevents scrollbars due to animations */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .icon1 {
+    position: relative;
+    left: -10px; /* Move left */
+    top: -40px; /* Move up */
+    width: 180px; /* Increased width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 180px; /* Adjust max height */
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+
+.tagline {
+    font-size: 15px;
+    color: #333;
+    font-style: italic;
+    position: relative;
+    top: -55px; /* Moves it up */
+    right: -45px; /* Moves it to the right */
+    opacity: 0;
+    animation: fadeInUp 1.5s ease-in-out forwards 0.5s;
+}
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        
+.loading-overlay {
+    position: fixed;
+    top: 0px; /* Moves the overlay up */
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background with transparency */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 20px;
+    z-index: 9999; /* Ensure it appears above everything */
+}
+
+.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ffffff;
+    border-top: 4px solid #ff6f6f; /* Highlight spinner */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 600px) {  /* Targets mobile devices */
+    .icon1 {
+        top: -60px; /* Moves it up */
+    }
+    .tagline {
+        top: -77px; /* Moves it up */
+    }
+}
+
+    </style>
+
+    <script>
+   document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(function () {
+        const loadingScreen = document.getElementById("loading-screen");
+        loadingScreen.classList.remove("hidden"); // Show loading screen
+
+        setTimeout(function () {
+            window.location.href = "N-foodloginpage.html"; // Redirect after 5 seconds
+        }, 2000); // Loading screen stays for 5 seconds
+    }, 6000); // Delay increased to 6 seconds for cooking animation
+});
+
+
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <img class="icon1" src="static/Screenshot 2025-02-18 151453 copy.png" alt="Icon 1">
+        <p class="tagline">Love in every bite</p>
+    </div>
+
+    <div id="loading-screen" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <span>Cooking...</span>
+    </div>
+    
+</body>
+</html>
