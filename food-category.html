@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Category</title>
+    <script src="footer.js" defer></script>
+    <style>
+        body {
+            background: #ebadad;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 40px 0 0 0; /* Extra padding at the top */
+            box-sizing: border-box;
+        }
+        
+        
+                /* Back Button */
+                .back-logo {
+                    position: absolute;
+                    top: 30px; /* Adjust as needed */
+                    left: 20px;
+                }
+        
+                .back-loco img {
+                    width: 10px; /* Adjust size as needed */
+                    height: auto;
+                    cursor: pointer;
+                }
+        
+        .category-heading {
+            text-align: center;
+            font-size: 30px; 
+            font-weight: bold;
+            color: #333;
+            margin: 40px 0 20px 0; /* Space above and below */
+            width: 100%;
+        }
+        
+        .category-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px; /* Increased gap for more spacing */
+            justify-content: center;
+            padding: 30px; /* Extra padding for improved spacing */
+        }
+        
+        .category-item {
+            background-color: #fff;
+            border: 3px solid #ebdee4;
+            border-radius: 18px;
+            padding: 15px;
+            width: 350px;
+            height: 400px;
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px; /* Added margin to ensure space below each container */
+        }
+        
+        
+        .category-item:hover {
+            transform: scale(1.05); /* Zoom effect */
+            box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Centered Food Image */
+        .category-item img {
+            width: 160px;
+            height: 160px;
+            border-radius: 15px;
+            margin: 0 auto 12px; /* Center image */
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .category-item:hover img {
+            transform: scale(1.1); /* Slight zoom on hover */
+        }
+        
+        /* Item Name (Hidden Link Look) */
+        .item-name {
+            font-weight: bold;
+            margin-top: 8px;
+            font-size: 22px;
+            color: #000; /* Regular text look */
+            cursor: default; /* Non-clickable */
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit; 
+        }
+        
+        /* Price Styling */
+        .item-price {
+            color: #ff0000;
+            font-weight: bold;
+            margin: 5px 0;
+            font-size: 20px;
+        }
+        
+        /* Smaller Veg/Non-Veg Tags */
+        .type-box {
+            display: inline-block;
+            padding: 2px 8px; /* Reduced padding */
+            font-size: 12px; /* Smaller text */
+            border-radius: 3px;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 5px;
+        }
+        
+        .veg-box {
+            background-color: green;
+        }
+        
+        .nonveg-box {
+            background-color: red;
+        }
+        .footer {
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Increased height */
+            display: flex;
+            justify-content: space-between; /* Ensures no gap */
+            align-items: flex-end;
+            padding: 10px 0; /* Increased padding for better spacing */
+            z-index: 1000; /* Ensures footer stays above other elements */
+        }
+
+        .footer-menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .footer-button {
+            text-decoration: none;
+            color: black;
+            text-align: center;
+            font-size: 14px; /* Improved text readability */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            line-height: 1; /* Ensures no extra spacing between text and image */
+        }
+
+        .footer-button img {
+            width: 24px; /* Larger icons for better visibility */
+            height: 24px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease, transform 0.3s ease; /* Added smooth scaling */
+            margin-bottom: 5px; /* Improved spacing */
+        }
+
+        .footer-button span {
+            margin-top: 8px; /* Better spacing for text */
+        }
+
+        .footer-button:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.1); /* Slight zoom effect on hover */
+        }
+
+        /* Moving Underline */
+        .underline {
+            position: absolute;
+            bottom: 70px; /* Aligned with increased footer height */
+            height: 5px; /* Slightly thicker underline for visibility */
+            background-color: black;
+            width: 50px;
+            transition: transform 0.3s ease, left 0.3s ease;
+        }
+        
+        </style>
+
+    <body>
+        <div id="main-container">
+            <div id="categoryContainer"></div>
+        </div>
+    </body>   
+    
+    <div class="back-logo">
+        <a href="N-foodinterfacepage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+<div id="categoryContainer"></div>
+
+<script>
+const categoryItems = {
+    pizza: [
+    { name: "Momo Mia pizza", price: 349, img: "static/momo-mia-veg.4e51f4733bea47a514c107c9fd2341e3.1.jpg", type: "veg" },
+    { name: "Momo Mia Pizza", price: 319, img: "static/momo-mia-non-veg379d4c86ba9551f194bfc68ad9d77bc51.jpg", type: "non-veg" },
+    { name: "Peppy Paneer pizza", price: 299, img: "static/Peppy_Paneer.jpg", type: "veg" },
+    { name: "Chicken Golden Delight pizza", price: 299, img: "static/MicrosoftTeams-image_(14).png", type: "non-veg" },
+    { name: "Veg Extravaganza pizza", price: 299, img: "static/Veg_Extravaganz.jpg", type: "veg" },
+    { name: "Margherita pizza", price: 369, img: "static/Margherit.jpg", type: "veg" },
+    { name: "Double Cheese Margherita pizza", price: 349, img: "static/Double_Cheese_Margherita.jpg", type: "veg" },
+    { name: "Supreme pizza", price: 319, img: "static/MicrosoftTeams-image_(13).png", type: "non-veg" },
+    { name: "Chicken Dominator pizza", price: 349, img: "static/MicrosoftTeams-image_(11).png", type: "non-veg" },
+    { name: "Farm House pizza", price: 369, img: "static/Farmhouse.jpg", type: "veg" },
+    { name: "Pepper Barbecue Chicken pizza", price: 369, img: "static/MicrosoftTeams-image_(15).png", type: "non-veg" },
+    { name: "Mexican Green Wave pizza", price: 349, img: "static/Mexican_Green_Wave.jpg", type: "veg" },
+    { name: "Chicken Sausage pizza", price: 319, img: "static/MicrosoftTeams-image_(17).png", type: "non-veg" },
+    { name: "Chicken Fiesta pizza", price: 369, img: "static/MicrosoftTeams-image_(10).png", type: "non-veg" }
+    ],
+    Burger: [
+    { name: "Crispy Chicken Burger", price: 349, img: "static/crispy-chicken-burger-3b4f47d62f7d58bef17dd8aa1f932c3d.png", type: "non-veg" },
+    { name: "burger and potato fries dish", price: 299, img: "static/pngegg (11).png", type: "veg" },
+    { name: "Delicious Beef Burger", price: 359, img: "static/delicious-beef-burger-05c72cc08b933716e4cc97cb9656089c.png", type: "non-veg" },
+    { name: "Cheese Burger Whooper Buffalo", price: 369, img: "static/cheeseburger-whopper-buffalo-wing-street-food-french-fries-chicken-tikka-burger-20160507d6794d972c6675e2ca3bba4a.png", type: "non-veg" }
+    ],
+    KFC: [
+    { name: "KFC Chicken Nuggets, Crispy Fried Chicken", price: 349, img: "static/pngwing.com (4).png", type: "non-veg" },
+    { name: "KFC Korean Fried Chicken", price: 369, img: "static/pngwing.com (5).png", type: "non-veg" },
+    { name: "KFC Full Meal Bundle", price: 299, img: "static/pngwing.com (7).png", type: "non-veg" },
+    { name: "KFC Chicken Bundle, Large", price: 279, img: "static/pngwing.com (10).png", type: "non-veg" },
+    { name: "KFC Fried Chicken Bundle, Medium", price: 349, img: "static/pngwing.com (8).png", type: "non-veg" }
+    ],
+    Sandwich: [
+    { name: "Sandwich", price: 30, img: "static/pngwing.com (25).png", type: "veg" },
+    { name: "Sandwich", price: 40, img: "static/pngwing.com (25).png", type: "non-veg" }
+
+    ],
+    Fries: [ 
+    { name: "French fries Potato chip", price: 349, img: "static/pngegg (10).png", type: "veg" },
+    { name: "French fries, medium", price: 349, img: "static/pngegg (12).png", type: "veg" },
+    { name: "French fries in red sachet", price: 369, img: "static/pngegg (13).png", type: "veg" },
+    { name: "Salchipapas French fries", price: 299, img: "static/pngwing.com - 2025-03-08T010831.123.png", type: "veg" },
+    { name: "Burger and potato fries dish", price: 299, img: "static/pngegg (11).png", type: "veg" }
+
+    ], 
+    Noodles: [
+    { name: "Chicken Noodles", price: 289, img: "static/pngwing.com.png", type: "non-veg" },
+    { name: "Ramen Chinese Noodles", price: 299, img: "static/pngwing.com (94).png", type: "veg" },
+    { name: "Fried Seafood Noodles", price: 369, img: "static/pngwing.com (95).png", type: "veg" },
+    { name: "Fried Chicken Egg Noodles", price: 299, img: "static/pngegg (3).png", type: "non-veg" },
+    { name: "Chinese Noodles Yakisoba", price: 329, img: "static/pngegg (4).png", type: "non-veg" },
+    { name: "Chow Mein Chinese Noodles", price: 369, img: "static/pngwing.com (96).png", type: "veg"},
+    { name: "Laksa Braised Noodles", price: 369, img: "static/pngwing.com (97).png", type: "veg" },
+    { name: "Dandan Noodles", price: 369, img: "static/pngwing.com (98).png", type: "veg"},
+    { name: "Chow Mein Lo Mein Biryani Chinese Noodles", price: 299, img: "static/pngwing.com (99).png", type: "veg" }
+
+    ],
+
+    Shawarma: [
+    { name: "Shawarma", price: 100, img: "static/pngwing.com (33).png", type: "non-veg" }
+
+    ], 
+    Pasta: [
+    { name: "Pasta", price: 49, img: "static/pngwing.com (34).png", type: "veg" },
+    { name: "Pasta", price: 69, img: "static/pngwing.com (34).png", type: "non-veg" }
+
+    ], 
+    Salad: [
+    { name: "Salad", price: 79, img: "static/pngwing.com (35).png", type:"veg" },
+
+    ], 
+    Biriyani: [
+    { name: "Chicken Biriyani", price: 329, img: "static/pngwing.com (22).png", type: "non-veg" },
+    { name: "Hyaderabhadi Chicken Biriyani", price: 359, img: "static/pngwing.com (3).png", type: "non-veg" },
+    { name: "Chow mein Lo mein Biriyani Chinese noodles", price: 299, img: "static/pngwing.com (99).png", type: "veg" }
+
+    ], 
+    Chicken: [
+    { name: "Tandoori Chicken", price: 369, img: "static/pngegg (1).png", type: "non-veg" },
+    { name: "Grilled Chicken", price: 349, img: "static/pngegg (2).png", type: "non-veg" },
+
+    ],
+    Parotta: [
+    { name: "Parotta", price: 349, img: "static/pngwing.com - 2025-03-08T005559.901.png", type: "veg" },
+
+    ],
+    FriedRice: [
+    { name: "Thai fried rice Chinese cuisine", price: 369, img: "static/pngegg (7).png", type: "veg" },
+    { name: "Yangzhou fried rice", price: 299, img: "static/pngegg (8).png", type: "veg" },
+    { name: "Thai fried rice", price: 299, img: "static/pngegg (9).png", type: "veg" },
+    { name: "Fried rice with carrots and green peas", price: 299, img: "static/pngegg (14).png", type: "veg" }
+
+    ],
+    Idile: [
+    { name: "Idile",price: 10, img: "static/—Pngtree—idly with sambar and chutney_9171058.png", type: "veg" },
+
+    ],
+    Puri: [
+    { name: "Puri",price: 20, img: "static/pngwing.com (26).png", type: "veg"},
+
+    ],
+    Paratha: [
+    { name: "Paratha", price: 45, img: "static/pngwing.com (36).png", type:"veg" },
+
+    ],
+    Manchurian: [
+    { name: "Manchurian",price: 120, img: "static/pngwing.com (43).png", type: "veg" },
+
+    ],
+    Keema: [
+    { name: "Keema",price: 49, img: "static/pngwing.com (44).png", type: "veg" },
+
+    ],
+    FishFry: [
+    { name: "Fish Fry", price: 289, img: "static/pngwing.com (37).png", type: "non-veg" },
+
+    ],
+    Thali: [
+    { name: "Thali", price: 99, img: "static/pngwing.com (39).png", type: "veg" },
+
+    ],
+    Paneer: [
+    { name: "Mattar paneer Indian cuisine Paneer tikka masala", price: 349, img: "static/pngwing.com (78).png", type: "non-veg" },
+    { name: "Mattar paneer", price: 369, img: "static/pngwing.com - 2025-03-08T004450.985.png", type: "veg" },
+    { name: "Palak paneer", price: 369, img: "static/pngwing.com - 2025-03-08T004606.928.png", type: "veg" }, 
+   
+    ],
+    Appam: [
+    { name: "Appam with egg curry", price: 369, img: "static/pngwing.com - 2025-03-08T005559.901.png", type: "veg"},
+
+    ],
+    Mutton: [
+    { name: "Mutton Curry", price: 299, img: "static/pngwing.com (2).png", type: "non-veg" },
+    ],
+    Prawns: [
+    { name: "Prawns",price: 79, img: "static/pngwing.com (42).png", type: "non-veg" },
+    ],
+    CupCake: [
+    { name: "Cup Cake",price: 30, img: "static/pngwing.com (32).png", type: "veg" },
+    ],
+    Cake: [
+    { name: "Cake",price: 50, img: "static/pngwing.com (45).png", type: "veg" },
+    ],
+    Pastry: [
+    { name: "Pastry",price: 67, img: "static/pngwing.com (55).png", type: "veg" },
+   ],
+   Milkshake: [
+   { name: "Milkshake",price: 80, img: "static/pngwing.com (47).png", type: "veg" },
+   ],
+   Doughnut: [
+   { name: "Doughnut",price: 89, img: "static/pngwing.com (54).png", type: "veg" },
+   ],
+   Pudding: [
+   { name: "Pudding",price: 69, img: "static/pngwing.com (56).png", type: "veg" },
+   ],
+   IceCream: [
+   { name: "Ice Cream",price: 99, img: "static/pngwing.com (46).png", type: "veg" },
+   ],
+   Falooda: [
+   { name: "Falooda",price: 130, img: "static/pngwing.com (49).png", type: "veg" },
+   ],
+   Juice: [
+   { name: "Juice",price: 60, img: "static/pngwing.com (48).png", type: "veg" },
+   ],
+    Sundae: [
+    { name: "Sundae",price: 75, img: "static/pngwing.com (53).png", type: "veg" },
+    ],
+    Lassi: [
+    { name: "Lassi",price: 69, img: "static/pngwing.com (50).png", type: "veg" },
+    ],
+    Muffin: [
+    { name: "Muffin",price: 50, img: "static/pngwing.com (57).png", type: "veg" },
+    ],
+    Brownie: [
+    { name: "Brownie",price: 52, img: "static/pngwing.com (52).png", type: "veg" },
+    ],
+    Mousse: [
+    { name: "Mousse",price: 68, img: "static/pngwing.com (51).png", type: "veg" },
+    ],
+    Tiramisu: [
+    { name: "Tiramisu",price: 55, img: "static/pngwing.com (58).png", type: "veg" },
+    ],
+    Tea: [
+    { name: "Tea",price: 15, img: "static/pngwing.com (59).png", type: "veg" },
+    ],
+    Coffee: [
+    { name: "Coffee",price: 35, img: "static/pngwing.com (60).png", type: "veg" },
+    ],
+    Vada: [
+    { name: "Vada",price: 15, img: "static/pngwing.com (66).png", type: "veg" },
+    ],
+    Starbucks: [
+    { name: "Starbucks",price: 150, img: "static/pngwing.com (61).png", type: "veg" },
+    ],
+    Cutlet: [
+    { name: "Cutlet",price: 20, img: "static/pngwing.com (67).png", type: "veg" },
+    { name: "Cutlet",price: 25, img: "static/pngwing.com (67).png", type: "non-veg" },
+    ],
+    Soup: [
+    { name: "Soup",price: 49, img: "static/pngwing.com (65).png", type: "veg" },
+    { name: "Soup",price: 69, img: "static/pngwing.com (65).png", type: "non-veg" },
+    ],
+    Steak: [
+    { name: "Steak",price: 56, img: "static/pngwing.com (70).png", type: "veg" },
+    ],
+    Cookies: [
+    { name: "Cookies", price: 25,img: "static/pngwing.com (72).png", type: "veg" },
+    ],
+    Samosa: [
+    { name: "Samosa",price: 15, img: "static/pngwing.com (64).png", type: "veg" },
+    { name: "Samosa",price: 25, img: "static/pngwing.com (64).png", type: "non-veg" },
+    ],
+    ChickenRolls: [
+    { name: "Chicken Rolls",price: 35, img: "static/pngwing.com (63).png", type: "non-veg" },
+    { name: "Rolls",price: 25, img: "static/pngwing.com (63).png", type: "veg" },
+    ],
+    PavBhaji: [
+    { name: "Pav Bhaji",price: 45, img: "static/pngwing.com (69).png", type: "veg" },
+    ],
+    Tacos: [
+    { name: "Tacos",price: 50, img: "static/pngwing.com (74).png", type: "veg" },
+    ],
+    PazhamPuri: [
+    { name: "Pazham Puri",price: 25, img: "static/pngwing.com (68).png", type: "veg" },
+    ],
+    Puffs: [
+    { name: "Puffs",price: 25, img: "static/pngwing.com (75).png", type: "veg" },
+    { name: "Puffs",price: 30, img: "static/pngwing.com (75).png", type: "non-veg" },
+    ],
+    HotDogs: [
+    { name: "Hot Dogs",price: 69, img: "static/pngwing.com (77).png", type: "veg" },
+    ],
+    Kebabs: [
+    { name: "Kebabs",price: 63, img: "static/pngwing.com (71).png", type: "veg" },
+    ],
+    Nachos: [
+    { name: "Nachos",price: 45, img: "static/pngwing.com (73).png", type: "veg" },
+    ],
+    Chaap: [
+    { name: "Chaap",price: 57, img: "static/pngwing.com (76).png", type: "veg" }
+    ],
+
+};
+// Extract category from URL
+const params = new URLSearchParams(window.location.search);
+const category = params.get('category');
+
+// Display category name above the container
+const categoryContainer = document.getElementById("categoryContainer");
+
+// Add category heading inside #main-container
+if (categoryItems[category]) {
+    const categoryHeading = document.createElement("h1");
+    categoryHeading.textContent = category.toUpperCase();
+    categoryHeading.classList.add("category-heading");
+
+    // Insert heading inside #main-container at the top
+    const mainContainer = document.getElementById("main-container");
+    mainContainer.insertBefore(categoryHeading, categoryContainer);
+
+    categoryItems[category].forEach((item) => {
+    const itemLink = document.createElement("a");
+    itemLink.href = `food-details.html?name=${encodeURIComponent(item.name)}&price=${item.price}&img=${encodeURIComponent(item.img)}&type=${item.type}`;
+    itemLink.classList.add("category-item");
+
+    itemLink.innerHTML = `
+        <img src="${item.img}" alt="${item.name}">
+        <div class="item-name">${item.name}</div>
+        <div class="item-price">₹${item.price || 'N/A'}</div>
+        <div class="type-box ${item.type === 'veg' ? 'veg-box' : 'nonveg-box'}">
+            ${item.type.toUpperCase()}
+        </div>
+    `;
+
+    categoryContainer.appendChild(itemLink);
+});
+
+    
+} else {
+    categoryContainer.innerHTML = "<p>No items found for this category.</p>";
+}
+
+
+</script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+</footer>
+    </body>
+</head>
+</html>
