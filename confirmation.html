@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Deletion Requested</title>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+        body {
+            font-family: "Alike Angular", sans-serif;
+            background: #ebadad;
+            padding: 40px 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        /* Back Button */
+        .back-logo {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+        }
+
+        .back-logo img {
+            width: 10px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            background: #f72222;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin: 10px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background: #c40000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="deleteaccount.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <div class="container">
+        <h1>You Requested the Deletion of Your Account</h1>
+        <p>Your account will be permanently deleted. If you change your mind, go back to settings.</p>
+
+        <button class="button">Delete My Account</button>
+        <button class="button" onclick="location.href='settings.html'">Back to Settings</button>
+    </div>
+
+</body>
+</html>

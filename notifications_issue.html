@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Too Many Communications</title>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+        body {
+            font-family: "Alike Angular", sans-serif;
+            background: #ebadad;
+            padding: 40px 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        /* Back Button */
+        .back-logo {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+        }
+
+        .back-logo img {
+            width: 10px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .option:hover {
+            background: #ddd;
+        }
+    </style>
+    <script>
+        function showNotificationInstructions() {
+            let userAgent = navigator.userAgent.toLowerCase();
+
+            if (userAgent.includes("chrome")) {
+                alert("To turn off notifications in Chrome:\n1. Open Chrome.\n2. Go to Settings > Privacy and Security.\n3. Click 'Site Settings' > 'Notifications'.\n4. Block or remove unwanted sites.");
+            } else if (userAgent.includes("firefox")) {
+                alert("To turn off notifications in Firefox:\n1. Open Firefox.\n2. Go to Settings > Privacy & Security.\n3. Scroll to 'Permissions' and click 'Notifications'.\n4. Block or remove unwanted sites.");
+            } else if (userAgent.includes("edg")) { // Microsoft Edge
+                alert("To turn off notifications in Edge:\n1. Open Edge.\n2. Go to Settings > Cookies & Site Permissions.\n3. Click 'Notifications' and block unwanted sites.");
+            } else {
+                alert("Please check your browser settings to turn off notifications.");
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="deleteaccount.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <div class="container">
+        <h1>Too Many Communications from Us?</h1>
+        <p>You can either edit your notification settings or proceed with deletion.</p>
+
+        <div class="option" onclick="showNotificationInstructions()">Edit Notification Settings</div>
+        <div class="option" onclick="location.href='confirmation.html'">Continue with Deletion</div>
+    </div>
+
+</body>
+</html>

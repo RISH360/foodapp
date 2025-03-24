@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: #ebadad;
+}
+
+
+           /* Back Button */
+           .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+
+.container {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    margin-top: 80px; /* Added margin-top to move the container down */
+}
+
+    
+        .coupon-message {
+            background-color: #fffbcc;
+            border: 1px solid #ffcc00;
+            color: #333;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    
+        .scratch-card {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+    
+        .scratch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #999;
+            text-align: center;
+            line-height: 120px;
+            font-weight: bold;
+            color: #fff;
+        }
+    
+        .scratch-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            text-align: center;
+            line-height: 120px;
+            font-weight: bold;
+            color: #4CAF50;
+            visibility: hidden;
+        }
+    
+        .scratch-reveal {
+            visibility: visible;
+            animation: fadeIn 1s ease forwards;
+        }
+    
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Button Styles */
+        button {
+            background: #fcb0b0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #ff9797;
+        }
+    
+    </style>
+    
+    <body>
+
+        <div class="back-logo">
+            <a href="N-foodinterfacepage.html" class="back-log">
+                <div class="back-loco">
+                    <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+                </div>
+            </a>
+        </div>
+    
+        <div class="container">
+            <h2>Your Order Has Been Placed Successfully!</h2>
+            <p>Thank you for ordering with us.</p>
+    
+            <div id="couponMessage" class="coupon-message">
+                Loading your coupon...
+            </div>
+    
+            <div class="scratch-card" id="scratchCard">
+                <div class="scratch-overlay">Scratch Here!</div>
+                <div class="scratch-content" id="scratchContent">Your Code: <span id="couponCode">XXXX-XXXX</span></div>
+            </div>
+    
+            <button class="track-order" onclick="trackOrder()">Track Your Order</button>
+        </div>
+    
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const couponMessage = document.getElementById("couponMessage");
+                const scratchCard = document.getElementById("scratchCard");
+                const scratchContent = document.getElementById("scratchContent");
+                const couponCode = document.getElementById("couponCode");
+    
+                const selectedCoupon = localStorage.getItem("selectedCoupon");
+    
+                // List of 5 different random codes
+                const couponCodes = [
+                    "SAVE10OFF",
+                    "DEAL20",
+                    "LUCKY50",
+                    "EXTRA30",
+                    "HOTDEAL100"
+                ];
+    
+                if (selectedCoupon) {
+                    const [imagePath, text] = selectedCoupon.split(" - ");
+                    couponMessage.innerHTML = `<img src="${imagePath.trim()}" alt="Coupon" style="width: 100px; border-radius: 8px; margin-bottom: 10px;"> <br>${text.trim()}`;
+    
+                    // Select a random coupon code
+                    const randomCode = couponCodes[Math.floor(Math.random() * couponCodes.length)];
+                    couponCode.textContent = randomCode;
+    
+                    // Store coupon details in localStorage for later viewing
+                    const couponDetails = { imagePath: imagePath.trim(), text: text.trim(), code: randomCode };
+                    localStorage.setItem("storedCoupon", JSON.stringify(couponDetails));
+    
+                    // Scratch card reveal
+                    scratchCard.addEventListener("click", function () {
+                        scratchCard.querySelector('.scratch-overlay').style.display = "none";
+                        scratchContent.classList.add("scratch-reveal");
+    
+                        // Add "Copy Code" button
+                        const copyButton = document.createElement("button");
+                        copyButton.textContent = "Copy Code";
+                        copyButton.style.marginTop = "10px";
+                        copyButton.onclick = function () {
+                            navigator.clipboard.writeText(randomCode).then(() => {
+                                alert("Coupon code copied successfully!");
+                            });
+                        };
+                        scratchContent.appendChild(copyButton);
+                    });
+    
+                } else {
+                    couponMessage.textContent = "No coupons available.";
+                    scratchCard.style.display = "none"; // Hide scratch card if no coupon
+                }
+            });
+    
+            function trackOrder() {
+                window.location.href = "trackorder.html";
+            }
+        </script>
+    </body>
+    
+</html>
