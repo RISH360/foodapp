@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Feedback</title>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+        body {
+            font-family: "Alike Angular", sans-serif;
+            background: #ebadad;
+            padding: 40px 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        /* Back Button */
+        .back-logo {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+        }
+
+        .back-logo img {
+            width: 10px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            margin-top: 20px; /* Added margin-top to move it down */
+}     
+
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: center;
+            color: black;
+        }
+
+        textarea {
+    width: calc(100% - 10px); /* Reduce width slightly */
+    max-width: 95%; /* Ensures it doesn't stretch fully */
+    height: 120px;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+        .button {
+            background: #fcb0b0;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #ff9797;
+        }
+
+        .thank-you {
+            display: none;
+            margin-top: 15px;
+            font-size: 18px;
+            color: rgb(228, 26, 26);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Dark Mode - Container */
+.dark-mode .container {
+    background: #222; /* Dark background */
+    color: #fff; /* White text */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Soft white glow */
+}
+
+/* Dark Mode - Header */
+.dark-mode h1 {
+    color: #f8f8f8; /* Slightly off-white for better contrast */
+}
+
+/* Dark Mode - Textarea */
+.dark-mode textarea {
+    background: #333; /* Dark input background */
+    color: #fff; /* White text */
+    border: 1px solid #555; /* Dark border */
+}
+
+/* Dark Mode - Button */
+.dark-mode .button {
+    background: #d9534f; /* Darker red */
+    color: white;
+}
+
+.dark-mode .button:hover {
+    background-color: #c9302c; /* Even darker red */
+}
+
+/* Dark Mode - Thank You Message */
+.dark-mode .thank-you {
+    color: #ff4444; /* Bright red message */
+}
+
+    </style>
+    <script>
+        function submitFeedback() {
+            var message = document.getElementById("feedback-message").value.trim();
+            var thankYouMessage = document.getElementById("thank-you");
+
+            if (message === "") {
+                alert("Please enter your feedback before submitting.");
+                return false;
+            }
+
+            thankYouMessage.style.display = "block"; // Show thank-you message
+            document.getElementById("feedback-form").reset(); // Clear the textarea
+            return false; // Prevent page reload
+        }
+    </script>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="settings.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <div class="container">
+        <h1>Send Feedback</h1>
+        <form id="feedback-form">
+            <label for="feedback-message">Your Feedback:</label>
+            <textarea id="feedback-message" placeholder="Write your message here..."></textarea>
+            <button class="button" onclick="return submitFeedback()">Submit</button>
+        </form>
+        <p id="thank-you" class="thank-you">Thank you for your feedback!</p>
+    </div>
+
+</body>
+</html>

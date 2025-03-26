@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title>
+    <script src="footer.js" defer></script>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+   /* Body Styling */
+   body {
+    background: #ebadad;
+    font-family: Arial, sans-serif;
+    text-align: center; /* Center content inside body */
+    padding: 5px;
+    padding-top: 60px;
+    padding-bottom: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+
+.order-food-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px; /* Space below the title */
+    text-align: center; /* Ensure the title is centered */
+    width: 100%; /* Make sure the width is full */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    margin: 0 auto; /* Ensure it is centered */
+    margin-top: 20px;
+}
+
+
+/* Back Button */
+.back-logo {
+    position: absolute;
+    top: 30px; /* Adjust as needed */
+    left: 20px;
+}
+
+.back-loco img {
+    width: 10px; /* Adjust size as needed */
+    height: auto;
+    cursor: pointer;
+}
+
+/* Event Container Styles */
+.event-container {
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+}
+
+.event-img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.book-btn {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.event-artist {
+    font-size: 16px;
+    color: #000000;
+    margin: 10px 0;
+}
+.event-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: red; /* Highlight price */
+}
+
+
+/* Content Container for Event */
+.content-container {
+    background-color: white; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Padding for spacing */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-top: 20px; /* Space between header and content */
+    max-width: 900px;
+    margin: 20px auto; /* Center it */
+}
+
+/* Event Details Container */
+.details-container {
+    margin-top: 20px;
+}
+
+/* Food Section Container */
+.food-section-container {
+    background-color: white; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-top: 20px;
+    max-width: 900px;
+    margin: 20px auto; /* Center it */
+}
+
+/* Food Section */
+.food-section {
+    margin-top: 30px;
+}
+
+.food-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+.add-to-cart {
+    background-color: green;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1;
+}
+
+.footer-button img {
+    width: 24px;
+    height: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease;
+    margin-bottom: 5px;
+}
+
+.footer-button span {
+    margin-top: 8px;
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1);
+}
+
+.underline {
+    position: absolute;
+    bottom: 70px;
+    height: 5px;
+    background-color: black;
+    width: 50px;
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="liveevent.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+   <!-- White Container for Event -->
+<div class="content-container">
+    <div class="event-container">
+        <img id="event-img" class="event-img" alt="Event Image">
+        <h2 id="event-title">Event Title</h2>
+        <p id="event-description">Event description will go here.</p>
+        
+        <div class="event-price" id="event-price">₹0</div>  <!-- Price moved above button and colored red -->
+        
+        <!-- Artist Name -->
+        <p class="event-artist"><strong>Performing Artist:</strong> <span id="event-artist"></span></p>
+        
+        <a href="payment-options-card.html">
+            <button class="book-btn">Book Now</button>
+        </a>
+        
+    </div>
+
+    <div class="details-container">
+        <h3>Event Details</h3>
+        <p id="event-details">More details about the event...</p>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let eventData = JSON.parse(localStorage.getItem("selectedEvent"));
+
+    if (eventData) {
+        document.getElementById("event-img").src = eventData.image;
+        document.getElementById("event-title").textContent = eventData.title;
+        document.getElementById("event-description").textContent = eventData.description;
+        document.getElementById("event-price").textContent = eventData.price;
+        document.getElementById("event-details").textContent = eventData.details;
+        document.getElementById("event-artist").textContent = eventData.artist;  // Displaying artist name
+    }
+});
+</script>
+
+</body>
+</html>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+</body>
+</html>
