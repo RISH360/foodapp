@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money</title>
+    <script src="footer.js" defer></script>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            background: #ebadad;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            justify-content: center;
+        }
+
+        /* Back Button */
+        .back-logo {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        /* Settings Icon */
+        .settings-icon {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+            cursor: pointer;
+        }
+
+        .settings-icon img {
+            width: 25px;
+        }
+
+      /* Dropdown Menu */
+.dropdown {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 180px;
+    display: none;
+    flex-direction: column;
+    overflow: hidden; /* Ensures content stays inside */
+}
+
+/* Dropdown items */
+.dropdown a, .dropdown button {
+    padding: 10px;
+    text-align: left;
+    width: calc(100% - 20px); /* Prevents overflow */
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+/* Hover Effect Fix */
+.dropdown a:hover, .dropdown button:hover {
+    background: #f1f1f1;
+    width: 100%; /* Ensures background fills without overflow */
+}
+
+        .dropdown button.delete-btn {
+            color: red;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            display: none;
+        }
+
+        .money-container {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: red;
+            font-weight: bold;
+        }
+
+  /* Cookie UPI Section */
+.cookie-upi-container {
+    margin-top: 20px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    display: none; /* Hidden by default */
+}
+
+/* Moves the Cookie UPI link to the right */
+.cookie-upi-container h3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Button Styling */
+.cookie-upi-container a {
+    background-color: white; /* White background */
+    color: red; /* Red text */
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: inline-block;
+    font-weight: bold;
+    border: 2px solid red; /* Red border */
+}
+
+/* Hover effect */
+.cookie-upi-container a:hover {
+    background-color: #f8d7da; /* Light red background */
+}
+
+        /* Account not found message */
+        .message {
+            text-align: center;
+            color: gray;
+            font-weight: bold;
+            margin-bottom: 5px;
+            margin-top: -300px;
+        }
+
+        .create-account-btn {
+            background-color: #ff5c5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .create-account-btn:hover {
+            background-color: #e04a4a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="profile.html">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+  <!-- Settings Icon -->
+<div class="settings-icon" onclick="toggleDropdown()">
+    <img src="static/settings_3524636.png" alt="Settings">
+</div>
+
+<!-- Dropdown Menu -->
+<div class="dropdown" id="settings-dropdown">
+    <a href="accountDetails.html">Account Details</a>
+    <a href="#">Option 2</a>
+    <a href="#">Option 3</a>
+    <a href="#">Option 4</a>
+    <a href="#">Option 5</a>
+    <button class="delete-btn" onclick="deleteAccount()">Delete Account</button>
+</div>
+
+<!-- Message and Create Account Button -->
+<p class="message" id="account-message">You don't have a cookie account.</p>
+<button class="create-account-btn" id="create-account-btn" onclick="redirectToCreateAccount()">Create Account</button>
+
+<!-- Money Container -->
+<div class="container" id="money-container">
+    <div class="money-container">
+        <span>Money:</span> 
+        <span class="price" id="money-value">₹0</span>
+    </div>
+</div>
+
+<!-- Cookie UPI Container (Hidden if no account) -->
+<div class="cookie-upi-container" id="cookie-upi-link-container">
+    <h3>Cookie UPI <a href="cookieaddbankaccount.html" class="cookie-upi-link">Link</a></h3>
+</div>
+
+<!-- Add Money Container (Hidden if no account) -->
+<div class="cookie-upi-container" id="cookie-add-money-container">
+    <h3>Add Money <a href="cookieUPI.html" class="cookie-upi-link">Add</a></h3>
+</div>
+
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    let accountExists = localStorage.getItem("cookieAccountCreated");
+
+    if (accountExists) {
+        document.getElementById("account-message").style.display = "none";
+        document.getElementById("create-account-btn").style.display = "none";
+        document.getElementById("money-container").style.display = "block";
+        
+        // Show both Cookie UPI and Add Money containers
+        document.getElementById("cookie-upi-link-container").style.display = "block";
+        document.getElementById("cookie-add-money-container").style.display = "block"; 
+
+        let money = localStorage.getItem("cookieMoney") || "0";
+        document.getElementById("money-value").textContent = `₹${money}`;
+    } else {
+        // Hide both containers if no account
+        document.getElementById("cookie-upi-link-container").style.display = "none";
+        document.getElementById("cookie-add-money-container").style.display = "none";
+    }
+});
+
+// Redirect to account creation page
+function redirectToCreateAccount() {
+    window.location.href = "cookiecreateaccount.html";
+}
+
+// Delete account and reset UI
+function deleteAccount() {
+    localStorage.removeItem("cookieAccountCreated");
+    localStorage.removeItem("cookieMoney");
+
+    // Redirect to user delete confirmation page
+    window.location.href = "userdeletecnfrm.html";
+
+    document.getElementById("account-message").style.display = "block";
+    document.getElementById("create-account-btn").style.display = "inline-block";
+    document.getElementById("money-container").style.display = "none";
+    document.getElementById("cookie-upi-link-container").style.display = "none"; 
+    document.getElementById("cookie-add-money-container").style.display = "none";
+}
+
+// Toggle dropdown menu visibility
+function toggleDropdown() {
+    let dropdown = document.getElementById("settings-dropdown");
+    dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+}
+
+</script>
+
+</body>
+</html>

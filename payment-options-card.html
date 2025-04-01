@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Options gift card</title>
+    <script src="footer.js" defer></script>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #ebadad;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px;
+    padding-bottom: 100px;
+    flex-direction: column;
+}
+
+
+          /* Back Button */
+          .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+/* Payment Containers */
+/* Default Styling */
+.payment-option, .payment-container {
+    height: 20px;
+    background-color: white;
+    width: 90%;
+    max-width: 400px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px auto; /* Centers the container */
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    align-items: center; /* Aligns items in a row */
+}
+
+/* Mobile View (Screens smaller than 600px) */
+@media (max-width: 600px) {
+    .payment-option, .payment-container {
+        width: 85%; /* Reduce width for more edge gap */
+        padding-left: 15px;  /* Adjust padding for better spacing */
+        padding-right: 15px;
+    }
+}
+
+
+/* Payment Option Images */
+.payment-option img {
+    width: 40px; /* Adjust image size */
+    height: auto;
+    margin-right: 15px; /* Space between image and text */
+}
+
+/* Payment Option Text */
+.payment-text {
+    flex-grow: 1; /* Allows text to take remaining space */
+    font-size: 16px;
+    color: black;
+    text-align: left;
+}
+
+/* Buttons (Aligned to the Right) */
+button {
+    background-color: white;
+    color: rgb(255, 123, 123);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: rgb(255, 123, 123);
+    color: white;
+}
+
+/* Payment Section Titles */
+h3 {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #555;
+    text-align: left;
+    width: 90%;
+    max-width: 400px;
+}
+
+/* Divider */
+hr {
+    width: 90%;
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+    margin: 15px auto;
+}
+
+
+/* Payment Option Images */
+.payment-option img {
+    width: 40px; /* Adjust image size */
+    height: auto;
+    margin-left: 10px; /* Space between text and image */
+}
+
+
+.footer {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Increased height */
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 10px 0; /* Increased padding for better spacing */
+    z-index: 1000; /* Ensures footer stays above other elements */
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 14px; /* Improved text readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 24px; /* Larger icons for better visibility */
+    height: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease; /* Added smooth scaling */
+    margin-bottom: 5px; /* Improved spacing */
+}
+
+.footer-button span {
+    margin-top: 8px; /* Better spacing for text */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 70px; /* Aligned with increased footer height */
+    height: 5px; /* Slightly thicker underline for visibility */
+    background-color: black;
+    width: 50px;
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+/* Dark Mode - Payment Containers */
+.dark-mode .payment-option, 
+.dark-mode .payment-container {
+    background-color: #222; /* Dark background */
+    box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.1); /* Subtle white shadow */
+}
+
+/* Dark Mode - Payment Option Text */
+.dark-mode .payment-text {
+    color: #fff; /* White text */
+}
+
+/* Dark Mode - Buttons */
+.dark-mode button {
+    background-color: #333;
+    color: #ff7777;
+}
+
+.dark-mode button:hover {
+    background-color: #ff7777;
+    color: white;
+}
+
+/* Dark Mode - Payment Section Titles */
+.dark-mode h3 {
+    color: #ddd;
+}
+
+/* Dark Mode - Divider */
+.dark-mode hr {
+    background-color: #555; /* Darker gray divider */
+}
+
+/* Dark Mode - Payment Option Images */
+.dark-mode .payment-option img {
+    filter: brightness(0.8); /* Slightly darkens images */
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="cardpayment.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <h2>Select Payment Method</h2>
+
+<!-- Google Pay UPI -->
+<div class="payment-option">
+    <img src="static/pngwing.com (81).png" alt="Google Pay"> 
+    <span class="payment-text">Google Pay UPI</span>
+    <button onclick="openPage('google-pay.html')">Add Google Pay</button>
+</div>
+
+<!-- Credit/Debit Card -->
+<div class="payment-option">
+    <img src="static/pngwing.com (84).png" alt="Credit Card"> 
+    <span class="payment-text">Credit or Debit Card</span>
+    <button onclick="openPage('credit-debit-card.html')">Add Card</button>
+</div>
+
+<!-- Paytm UPI -->
+<div class="payment-option">
+    <img src="static/pngwing.com (85).png" alt="Paytm">
+    <span class="payment-text">Paytm UPI</span>
+    <button onclick="openPage('paytm.html')">Add Paytm</button>
+</div>
+
+<!-- Cookie Pay Balance -->
+<div class="payment-option">
+    <img src="static/Picsart_25-03-06_14-08-38-557.png" alt="Cookie Pay">
+    <span class="payment-text">Cookie Pay Balance</span>
+    <button onclick="openPage('cookie-pay.html')">Add Cookie Pay</button>
+</div>
+
+<script>
+    function selectPayment(method) {
+        localStorage.setItem("selectedPaymentCardMethod", method); // New storage key
+        window.location.href = "cardpayment.html"; // Redirect back to payment page
+    }
+
+    function openPage(page) {
+        window.location.href = page; // Open respective payment method page
+    }
+</script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+</body>
+</html>

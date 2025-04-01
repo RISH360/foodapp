@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Number</title>
+    <script src="footer.js" defer></script>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+   /* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    background: #ebadad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    height: 100vh;
+    justify-content: center;
+}
+
+          /* Back Button */
+         .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+/* White Container */
+.white-container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    margin-bottom: 150px;
+    margin-top: -100px; /* Moves the container slightly up */
+}
+
+/* Input Fields */
+.input-field {
+    width: 90%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: border-color 0.3s ease-in-out;
+}
+
+input:focus {
+        border: 2px solid rgb(255, 172, 172); /* Change this color */
+        outline: none; /* Removes the default blue outline */
+    }
+
+/* Buttons */
+.update-btn, .otp-btn {
+    background: #fcb0b0; /* Button background color */
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 30%;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+    border: none;
+}
+
+.update-btn:hover, .otp-btn:hover {
+    background-color: #ff9797;
+
+}
+
+.footer {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Increased height */
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 10px 0; /* Increased padding for better spacing */
+    z-index: 1000; /* Ensures footer stays above other elements */
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 14px; /* Improved text readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 24px; /* Larger icons for better visibility */
+    height: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease; /* Added smooth scaling */
+    margin-bottom: 5px; /* Improved spacing */
+}
+
+.footer-button span {
+    margin-top: 8px; /* Better spacing for text */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 70px; /* Aligned with increased footer height */
+    height: 5px; /* Slightly thicker underline for visibility */
+    background-color: black;
+    width: 50px;
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+
+.loading-overlay {
+    position: fixed;
+    top: 0px; /* Moves the overlay up */
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background with transparency */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 20px;
+    z-index: 9999; /* Ensure it appears above everything */
+}
+
+.hidden {
+    display: none;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ffffff;
+    border-top: 4px solid #ff6f6f; /* Highlight spinner */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Dark Mode - White Container */
+.dark-mode .white-container {
+    background: #222;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Dark Mode - Input Fields */
+.dark-mode .input-field {
+    background: #333;
+    border: 1px solid #444;
+    color: #fff;
+    box-shadow: 0px 4px 4px rgba(255, 255, 255, 0.1);
+    transition: border-color 0.3s ease-in-out;
+}
+
+.dark-mode input:focus {
+    border: 2px solid #ff6969;
+}
+
+/* Dark Mode - Buttons */
+.dark-mode .update-btn, 
+.dark-mode .otp-btn {
+    background: #ff6969;
+    color: white;
+}
+
+.dark-mode .update-btn:hover, 
+.dark-mode .otp-btn:hover {
+    background-color: #ff8585;
+}
+
+</style>    
+</head>
+<body>
+
+    
+    <div class="back-logo">
+        <a href="profile-edit.html".html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <div class="white-container">
+        <h2>Update Phone Number</h2>
+        <input type="text" id="newNumber" class="input-field" placeholder="Enter new number">
+        <button class="otp-btn" onclick="sendOTP()">Generate OTP</button>
+
+        <div id="otpSection" style="display: none;">
+            <input type="text" id="otpInput" class="input-field" placeholder="Enter OTP">
+            <button class="update-btn" onclick="verifyOTP()">Verify & Update</button>
+        </div>
+    </div>
+
+    <div id="loading-screen" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <span>Updating Number...</span>
+    </div>
+    
+
+    <script>
+   function sendOTP() {
+    let number = document.getElementById("newNumber").value;
+    if (!number.match(/^\d{10,15}$/)) return alert("Enter a valid number!");
+
+    // Show loading screen before displaying OTP
+    const loadingScreen = document.getElementById("loading-screen");
+    loadingScreen.classList.remove("hidden"); // Show loading screen
+
+    setTimeout(() => {
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+        alert("Your OTP is: " + generatedOTP); // Simulate sending OTP
+        document.getElementById("otpSection").style.display = "block";
+        loadingScreen.classList.add("hidden"); // Hide loading screen
+    }, 5000); // 5 seconds delay
+}
+
+function verifyOTP() {
+    let enteredOTP = document.getElementById("otpInput").value;
+
+    // Show loading screen before redirect
+    const loadingScreen = document.getElementById("loading-screen");
+    loadingScreen.classList.remove("hidden"); // Show loading screen
+
+    setTimeout(() => {
+        if (enteredOTP === generatedOTP) {
+            let number = document.getElementById("newNumber").value;
+            localStorage.setItem("profilePhone", number);
+            alert("Number updated successfully!");
+            window.location.href = "profile-edit.html"; // Redirect after 5 seconds
+        } else {
+            alert("Invalid OTP. Try again.");
+            loadingScreen.classList.add("hidden"); // Hide loading screen if OTP is incorrect
+        }
+    }, 5000); // 5 seconds delay
+}
+
+    </script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+</body>
+</html>

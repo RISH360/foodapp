@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Details</title>
+    <script src="footer.js" defer></script>
+    <script src="appearance.js" defer></script>
+    
+    <style>
+     body {
+    font-family: Arial, sans-serif;
+    background: #ebadad;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Push content towards the top and bottom */
+    min-height: 100vh; /* Ensure the body takes full viewport height */
+    padding-top: 40px;
+    padding-bottom: 80px; /* More space at the bottom */
+    overflow-y: auto;
+}
+
+
+           /* Back Button */
+           .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+        .food-container {
+    background-color: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    width: 380px;
+    height: 450px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); 
+    margin-top: 20px;
+    position: relative; /* Needed for positioning the save icon */
+}
+
+.save-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px; /* Adjust the size of the icon */
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out; /* Optional: adds smooth transform animation */
+}
+
+.food-image {
+    width: 100%;
+    height: 280px;
+    border-radius: 12px;
+    object-fit: cover; 
+    transition: opacity 0.3s ease-in-out; /* Adds fade transition */
+}
+
+.quantity-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.quantity-control button {
+    font-size: 18px;
+    padding: 4px 8px;
+    border: none;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+.quantity {
+    font-size: 16px;
+    margin: 0 8px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.button {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+    background: #fcb0b0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.button.added {
+    background-color: #28a745;
+}
+
+#food-price {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+        .container {
+            background-color: #ffffff;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            width: 95%;
+            max-width: 400px;
+            text-align: left;
+            position: relative;
+        }
+
+        .divider {
+    border: 0;
+    height: 1px;
+    background-color: #ccc; /* Dark line color */
+    margin: 10px 0; /* Spacing above and below the line */
+}
+        .container strong {
+            display: block;
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 3px;
+        }
+        .container p {
+            font-size: 14px;
+            color: #555;
+            margin: 0;
+        }
+
+        #product-details {
+    list-style-type: none; /* Remove default bullet points */
+    padding-left: 0; /* Remove default padding */
+    margin: 10px 0; /* Add some margin for spacing */
+}
+
+#product-details li {
+    font-size: 14px; /* Adjust font size */
+    color: #555; /* Set text color */
+    margin-bottom: 8px; /* Add spacing between list items */
+    padding-left: 20px; /* Add padding for custom bullet */
+    position: relative; /* For custom bullet positioning */
+}
+
+#product-details li::before {
+    content: "•"; /* Custom bullet point */
+    color: #ff8080; /* Bullet color */
+    font-size: 18px; /* Bullet size */
+    position: absolute; /* Position the bullet */
+    left: 0; /* Align bullet to the left */
+    top: -2px; /* Adjust vertical alignment */
+}
+
+        .change-button {
+            position: absolute;
+            right: 10px;
+            top: 80%;
+            transform: translateY(-50%);
+            background: #fcb0b0;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 12px;
+        }
+        .change-button:hover {
+            background-color: #ff9797;
+        }
+        .cart-animation {
+            animation: scaleUp 0.3s ease-in-out;
+        }
+        @keyframes scaleUp {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .coupon-button {
+            background: #fcb0b0;
+            color: black;
+            font-size: 14px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .coupon-button:hover {
+            background-color: #ff9797;
+        }
+
+       /* Add More Cookies Button */
+.button-wrapper {
+    width: 80%;
+    max-width: 400px;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+#add-more-cookies {
+    background-color: #ff8080;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.product {
+    background-color: white;
+    padding: 6px;
+    border-radius: 8px;
+    text-align: center;
+    width: 90px;  /* Smaller size */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    width: 60px;  /* Smaller image */
+    height: 60px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.add-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 4px;
+    font-size: 10px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+}
+
+@keyframes scaleUp {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-img.clicked {
+    animation: scaleUp 0.3s ease-in-out;
+}
+
+.product-price {
+    font-size: 14px;
+    color: rgb(255, 0, 0);
+    font-weight: bold;
+    margin: 5px 0;
+    transition: color 0.2s ease-in-out;
+}
+
+.product-price.updated {
+    animation: fadeIn 0.3s ease-in-out;
+    color: green;
+}
+
+.add-button {
+    background-color: #ff6f61;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-button.added {
+    background-color: #4CAF50; /* Green color when added */
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.main-container {
+    width: 90%;
+    max-width: 400px;
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Slightly more space */
+    margin-top: 20px; /* Move it down */
+}
+
+h2 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+p {
+    margin: 2px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.change-btn {
+    position: absolute;
+    right: 0px;
+    bottom: -20px; /* Moved button further down */
+    padding: 6px 12px;
+    font-size: 13px;
+    background: #fcb0b0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.change-btn:hover {
+    background-color: #ff9797;
+}
+
+.info-container {
+    position: relative;
+    padding-bottom: 2px; /* Moved phone section up even more */
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+    margin: 2px 0; /* Moved divider even closer */
+}
+
+
+.footer {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Increased height */
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 10px 0; /* Increased padding for better spacing */
+    z-index: 1000; /* Ensures footer stays above other elements */
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 14px; /* Improved text readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 24px; /* Larger icons for better visibility */
+    height: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease; /* Added smooth scaling */
+    margin-bottom: 5px; /* Improved spacing */
+}
+
+.footer-button span {
+    margin-top: 8px; /* Better spacing for text */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 70px; /* Aligned with increased footer height */
+    height: 5px; /* Slightly thicker underline for visibility */
+    background-color: black;
+    width: 50px;
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+/* Light Mode */
+.light-mode {
+    background-color: white;
+    color: black;
+}
+
+/* Dark Mode */
+.dark-mode {
+    background: rgb(34, 33, 33);
+    color: white;
+}
+
+.dark-mode .food-container {
+    background-color: #1e1e1e;
+    box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+.dark-mode .save-icon {
+    filter: brightness(0.8);
+}
+
+.dark-mode .food-image {
+    opacity: 0.9;
+}
+
+.dark-mode .quantity-control button {
+    background-color: #222;
+    color: white;
+}
+
+.dark-mode .container {
+    background-color: #1e1e1e;
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+.dark-mode .divider {
+    background-color: #555; /* Darker line for contrast */
+}
+
+.dark-mode .container strong {
+    color: #e0e0e0;
+}
+
+.dark-mode .container p,
+.dark-mode #product-details li {
+    color: #bbb;
+}
+
+.dark-mode .main-container {
+    background: #1e1e1e;
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode h2, 
+.dark-mode p {
+    color: #e0e0e0;
+}
+
+
+.dark-mode #product-details li::before {
+    color: #ff5050; /* Slightly brighter red for visibility */
+}
+
+.dark-mode .product {
+    background-color: #1e1e1e;
+    box-shadow: 0px 2px 4px rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+}
+
+.dark-mode .product-image {
+    filter: brightness(0.8); /* Dim images slightly for dark mode */
+}
+
+.dark-mode .product-grid {
+    background-color: #121212; /* Dark background for grid */
+}
+
+
+    </style>
+</head>
+
+<div class="back-logo">
+    <a href="non-vegetarion.html" class="back-log">
+        <div class="back-loco">
+            <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+        </div>
+    </a>
+</div>
+
+<body>
+    <div class="food-container">
+        <!-- Save icon in top right corner -->
+        <img src="static/pngwing.com (82).png" alt="Save Icon" id="save-icon" class="save-icon">
+    
+        <img id="food-img" class="food-image" alt="Food Image">
+        <h3 id="food-name"></h3>
+        <p id="food-price"></p>
+        <div class="quantity-control">
+            <button id="decrease">-</button>
+            <span id="quantity" class="quantity">1</span>
+            <button id="increase">+</button>
+        </div>
+        <div class="button-container">
+            <button id="add-to-cart" class="button">Add to Cart</button>
+            <button id="order-now" class="button">Order Now</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="info-container">
+            <h2>Address</h2>
+            <div id="activeAddressContainer"></div>
+            <button class="change-btn" onclick="editAddress()">Change</button>
+        </div>
+
+        <hr class="divider">
+
+        <div class="info-container">
+            <h2>Phone Number</h2>
+            <div id="activePhoneContainer"></div>
+        </div>
+    </div>
+
+    
+
+   <!-- Combined Container for Delivery Time, Ratings, Restaurant Name, and Coupons Button -->
+<div class="container">
+    <strong>Restaurant Name:</strong>
+    <p id="restaurantName">Not Available</p>
+    <hr class="divider"> <!-- Dark line divider -->
+    <strong>Ratings:</strong>
+    <p id="ratings">4.5 / 5.0</p>
+    <hr class="divider"> <!-- Dark line divider -->
+    <strong>Delivery Time:</strong>
+    <p>15 to 25 minutes</p>
+    <button class="coupon-button">View All Restaurant Coupons</button>
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    const restaurants = [
+        { name: "Spice Delight", rating: "4.3 / 5.0" },
+        { name: "Ocean Bites", rating: "4.7 / 5.0" },
+        { name: "Grill House", rating: "4.2 / 5.0" },
+        { name: "Royal Tandoor", rating: "4.8 / 5.0" },
+        { name: "The Burger Shack", rating: "4.5 / 5.0" }
+    ];
+
+    const coupons = [
+        "static/pexels-jhong-pascua-1062908-3018845.jpg - Flat 15% off from RENEE Cosmetics",
+        "static/71BNwI6tPDL._SL1500.jpg - Flat ₹13800 on skullcandy riff wireless 2 headphone",
+        "static/pexels-gije-2933604.jpg - Flat 75% off on TWS Earbuds & BT-calling smartwatch",
+        "static/925992503s.jpg - Free ₹3333 bounus cash on 1st deposit on My11Circle", ,
+        "static/pexels-martabranco-1395306.jpg - Flat ₹500 off on the perfect jewellery for you",
+        "static/zomato.png - ₹10 to ₹100 off on your first order on Zomato",
+
+    ];
+
+    // Select a random restaurant
+    const randomRestaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
+
+    // Display the selected restaurant name and rating
+    document.getElementById("restaurantName").textContent = randomRestaurant.name;
+    document.getElementById("ratings").textContent = randomRestaurant.rating;
+
+    // Redirect to coupons page with random coupon on button click
+    document.querySelector(".coupon-button").addEventListener("click", function () {
+        const randomCoupon = coupons[Math.floor(Math.random() * coupons.length)];
+        localStorage.setItem("selectedCoupon", randomCoupon);
+        window.location.href = "coupons.html";
+    });
+});
+
+</script>
+
+  <!-- What's Inside Container -->
+<div class="container">
+    <strong>What's Inside:</strong>
+    <hr class="divider"> <!-- Dark line divider -->
+    <ul id="product-details">
+        <li>Freshly made with high-quality ingredients</li>
+        <li>100% organic and preservative-free</li>
+        <li>Cooked to perfection for great taste</li>
+        <li>Packed safely for delivery</li>
+    </ul>
+</div>
+
+ <!-- Button to Add More Cookies -->
+ <div class="button-wrapper">
+    <button id="add-more-cookies">+ Add More Cookies</button>
+</div>
+
+<!-- Product List -->
+<div id="product-list" class="product-grid"></div>
+
+<script src="addmorecookies.js"></script> <!-- Link JavaScript -->
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get("name");
+        const basePrice = parseInt(params.get("price"));
+        const img = params.get("img");
+        const restaurant = params.get("restaurant") || "Not Available";
+        const rating = params.get("rating") || "4.5";
+
+        document.getElementById("food-name").textContent = name;
+        document.getElementById("food-img").src = img;
+        document.getElementById("restaurantName").textContent = restaurant;
+        document.getElementById("ratings").textContent = rating + " / 5.0";
+
+        let quantity = 1;
+        let price = basePrice;
+        document.getElementById("food-price").textContent = "₹" + price;
+
+        document.getElementById("increase").addEventListener("click", () => {
+            quantity++;
+            updatePrice();
+        });
+
+        document.getElementById("decrease").addEventListener("click", () => {
+            if (quantity > 1) {
+                quantity--;
+                updatePrice();
+            }
+        });
+
+        function updatePrice() {
+            price = basePrice * quantity;
+            document.getElementById("food-price").textContent = "₹" + price;
+            document.getElementById("quantity").textContent = quantity;
+        }
+
+        document.getElementById("add-to-cart").addEventListener("click", function () {
+    let cart = JSON.parse(localStorage.getItem("cartProducts")) || [];
+
+    // Check if product exists in the cart
+    const productExists = cart.some(p => p.name === name);
+
+    if (productExists) {
+        // Remove product if already added
+        cart = cart.filter(p => p.name !== name);
+        localStorage.setItem("cartProducts", JSON.stringify(cart));
+
+        this.classList.remove("added");
+        this.textContent = "Add to Cart";
+    } else {
+        // Add product to cart
+        addToCart();
+        this.classList.add("added");
+        this.textContent = "Added to Cart";
+    }
+
+    // Animation effect
+    this.classList.add("cart-animation");
+    setTimeout(() => this.classList.remove("cart-animation"), 300);
+});
+
+// Maintain button state on page load
+document.addEventListener("DOMContentLoaded", function () {
+    const cart = JSON.parse(localStorage.getItem("cartProducts")) || [];
+    const productExists = cart.some(p => p.name === name);
+
+    if (productExists) {
+        const addToCartBtn = document.getElementById("add-to-cart");
+        addToCartBtn.classList.add("added");
+        addToCartBtn.textContent = "Added to Cart";
+    }
+});
+
+
+        document.addEventListener("DOMContentLoaded", loadActiveDetails);
+    
+ </script>
+
+ <script>
+
+document.getElementById('save-icon').addEventListener('click', function () {
+    const saveIcon = document.getElementById('save-icon');
+    const foodImg = document.getElementById('food-img');
+    const productName = document.getElementById('food-name').textContent;
+    
+    // Clean price (remove ₹ symbol and extra spaces)
+    let productPrice = document.getElementById('food-price').textContent.replace(/[^\d.]/g, '').trim();
+    
+    const productImg = foodImg.src;
+
+    console.log('Current save icon source:', saveIcon.getAttribute('src')); 
+
+    let collection = JSON.parse(localStorage.getItem("collection")) || [];
+    const productIndex = collection.findIndex(item => item.name === productName);
+
+    if (saveIcon.getAttribute('src') === 'static/pngwing.com (82).png' && productIndex === -1) {
+        collection.push({
+            name: productName,
+            price: parseFloat(productPrice),  // Ensure the price is stored as a number
+            img: productImg
+        });
+        saveIcon.setAttribute('src', 'static/save (1).png');
+    } else {
+        collection = collection.filter(item => item.name !== productName);
+        saveIcon.setAttribute('src', 'static/pngwing.com (82).png');
+    }
+
+    localStorage.setItem("collection", JSON.stringify(collection));
+
+    // Add animation to the food image (fade effect)
+    foodImg.style.opacity = 0;  
+    setTimeout(() => {
+        foodImg.style.opacity = 1;  
+    }, 300);
+});
+
+ </script>
+
+<script>
+    function loadActiveAddress() {
+        let savedAddresses = JSON.parse(localStorage.getItem("addresses")) || [];
+        let activeAddress = localStorage.getItem("activeAddress");
+
+        let addressContainer = document.getElementById("activeAddressContainer");
+        addressContainer.innerHTML = "";
+
+        if (!activeAddress) {
+            addressContainer.innerHTML = "<p>No active address found.</p>";
+            return;
+        }
+
+        let address = savedAddresses.find(addr => addr.houseNo === activeAddress);
+        if (!address) {
+            addressContainer.innerHTML = "<p>No active address found.</p>";
+            return;
+        }
+
+        addressContainer.innerHTML = `
+            <p>${address.houseNo}, ${address.roadName}</p>
+            <p>${address.city}, ${address.state} - ${address.pincode}</p>
+            <p><strong>Type:</strong> ${address.addressType}</p>
+        `;
+    }
+
+    function loadActivePhone() {
+        let savedNumbers = JSON.parse(localStorage.getItem("phoneNumbers")) || [];
+        let activeNumber = localStorage.getItem("activeNumber");
+
+        let phoneContainer = document.getElementById("activePhoneContainer");
+        phoneContainer.innerHTML = "";
+
+        if (!activeNumber) {
+            phoneContainer.innerHTML = "<p>No active phone number found.</p>";
+            return;
+        }
+
+        let phoneEntry = savedNumbers.find(num => num.number === activeNumber);
+        if (!phoneEntry) {
+            phoneContainer.innerHTML = "<p>No active phone number found.</p>";
+            return;
+        }
+
+        phoneContainer.innerHTML = `
+            <p><strong>Phone:</strong> ${phoneEntry.number}</p>
+        `;
+    }
+
+    function editAddress() {
+        window.location.href = "profile.html";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        loadActiveAddress();
+        loadActivePhone();
+    });
+</script>
+
+<script src="cart1.js"></script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+
+</body>
+</html>
