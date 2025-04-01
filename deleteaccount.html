@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account</title>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+        body {
+            font-family: "Alike Angular", sans-serif;
+            background: #ebadad;
+            padding: 40px 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        /* Back Button */
+        .back-logo {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+        }
+
+        .back-logo img {
+            width: 10px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .option:hover {
+            background: #ddd;
+        }
+
+        /* Dark Mode - Container */
+.dark-mode .container {
+    background: #222; /* Dark background */
+    color: #fff; /* Light text */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode - Heading */
+.dark-mode h1 {
+    color: #f8f8f8;
+}
+
+/* Dark Mode - Options */
+.dark-mode .option {
+    background: #333; /* Darker background */
+    color: white;
+    border: 1px solid #444;
+}
+
+/* Dark Mode - Hover Effect */
+.dark-mode .option:hover {
+    background: #444; /* Darker hover effect */
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="settings.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <div class="container">
+        <h1>Delete Account</h1>
+        <p>Why would you like to delete your account?</p>
+
+        <div class="option" onclick="location.href='idontwant.html'">I don't want to use Cookies anymore</div>
+        <div class="option" onclick="location.href='confirmation.html'">I'm using a different account</div>
+        <div class="option" onclick="location.href='privacyconcerns.html'">I'm worried about my privacy</div>
+        <div class="option" onclick="location.href='notifications_issue.html'">You're sending me too many emails/notifications</div>
+        <div class="option"onclick="location.href='issues.html'">The app is not working properly</div>
+        <div class="option" onclick="location.href='otherreasons.html'">Other reasons</div>
+    </div>
+
+</body>
+</html>

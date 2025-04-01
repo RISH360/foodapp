@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Bank Account</title>
+    <script src="footer.js" defer></script>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #ebadad;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            padding-top: 60px;
+            height: 100vh;
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 90%;
+            max-width: 900px;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0px;
+            margin-top: 10px;
+        }
+
+        .header img {
+            width: 30px;
+            height: 30px;
+            margin-top: -5px;
+        }
+
+        /* Input Fields */
+        .input-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+        input:focus {
+            border: 2px solid rgb(255, 172, 172);
+            outline: none;
+        }
+
+        /* Error Messages */
+        .error-message {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+
+        .add-btn {
+            background-color: #ff5c5c;
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 60%;
+            max-width: 180px;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .add-btn:hover {
+            background-color: #e04a4a;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <span>Create Cookies Account</span>
+        <img src="static/pngwing.com - 2025-03-16T004259.469.png" alt="Bank Icon">
+    </div>
+    
+    <div class="container">
+        <div class="input-container">
+            <label>User Name</label> 
+            <input type="text" id="accountHolderName" disabled>
+            <div id="nameError" class="error-message">You cannot change your name here. Update it in your profile.</div>
+    
+            <label>Email</label>
+            <input type="email" id="email" disabled>
+            <div id="emailError" class="error-message">You cannot change your email here. Update it in your profile.</div>
+    
+            <label>Phone Number</label>
+            <input type="number" id="phoneNumber" disabled>
+            <div id="phoneError" class="error-message">You cannot change your phone number here. Update it in your profile.</div>
+        </div>
+    
+        <button class="add-btn" onclick="validateAndSubmit()">Create</button>
+    </div>
+    
+    <script>
+        // Fetch saved data from local storage
+        let savedName = localStorage.getItem("profileName");
+        let savedEmail = localStorage.getItem("profileEmail");
+        let savedPhone = localStorage.getItem("profilePhone");
+    
+        let nameInput = document.getElementById("accountHolderName");
+        let emailInput = document.getElementById("email");
+        let phoneInput = document.getElementById("phoneNumber");
+    
+        // Prefill fields from local storage if available
+        nameInput.value = savedName || "Not Set";
+        emailInput.value = savedEmail || "Not Set";
+        phoneInput.value = savedPhone || "Not Set";
+    
+        // Function to show error when trying to edit
+        function showEditError(event) {
+            event.preventDefault();
+            let errorId = event.target.id + "Error";
+            document.getElementById(errorId).style.display = "block";
+            setTimeout(() => {
+                document.getElementById(errorId).style.display = "none";
+            }, 2000);
+        }
+    
+        // Add event listener to inputs to show error when trying to change
+        nameInput.addEventListener("click", showEditError);
+        emailInput.addEventListener("click", showEditError);
+        phoneInput.addEventListener("click", showEditError);
+    
+        function validateAndSubmit() {
+            // This function is unchanged and will still redirect to money.html
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const phoneNumber = phoneInput.value.trim();
+    
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const phoneError = document.getElementById('phoneError');
+    
+            let isValid = true;
+    
+            // Name validation (Required)
+            if (!name) {
+                nameError.style.display = 'block';
+                isValid = false;
+            } else {
+                nameError.style.display = 'none';
+            }
+    
+            // Email validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+    
+            // Phone validation (10-digit number)
+            const phonePattern = /^[6-9]\d{9}$/;
+            if (!phonePattern.test(phoneNumber)) {
+                phoneError.style.display = 'block';
+                isValid = false;
+            } else {
+                phoneError.style.display = 'none';
+            }
+    
+            if (isValid) {
+                // Save account status in localStorage
+                localStorage.setItem("cookieAccountCreated", "true");
+    
+                alert('Cookies account has been created!');
+    
+                setTimeout(() => {
+                    window.location.href = "money.html"; // Redirect to money.html
+                }, 1000);
+            }
+        }
+    </script>
+    
+
+</body>
+</html>

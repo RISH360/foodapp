@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegetarian Menu</title>
+    <script src="footer.js" defer></script>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+        body {
+            background: #ebadad;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px 10px;
+            padding-top: 60px;
+            padding-bottom: 80px;
+        }
+
+          /* Back Button */
+          .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+        .search-container {
+            height: 20px;
+            width: 90%;
+            max-width: 400px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 30px;
+            border: 2px solid #ffffff;
+            transition: transform 0.3s ease;
+        }
+
+        .search-container:hover {
+            border-color: #ff8080;
+        }
+
+        .search-box {
+            height: 10px;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            margin-top: 20px;
+        }
+        .header img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .header-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .menu-container {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .food-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-decoration: none;
+            color: black;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 8px;
+        }
+        .food-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #f8f8f8;
+        }
+        .food-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .food-info {
+            flex: 1;
+            margin-left: 10px;
+        }
+        .food-name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .food-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .veg-tag {
+            background-color: #18ff03;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+      
+.footer {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Increased height */
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 10px 0; /* Increased padding for better spacing */
+    z-index: 1000; /* Ensures footer stays above other elements */
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 14px; /* Improved text readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 24px; /* Larger icons for better visibility */
+    height: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease; /* Added smooth scaling */
+    margin-bottom: 5px; /* Improved spacing */
+}
+
+.footer-button span {
+    margin-top: 8px; /* Better spacing for text */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 70px; /* Aligned with increased footer height */
+    height: 5px; /* Slightly thicker underline for visibility */
+    background-color: black;
+    width: 50px;
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+/* Dark Mode - General Styles */
+.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+/* Search Container */
+.dark-mode .search-container {
+    background: #1e1e1e;
+    border-color: #444;
+}
+
+.dark-mode .search-box {
+    background: transparent;
+    color: white;
+}
+
+.dark-mode .search-container:hover {
+    border-color: #ff8080;
+}
+
+/* Menu Container */
+.dark-mode .menu-container {
+    background-color: #1e1e1e;
+    box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+/* Food Items */
+.dark-mode .food-item {
+    background-color: #222;
+    color: white;
+    border-bottom: 1px solid #333;
+}
+
+.dark-mode .food-item:hover {
+    background-color: #333;
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.2);
+}
+
+/* Header Text */
+.dark-mode .header-text {
+    color: #ff8080;
+}
+
+/* Food Name & Price */
+.dark-mode .food-name {
+    color: #f0f0f0;
+}
+
+.dark-mode .food-price {
+    color: #ff4757;
+}
+
+/* Veg Tag */
+.dark-mode .veg-tag {
+    background-color: #00cc44;
+    color: white;
+}
+
+
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="N-foodinterfacepage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <div class="search-container">
+        <img src="static/pngegg.png" alt="Search" class="search-icon">
+        <input type="text" id="search" class="search-box" placeholder="Search for a food">
+    </div>
+    <div class="header">
+        <img src="static/d8381727-dfed-435c-9bfb-45dc9e945ebd-shutterstock_553662235.jpg" alt="Vegetarian">
+        <div class="header-text">Vegetarian</div>
+    </div>
+    <div class="menu-container" id="menu-list"></div>
+    <script>
+        const VegMenu = [
+            { name: "Momo Mia pizza", price: 349, img: "static/momo-mia-veg.4e51f4733bea47a514c107c9fd2341e3.1.jpg", link: "#" },
+            { name: "Ramen Chinese noodles", price: 299, img: "static/pngwing.com (94).png", link: "#" },
+            { name: "South Indian cuisine Thali Vegetable", price: 369, img: "static/pngwing.com (100).png", link: "#" },
+            { name: "Telugu cuisine Idiyappam", price: 349, img: "static/pngwing.com - 2025-03-08T002436.005.png", link: "#" },
+            { name: "Peppy Paneer pizza", price: 299, img: "static/Peppy_Paneer.jpg", link: "#" },
+            { name: "Thai fried rice Chinese cuisine", price: 369, img: "static/pngegg (7).png", link: "#" },
+            { name: "French fries Potato chip", price: 349, img: "static/pngegg (10).png", link: "#" },
+            { name: "Veg Extravaganza pizza", price: 299, img: "static/Veg_Extravaganz.jpg", link: "#" },
+            { name: "Fried seafood noodles", price: 369, img: "static/pngwing.com (95).png", link: "#" },
+            { name: "South Indian cuisine", price: 349, img: "static/pngwing.com - 2025-03-08T002335.647.png", link: "#" },
+            { name: "Yangzhou fried rice", price: 299, img: "static/pngegg (8).png", link: "#" },
+            { name: "Margherita pizza", price: 369, img: "static/Margherit.jpg", link: "#" },
+            { name: "Double Cheese Margherita pizza", price: 349, img: "static/Double_Cheese_Margherita.jpg", link: "#" },
+            { name: "burger and potato fries dish", price: 299, img: "static/pngegg (11).png", link: "#" },
+            { name: "Chow mein Chinese noodles", price: 369, img: "static/pngwing.com (96).png", link: "#" },
+            { name: "French fries, medium", price: 349, img: "static/pngegg (12).png", link: "#" },
+            { name: "Asian cuisine", price: 299, img: "static/pngwing.com - 2025-03-08T002537.938.png", link: "#" },
+            { name: "Farm House pizza", price: 369, img: "static/Farmhouse.jpg", link: "#" },
+            { name: "Thai fried rice", price: 299, img: "static/pngegg (9).png", link: "#" },
+            { name: "French fries in red sachet,", price: 369, img: "static/pngegg (13).png", link: "#" },
+            { name: "Rolls", price: 349, img: "static/pngwing.com (63).png", link: "#" },
+            { name: "chana masala", price: 299, img: "static/pngwing.com - 2025-03-08T004335.664.png", link: "#" },
+            { name: "Laksa Braised noodles", price: 369, img: "static/pngwing.com (97).png", link: "#" },
+            { name: "Samosa", price: 349, img: "static/pngwing.com (64).png", link: "#" },
+            { name: "Peppy Paneer pizza", price: 299, img: "static/Peppy_Paneer.jpg", link: "#" },
+            { name: "Masala Dosa", price: 369, img: "static/pngwing.com - 2025-03-08T005044.633.png", link: "#" },
+            { name: "Fried rice with carrots and green peas", price: 299, img: "static/pngegg (14).png", link: "#" },
+            { name: "Puffs", price: 369, img: "static/pngwing.com (75).png", link: "#" },
+            { name: "Mexican Green Wave pizza", price: 349, img: "static/Mexican_Green_Wave.jpg", link: "#" },
+            { name: "Cutlet", price: 299, img: "static/pngwing.com (67).png", link: "#" },
+            { name: "Mattar paneer", price: 369, img: "static/pngwing.com - 2025-03-08T004450.985.png", link: "#" },
+            { name: "Deluxe Veggie pizza", price: 349, img: "static/Deluxe_Veggie.jpg", link: "#" },
+            { name: "Idle Sambar", price: 299, img: "static/pngwing.com - 2025-03-08T005158.903.png", link: "#" },
+            { name: "Palak paneer", price: 369, img: "static/pngwing.com - 2025-03-08T004606.928.png", link: "#" }, 
+            { name: "Dandan noodles", price: 369, img: "static/pngwing.com (98).png", link: "#" },
+            { name: "Dosa", price: 349, img: "static/pngwing.com - 2025-03-08T005327.982.png", link: "#" },
+            { name: "Chapati", price: 299, img: "static/pngwing.com - 2025-03-08T005451.860.png", link: "#" },
+            { name: "Aloo gobi", price: 369, img: "static/pngwing.com - 2025-03-08T004929.852.png", link: "#" },
+            { name: "Parotta", price: 349, img: "static/pngwing.com - 2025-03-08T005559.901.png", link: "#" },
+            { name: "Eggplant curry", price: 299, img: "static/pngwing.com - 2025-03-08T005826.306.png", link: "#" },
+            { name: "Dal makhani Indian cuisine", price: 369, img: "static/pngwing.com - 2025-03-08T010142.275.png", link: "#" }, 
+            { name: "Pav bhaji", price: 369, img: "static/pngwing.com - 2025-03-08T010244.265.png", link: "#" },
+            { name: "Califlower masala", price: 349, img: "static/pngwing.com - 2025-03-08T010609.908.png", link: "#" },
+            { name: "Chow mein Lo mein Biriyani Chinese noodles", price: 299, img: "static/pngwing.com (99).png", link: "#" },
+            { name: "Appam with egg curry", price: 369, img: "static/pngwing.com - 2025-03-08T005559.901.png", link: "#" },
+            { name: "Tteok-bokki Red curry", price: 349, img: "static/pngwing.com - 2025-03-08T010754.521.png", link: "#" },
+            { name: "Salchipapas French fries", price: 299, img: "static/pngwing.com - 2025-03-08T010831.123.png", link: "#" },
+            { name: "Salad illustration", price: 369, img: "static/pngwing.com - 2025-03-08T011003.742.png", link: "#" },
+
+    ];
+
+        function renderVegMenu(filteredMenu = VegMenu) {
+            const menuList = document.getElementById("menu-list");
+            menuList.innerHTML = "";
+
+            filteredMenu.forEach(item => {
+                const foodLink = document.createElement("a");
+                foodLink.href = item.link;
+                foodLink.className = "food-item";
+                foodLink.innerHTML = `
+                    <img src="${item.img}" alt="${item.name}" class="food-image">
+                    <div class="food-info">
+                        <div class="food-name">${item.name}</div>
+                        <div class="veg-tag">Veg</div>
+                    </div>
+                    <div class="food-price">₹${item.price}</div>
+                `;
+                menuList.appendChild(foodLink);
+            });
+        }
+
+        function filterMenu() {
+            const searchInput = document.getElementById("search").value.toLowerCase();
+            const filteredMenu = VegMenu
+                .filter(item => item.name.toLowerCase().includes(searchInput))
+                .sort((a, b) => {
+                    if (a.name.toLowerCase().startsWith(searchInput)) return -1;
+                    if (b.name.toLowerCase().startsWith(searchInput)) return 1;
+                    return 0;
+                });
+
+            renderVegMenu(filteredMenu);
+        }
+
+        document.getElementById("search").addEventListener("input", filterMenu);
+        renderVegMenu();
+
+
+// Generate menu with clickable links
+function renderVegMenu(filteredMenu = VegMenu) {
+    const menuList = document.getElementById("menu-list");
+    menuList.innerHTML = "";
+
+    filteredMenu.forEach(item => {
+        const foodLink = document.createElement("a");
+        foodLink.href = `food-details.html?name=${encodeURIComponent(item.name)}&price=${item.price}&img=${encodeURIComponent(item.img)}`;
+        foodLink.className = "food-item";
+        foodLink.innerHTML = `
+            <img src="${item.img}" alt="${item.name}" class="food-image">
+            <div class="food-info">
+                <div class="food-name">${item.name}</div>
+                <div class="veg-tag">Veg</div>
+            </div>
+            <div class="food-price">₹${item.price}</div>
+        `;
+        menuList.appendChild(foodLink);
+    });
+}
+
+document.getElementById("search").addEventListener("input", filterMenu);
+renderVegMenu();
+
+    </script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+</body>
+</html>
