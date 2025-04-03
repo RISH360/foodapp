@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Assist Settings</title>
+    <style>
+  /* General Page Styling */
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Instead of fixed 100vh */
+    background: pink;
+    margin: 0;
+    padding: 0;
+}
+
+/* Back Button */
+.back-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.back-logo img {
+    width: 20px; /* Adjusted for better visibility */
+    height: auto;
+    cursor: pointer;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    margin-top: -300px; /* Reduce this value to move content up */
+}
+
+
+/* Assist Title */
+.Assist-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%;
+    padding: 0 10px; /* Added padding for better alignment */
+}
+
+/* Main Container */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px; /* Ensures it doesn’t go beyond the viewport */
+}
+
+/* Title inside the container */
+h2 {
+    margin: 0;
+    flex-grow: 1;
+    text-align: left;
+    font-size: 18px;
+}
+
+/* Toggle Button */
+.toggle-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background 0.3s ease-in-out;
+}
+
+.on {
+    background: #28a745;
+    color: white;
+}
+
+.off {
+    background: #dc3545;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 650px) {
+    .container {
+        max-width: 90%;
+    }
+
+    .wrapper {
+        width: 90%;
+        margin-top: -650px; /* Adjust to move up in mobile */
+    }
+    .Assist-title {
+        font-size: 18px;
+    }
+
+    .toggle-btn {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button" id="backButton">
+            </div>
+    </div>
+
+    <script>
+        // Get the back button element
+        const backButton = document.getElementById("backButton");
+    
+        // Add an event listener to handle the back action
+        backButton.addEventListener("click", function() {
+            window.history.back(); // Go back to the previous page
+        });
+    </script>
+
+    <div class="wrapper">
+        <div class="Assist-title">Assist Help</div>
+        <div class="container">
+            <h2>Cookie Assist Help</h2>
+            <button id="toggleAssist" class="toggle-btn">Loading...</button>
+        </div>
+    </div>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleButton = document.getElementById("toggleAssist");
+
+    function updateButton() {
+        let isAssistOn = localStorage.getItem("cookieAssist");
+
+        // Ensure default value if not set
+        if (isAssistOn === null) {
+            localStorage.setItem("cookieAssist", "off");
+            isAssistOn = "off";
+        }
+
+        let isOn = isAssistOn === "on";
+        toggleButton.textContent = isOn ? "Turn OFF" : "Turn ON";
+        toggleButton.classList.toggle("on", isOn);
+        toggleButton.classList.toggle("off", !isOn);
+    }
+
+    toggleButton.addEventListener("click", () => {
+        let isAssistOn = localStorage.getItem("cookieAssist") === "on" ? "off" : "on";
+        localStorage.setItem("cookieAssist", isAssistOn);
+        updateButton();
+    });
+
+    updateButton(); // Initialize button state on page load
+});
+
+    </script>
+
+</body>
+</html>
