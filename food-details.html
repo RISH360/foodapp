@@ -1045,6 +1045,9 @@ document.addEventListener("mouseup", () => {
     }
     
     function showHelpMessages(callback) {
+        let isAssistOn = localStorage.getItem("cookieAssist") === "on";
+        if (!isAssistOn) return; // ✅ Prevent messages from showing when assist is OFF
+        
     typeMessage("Feel like you need help? Wait, let me guess!", 3000, () => {
         typeMessage("If you want to save food, click the collection icon at the top near the food.", 3000, () => {
             setTimeout(() => {

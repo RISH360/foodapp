@@ -1139,6 +1139,10 @@ let trackOrderProducts = JSON.parse(localStorage.getItem("trackOrder") || "[]");
 let hasTrackOrder = trackOrderProducts.length > 0;
 
 function showHelpMessages(callback) {
+
+    let isAssistOn = localStorage.getItem("cookieAssist") === "on";
+    if (!isAssistOn) return; // ✅ Prevent messages from showing when assist is OFF
+    
     // 🔥 Re-check ordered and track order dynamically before displaying messages
     let orderedProducts = JSON.parse(localStorage.getItem("orderedProducts") || "[]");
     let hasActiveOrder = orderedProducts.length > 0;

@@ -32,3 +32,18 @@
 #ball, .message {
     display: none; /* Hide them initially */
 }
+
+
+
+/* Dark Mode for Message */
+.dark-mode .message {
+    background-color: #222; /* Dark background */
+    color: #ddd; /* Light gray text */
+    border: 1px solid #444; /* Subtle border */
+}
+
+/* Dark Mode - Hide Ball Shadow */
+.dark-mode .ball {
+    box-shadow: none;
+}
+

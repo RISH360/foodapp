@@ -292,6 +292,9 @@ document.getElementById("ball").addEventListener("dblclick", handleDoubleTap); /
 document.getElementById("ball").addEventListener("touchend", handleDoubleTap);
 
 function showHelpMessages(callback) {
+    let isAssistOn = localStorage.getItem("cookieAssist") === "on";
+    if (!isAssistOn) return; // ✅ Prevent messages from showing when assist is OFF
+    
     typeMessage("Feel like you need help? Wait, let me guess!", 3000, () => {
         typeMessage("Sorry, only one language is available right now.", 500, () => {
             setTimeout(() => {

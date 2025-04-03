@@ -881,6 +881,9 @@ function delayedCartCheck() {
 }
 
 function checkCartStatus() {
+    let isAssistOn = localStorage.getItem("cookieAssist") === "on";
+    if (!isAssistOn) return; // ✅ Prevent messages from showing when assist is OFF
+
     let cartProducts = JSON.parse(localStorage.getItem("cartProducts") || "[]");
 
     if (cartProducts.length === 0) {
@@ -1010,6 +1013,8 @@ function handleDoubleTap(e) {
 // Ensure event listener is correctly applied
 document.getElementById("ball").addEventListener("dblclick", handleDoubleTap);
 document.getElementById("ball").addEventListener("touchend", handleDoubleTap);
+let isAssistOn = localStorage.getItem("cookieAssist") === "on";
+if (!isAssistOn) return; // ✅ Prevent messages from showing when assist is OFF
 
    } else {
     typeMessage("Feel like you need help? Wait, let me guess !", 2000, () => {
