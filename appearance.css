@@ -1,0 +1,16 @@
+/* Light Mode */
+.light-mode {
+    background-color: white;
+    color: black;
+}
+
+/* Dark Mode */
+.dark-mode {
+    background: rgb(34, 33, 33);
+    color: white;
+}
+
+.dark-mode .footer {
+    background: rgb(34, 33, 33);
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+}

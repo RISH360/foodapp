@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facing Issues with the App?</title>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+        body {
+            font-family: "Alike Angular", sans-serif;
+            background: #ebadad;
+            padding: 40px 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        /* Back Button */
+        .back-logo {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+        }
+
+        .back-logo img {
+            width: 10px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .container {
+    max-width: 600px;
+    margin: auto;
+    margin-top: 20px; /* Moves it down */
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        
+        textarea {
+    width: 90%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: none;
+    outline: none; /* Removes default outline */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Focus effect */
+textarea:focus {
+    border: 2px solid rgb(255, 172, 172); /* Change this color */
+    outline: none; /* Removes the default blue outline */
+}
+
+        .button {
+    background: #fcb0b0;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 30%; /* Makes the button full-width */
+    max-width: 300px; /* Limits the maximum width */
+}
+
+
+        .button:hover {
+            background-color: #ff9797;
+        }
+
+        /* Dark Mode Styles */
+.dark-mode .container {
+    background: #222; /* Dark background */
+    color: #fff; /* Light text */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode - Headings */
+.dark-mode h1 {
+    color: #fff; /* Light text */
+}
+
+/* Dark Mode - Textarea */
+.dark-mode textarea {
+    background: #333; /* Darker background */
+    color: #fff; /* Light text */
+    border: 1px solid #555; /* Subtle border */
+}
+
+/* Dark Mode - Textarea Focus Effect */
+.dark-mode textarea:focus {
+    border: 2px solid #ff9797; /* Soft red focus */
+}
+
+/* Dark Mode - Buttons */
+.dark-mode .button {
+    background: #ff5252; /* Darker red */
+}
+
+.dark-mode .button:hover {
+    background-color: #ff7979;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="deleteaccount.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+    <div class="container">
+        <h1>Facing Issues with the App?</h1>
+        <p>Please describe the problem you're experiencing:</p>
+        <textarea class="text-area" placeholder="Write your issue here..."></textarea>
+        <br>
+        <button class="button" onclick="location.href='confirmation.html'">Next</button>
+    </div>
+
+</body>
+</html>

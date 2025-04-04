@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Assist Settings</title>
+    <link rel="stylesheet" href="assist.css">
+    <style>
+  /* General Page Styling */
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: pink;
+    margin: 0;
+    padding: 0;
+}
+
+/* Back Button */
+.back-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.back-logo img {
+    width: 20px; /* Adjusted for better visibility */
+    height: auto;
+    cursor: pointer;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    margin-top: 80px; /* Reduce this value to move content up */
+}
+
+
+/* Assist Title */
+.Assist-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: left;
+    width: 100%;
+    padding: 0 10px; /* Added padding for better alignment */
+}
+
+/* Main Container */
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px; /* Ensures it doesn’t go beyond the viewport */
+}
+
+/* Title inside the container */
+h2 {
+    margin: 0;
+    flex-grow: 1;
+    text-align: left;
+    font-size: 18px;
+}
+.toggle-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background 0.4s ease, transform 0.1s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    position: relative;
+    overflow: hidden;
+}
+
+.toggle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-btn:active {
+    transform: scale(0.95);
+}
+
+.on {
+    background: linear-gradient(135deg, #28a745, #34d058);
+    color: white;
+}
+
+.off {
+    background: linear-gradient(135deg, #ec1228, #e5535b);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 650px) {
+    .container {
+        max-width: 90%;
+    }
+
+    .wrapper {
+        width: 90%;
+        margin-top: 70px; /* Adjust to move up in mobile */
+    }
+
+    .Assist-title {
+        font-size: 18px;
+    }
+
+    .toggle-btn {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <img src="static/Picsart_25-03-06_14-08-38-557.png" alt="Ball" class="ball" id="ball">
+
+    <div class="back-logo">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button" id="backButton">
+            </div>
+    </div>
+
+    <script>
+        // Get the back button element
+        const backButton = document.getElementById("backButton");
+    
+        // Add an event listener to handle the back action
+        backButton.addEventListener("click", function() {
+            window.history.back(); // Go back to the previous page
+        });
+    </script>
+
+    <div class="wrapper">
+        <div class="Assist-title">Assist Help</div>
+        <div class="container">
+            <h2>Cookie Assist Help</h2>
+            <button id="toggleAssist" class="toggle-btn">Loading...</button>
+        </div>
+    </div>
+    <script>
+    let cancelTyping = false;
+
+function cancelAllMessages() {
+    cancelTyping = true;
+    message.innerHTML = "";
+    message.style.opacity = "0";
+    message.style.transform = "translateY(10px)";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleButton = document.getElementById("toggleAssist");
+
+    function updateButton() {
+        let isAssistOn = localStorage.getItem("cookieAssist");
+
+        if (isAssistOn === null) {
+            localStorage.setItem("cookieAssist", "off");
+            isAssistOn = "off";
+        }
+
+        let isOn = isAssistOn === "on";
+        toggleButton.textContent = isOn ? "Turn OFF" : "Turn ON";
+        toggleButton.classList.toggle("on", isOn);
+        toggleButton.classList.toggle("off", !isOn);
+    }
+
+    function checkAssistStatusOnLoad() {
+        let isAssistOn = localStorage.getItem("cookieAssist") === "on";
+        if (isAssistOn) {
+            ball.style.display = "block";
+            message.style.display = "block";
+            showHelpMessages(); // ✅ Only help message on load
+        } else {
+            ball.style.display = "none";
+            message.style.display = "none";
+        }
+    }
+
+    toggleButton.addEventListener("click", () => {
+        let isAssistOn = localStorage.getItem("cookieAssist") === "on" ? "off" : "on";
+        localStorage.setItem("cookieAssist", isAssistOn);
+        updateButton();
+
+        cancelAllMessages();
+cancelTyping = false; // Reset before starting new messages
+
+        cancelAllMessages();
+        cancelTyping = false;
+
+        if (isAssistOn === "on") {
+            ball.style.display = "block";
+            message.style.display = "block";
+            showAssistOnMessages(() => {
+                showHelpMessages();
+            });
+        } else {
+            showAssistOffMessages(() => {
+                ball.style.display = "none";
+                message.style.display = "none";
+            });
+        }
+    });
+
+    updateButton();
+    checkAssistStatusOnLoad();
+});
+
+// Floating Ball + Message System
+let ball = document.getElementById("ball");
+let isDragging = false;
+let offsetX, offsetY;
+
+let message = document.createElement("div");
+message.classList.add("message");
+document.body.appendChild(message);
+
+function typeMessage(text, duration, callback) {
+    let index = 0;
+    let tempText = "";
+    message.innerHTML = "";
+    updateMessagePosition();
+
+    message.style.opacity = "1";
+    message.style.transform = "translateY(0)";
+
+    function typeNextLetter() {
+        if (cancelTyping) return;
+
+        if (index < text.length) {
+            tempText += text[index] === " " ? "&nbsp;" : text[index];
+            message.innerHTML = tempText;
+            index++;
+            setTimeout(typeNextLetter, 40);
+        } else {
+            if (cancelTyping) return;
+            setTimeout(() => {
+                if (cancelTyping) return;
+
+                message.style.opacity = "0";
+                message.style.transform = "translateY(10px)";
+                setTimeout(() => {
+                    message.innerHTML = "";
+                    
+                    // ✅ Prevent callback chain if canceled
+                    if (!cancelTyping && callback) callback();
+
+                }, 500);
+            }, duration);
+        }
+    }
+
+    typeNextLetter();
+}
+
+
+        
+        function updateMessagePosition() {
+            let x = ball.offsetLeft;
+            let y = ball.offsetTop;
+            let maxX = window.innerWidth - ball.clientWidth;
+            let messageWidth = message.clientWidth;
+        
+            if (x > maxX / 2) {
+                let newLeft = x - messageWidth - 10;
+                message.style.left = newLeft < 0 ? "10px" : newLeft + "px";
+            } else {
+                let newLeft = x + 70;
+                message.style.left = newLeft + messageWidth > window.innerWidth 
+                    ? (window.innerWidth - messageWidth - 10) + "px" 
+                    : newLeft + "px";
+            }
+        
+            message.style.top = (y - -3) + "px";
+            message.style.display = "block";
+        }
+        
+        function smoothUpdate() {
+            updateMessagePosition();
+            requestAnimationFrame(smoothUpdate);
+        }
+        smoothUpdate();
+        
+        function checkAssistStatus() {
+    let isAssistOn = localStorage.getItem("cookieAssist") === "on";
+    if (!isAssistOn) {
+        ball.style.display = "none";
+        message.style.display = "none";
+    } else {
+        ball.style.display = "block";
+        message.style.display = "block";
+
+        // ✅ Show help message only on page load if Assist is ON
+        showHelpMessages();
+    }
+}
+
+        window.onload = checkAssistStatus;
+        
+        // Dragging logic
+        ball.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            offsetX = e.clientX - ball.offsetLeft;
+            offsetY = e.clientY - ball.offsetTop;
+            ball.style.cursor = "grabbing";
+        });
+        
+        document.addEventListener("mousemove", (e) => {
+            if (isDragging) {
+                let x = e.clientX - offsetX;
+                let y = e.clientY - offsetY;
+                let maxX = window.innerWidth - ball.clientWidth;
+                let maxY = window.innerHeight - ball.clientHeight;
+        
+                x = Math.max(0, Math.min(maxX, x));
+                y = Math.max(0, Math.min(maxY, y));
+        
+                ball.style.top = y + "px";
+                ball.style.left = x + "px";
+            }
+        });
+
+        ball.addEventListener("touchstart", (e) => {
+    isDragging = true;
+    const touch = e.touches[0];
+
+    const rect = ball.getBoundingClientRect();
+    offsetX = touch.clientX - rect.left;
+    offsetY = touch.clientY - rect.top;
+
+    ball.style.cursor = "grabbing";
+}, { passive: false });
+
+document.addEventListener("touchmove", (e) => {
+    if (isDragging) {
+        const touch = e.touches[0];
+        let x = touch.clientX - offsetX;
+        let y = touch.clientY - offsetY;
+
+        let maxX = window.innerWidth - ball.clientWidth;
+        let maxY = window.innerHeight - ball.clientHeight;
+
+        x = Math.max(0, Math.min(maxX, x));
+        y = Math.max(0, Math.min(maxY, y));
+
+        ball.style.left = x + "px";
+        ball.style.top = y + "px";
+
+        e.preventDefault(); // ✋ Stop default scroll
+    }
+}, { passive: false });
+
+document.addEventListener("touchend", () => {
+    if (isDragging) {
+        let maxX = window.innerWidth - ball.clientWidth;
+        let currentX = ball.offsetLeft;
+
+        // Snap to nearest edge
+        let snapX = currentX < maxX / 2 ? 0 : maxX;
+
+        // Smooth transition to the edge
+        ball.style.transition = "left 0.3s ease";
+        ball.style.left = snapX + "px";
+
+        setTimeout(() => {
+            ball.style.transition = "";
+        }, 300);
+
+        isDragging = false;
+        ball.style.cursor = "grab";
+    }
+});
+        
+        document.addEventListener("mouseup", () => {
+            if (isDragging) {
+                isDragging = false;
+                ball.style.cursor = "grab";
+                let maxX = window.innerWidth - ball.clientWidth;
+                let currentX = ball.offsetLeft;
+                let snapX = currentX < maxX / 2 ? 0 : maxX;
+        
+                ball.style.transition = "left 0.3s ease";
+                ball.style.left = snapX + "px";
+        
+                setTimeout(() => {
+                    ball.style.transition = "";
+                }, 300);
+            }
+        });
+        
+        // Double-tap to trigger help
+        let lastTap = 0;
+        let isMessageActive = false;
+        
+        ball.addEventListener("click", handleDoubleTap);
+        ball.addEventListener("touchend", handleDoubleTap);
+        document.getElementById("ball").addEventListener("dblclick", handleDoubleTap);
+        
+        function handleDoubleTap(e) {
+            e.preventDefault();
+            let currentTime = new Date().getTime();
+            let tapLength = currentTime - lastTap;
+        
+            if (tapLength < 300 && tapLength > 0) {
+                if (!isMessageActive) {
+                    isMessageActive = true;
+                    showHelpMessages(() => {
+                        isMessageActive = false;
+                    });
+                }
+            }
+        
+            lastTap = currentTime;
+        }
+        
+        // ✅ Welcome Messages (Assist ON)
+        function showAssistOnMessages(callback) {
+    const savedName = localStorage.getItem("profileName") || "Guest";
+    typeMessage(`Hello, ${savedName}!`, 2000, () => {
+        typeMessage("I am Cookie AI, I am here to help you 😊", 2000, () => {
+            typeMessage("You can't text me, but I can guess and-help you! 😊", 2000, () => {
+                typeMessage("If you want me, you can double-tap me. I can guess and help you!", 2000, () => {
+                    if (callback) callback(); // ✅ Call after welcome messages
+                });
+            });
+        });
+    });
+}
+
+        // 🔴 Goodbye Messages (Assist OFF)
+        function showAssistOffMessages(callback) {
+    typeMessage("Okay, feels like you don’t want me 😢", 2000, () => {
+        typeMessage("If you ever need me, just turn me ON-again. Bye! 👋", 2500, () => {
+            if (callback) callback();
+        });
+    });
+}
+
+        
+        // 🧠 5 Help Messages on Load or Double Tap
+        function showHelpMessages(callback) {
+            let isAssistOn = localStorage.getItem("cookieAssist") === "on";
+            if (!isAssistOn) return;
+        
+            typeMessage("Feel like you need help? Wait, let me guess!", 2000, () => {
+                typeMessage("this is me, if you any help you can turn me ON", 2000, () => {
+                    typeMessage("if you dont want any help, you can turn me OFF", 2000, () => {
+                        typeMessage("Just explore food, go to dining", 2000, () => {
+                            typeMessage("Let's gooo! 🚀", 2000, () => {
+                                if (callback) callback();
+                            });
+                        });
+                    });
+                });
+            });
+        }
+        </script>
+        
+
+</body>
+</html>
