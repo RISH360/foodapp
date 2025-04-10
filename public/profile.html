@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings</title>
+    <script src="footer.js" defer></script>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #ebadad;
+            margin: 0;
+            padding: 20px;
+            padding-top: 90px;
+            padding-bottom: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+         /* Back Button */
+         .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+        .profile-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        .profile-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-card img:hover {
+            transform: scale(1.1);
+        }
+        .profile-card h2 {
+            margin: 10px 0 5px;
+        }
+        .profile-card p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: gray;
+        }
+
+        .profile-name-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.profile-name-container h2 {
+    margin: 0;
+    font-size: 18px;
+    text-align: center; /* Ensure centering */
+    width: 100%;
+}
+
+
+        .fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.fullscreen-overlay img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    transform: scale(0.8);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+/* Show animation */
+.fullscreen-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.fullscreen-overlay.show img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+        .profile-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    
+}
+
+.profile-actions button {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between icon and text */
+    border: none;
+    background: #fcb0b0;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.profile-actions a {
+    text-decoration: none; /* Removes underline */
+}
+
+
+.profile-actions img {
+    width: 15px;  /* Default width for all icons */
+    height: 15px; /* Default height for all icons */
+}
+
+.money-icon {
+    width: 10px !important;  
+    height: 15px !important;
+}
+
+
+
+
+/* Hover Effect */
+.profile-actions button:hover {
+    background-color: #fcb9b9; /* Slightly darker pink */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Active (when clicked) */
+.profile-actions button:active {
+    background-color: #ff9797; /* Even darker on click */
+    transform: scale(0.98);
+}
+
+
+        .edit-profile {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 14px;
+        text-decoration: none;
+        color: gray;
+        background: #ffffff;
+        padding: 5px 8px;
+        border-radius: 5px;
+    }
+  
+    .premium-join-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffd699; /* 🌟 Golden background */
+    border: 1px solid #e6b800;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin: 20px auto 0 auto;
+    width: 90%;
+    max-width: 600px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.premium-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.premium-left img {
+    max-height: 40px;
+}
+
+.premium-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Right-side styles */
+.arrow-icon {
+    font-size: 30px;
+    font-weight: bold;
+    color: #ff9a0d;
+}
+
+
+.premium-status {
+    font-size: 16px;
+    color: #444;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+
+  /* Main container for address & phone number sections */
+.info-container {
+    width: 90%;
+    max-width: 600px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between sections */
+    margin: 20px auto; /* Center the container */
+}
+
+/* Each section (Address & Phone Numbers) */
+.info-section {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Address & Phone list styling */
+#addressList, #phoneList {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Title Styling */
+h2 {
+    text-align: left;
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+
+/* Button Styling */
+.btn {
+    background: #ff4d4d;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #ff3333;
+}
+
+/* Ensure Address & Phone Numbers are inside a clean box */
+.address-box, .number-box {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+/* Text inside address & phone boxes */
+.address-box p, .number-box p {
+    font-size: 14px;
+    color: #333;
+    margin: 2px 0;
+    padding-left: 10px;
+}
+
+/* Address Header */
+.address-header {
+    display: flex;
+    justify-content: space-between; /* Aligns text on the left & button on the right */
+    align-items: center;
+    width: 100%;
+}
+
+/* Edit Button */
+.edit-btn {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/* Move "Type" below */
+.address-box p:nth-of-type(3) {
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.input-field, .select-field {
+    width: 95%;
+    padding: 8px;
+    margin: 5px 0;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 6px;  /* Rounded corners */
+    transition: all 0.3s ease-in-out;
+    outline: none;
+}
+
+/* Add focus effect */
+.input-field:focus, .select-field:focus {
+    border: 2px solid rgb(255, 172, 172); /* Change this color */
+    outline: none; /* Removes the default blue outline */
+}
+
+/* Label styling */
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 8px;
+    color: #333;
+}
+
+
+
+/* Align buttons at the bottom */
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Buttons */
+.btn-danger {
+    background-color: rgb(201, 48, 48);
+    background: #fcb0b0 !important;
+}
+
+/* Active button styling */
+.set-active-btn {
+    background-color: white;
+    color: rgb(0, 0, 0);
+}
+
+.set-active-btn.active-btn {
+    color: red !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .info-container {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .info-section {
+        padding: 10px;
+    }
+
+    .btn {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 16px;
+    }
+}
+
+
+.footer {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Increased height */
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 10px 0; /* Increased padding for better spacing */
+    z-index: 1000; /* Ensures footer stays above other elements */
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 14px; /* Improved text readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 24px; /* Larger icons for better visibility */
+    height: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease; /* Added smooth scaling */
+    margin-bottom: 5px; /* Improved spacing */
+}
+
+.footer-button span {
+    margin-top: 8px; /* Better spacing for text */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 70px; /* Aligned with increased footer height */
+    height: 5px; /* Slightly thicker underline for visibility */
+    background-color: black;
+    width: 50px;
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+/* Dark Mode - Profile Card */
+.dark-mode .profile-card {
+    background: #222;  /* Darker background */
+    color: #fff;  /* White text for contrast */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Softer white shadow */
+}
+
+/* Dark Mode - Profile Card Text */
+.dark-mode .profile-card h2 {
+    color: #fff; /* White text for better contrast */
+}
+
+.dark-mode .profile-card p {
+    color: #bbb; /* Lighter gray for better readability */
+}
+
+/* Dark Mode - Profile Name Container */
+.dark-mode .profile-name-container h2 {
+    color: #fff; /* Ensure heading is visible */
+}
+
+/* Dark Mode - Edit Profile Button */
+.dark-mode .edit-profile {
+    color: #ddd; /* Lighter gray for visibility */
+    background: #333; /* Dark background */
+}
+
+/* Dark Mode - Main Info Container */
+.dark-mode .info-container {
+    background: #222; /* Dark background */
+    box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.1); /* Subtle white shadow */
+}
+
+/* Dark Mode - Individual Sections */
+.dark-mode .info-section {
+    background: #333; /* Slightly lighter dark shade */
+    box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.1);
+    color: #ddd; /* Light text */
+}
+
+/* Dark Mode - Address & Phone List */
+.dark-mode #addressList,
+.dark-mode #phoneList {
+    background: #444;
+    color: #eee; /* White text for contrast */
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode - Title Styling */
+.dark-mode h2 {
+    color: #fff; /* White for better contrast */
+}
+
+/* Dark Mode - Address & Phone Number Boxes */
+.dark-mode .address-box,
+.dark-mode .number-box {
+    background: #333; /* Dark background */
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1); /* Soft white shadow */
+}
+
+/* Dark Mode - Text inside Address & Phone Boxes */
+.dark-mode .address-box p,
+.dark-mode .number-box p {
+    color: #ddd; /* Light text for better contrast */
+}
+
+/* Dark Mode - Address Header */
+.dark-mode .address-header {
+    color: #fff; /* White text for visibility */
+}
+
+/* Default Active Button */
+.set-active-btn {
+    background-color: white;
+    color: black;
+}
+
+/* Dark Mode - Active Button */
+.dark-mode .set-active-btn {
+    background-color: #222; /* Darker background */
+    color: #fff; /* White text for contrast */
+    border: 1px solid #444; /* Subtle border */
+}
+
+
+/* Dark Mode - Links */
+.dark-mode a {
+    color: #ccc; /* Soft white */
+}
+
+.dark-mode .address-box p:nth-of-type(3) {
+    color: #fff;
+}
+
+.dark-mode .input-field, 
+.dark-mode .select-field {
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+.dark-mode .input-field:focus, 
+.dark-mode .select-field:focus {
+    border: 2px solid rgb(255, 100, 100);
+}
+
+.dark-mode label {
+    color: #ddd;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="N-foodinterfacepage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+    <div class="profile-card">
+        <img id="profileImg" src="" alt="Profile Image">
+        
+        <div class="profile-name-container">
+            <h2 id="profileName">not set</h2>
+        </div>
+    
+        <p id="profileEmail">not set</p>
+        <p id="profilePhone">not set</p>
+        <a href="profile-edit.html" class="edit-profile">✏️</a>
+    
+        <div class="profile-actions">
+            <a href="money.html"><button><img src="static/pngwing.com (86).png" class="money-icon"> Money</button></a>
+            <a href="collection.html"><button><img src="static/pngwing.com (82).png" class="icon"> Collections</button></a>
+            <a href="ordered.html"><button><img src="static/pngegg (16).png" class="icon"> Orders</button></a>
+        </div>
+    </div>
+    
+  
+    <div class="fullscreen-overlay" id="fullscreenOverlay">
+        <img src="" id="fullscreenImg" alt="Full Screen Image">
+    </div>
+
+    <div class="premium-join-container" onclick="handlePremiumClick()">
+        <div class="premium-left">
+            <img id="premiumImg" src="static/premium-quality-banner-design.png" alt="Join Cookie Premium">
+            <span id="premiumLabel" class="premium-text">Join Cookie Premium</span>
+        </div>
+        <span id="premiumStatus" class="arrow-icon">›</span>
+    </div>
+    
+    
+
+    <div class="info-container">
+        <div class="info-section">
+            <h2>Address</h2>
+            <div id="addressList"></div>
+            <button class="btn" onclick="window.location.href='addresscreate.html'">Add Address</button>
+        </div>
+    
+        <div class="info-section">
+            <h2>Phone Numbers</h2>
+            <div id="phoneList"></div>
+            <button class="btn" onclick="window.location.href='numbercreate.html'">Add Phone Number</button>
+        </div>
+    </div>
+
+    <script>
+       document.addEventListener("DOMContentLoaded", function () {
+    const premiumImg = document.getElementById("premiumImg");
+    const premiumLabel = document.getElementById("premiumLabel");
+    const premiumStatus = document.getElementById("premiumStatus");
+
+    const premiumStart = localStorage.getItem("premiumStartDate");
+    if (premiumStart) {
+        const startDate = new Date(premiumStart);
+        const today = new Date();
+
+        const diffTime = today - startDate;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const daysLeft = 90 - diffDays;
+
+        if (daysLeft > 0) {
+            // User still has premium
+            premiumImg.src = "static/premium-quality-banner-design.png";
+            premiumImg.alt = "Purchased Premium";
+            premiumLabel.textContent = "Purchased Premium";
+            premiumStatus.textContent = `${daysLeft} days left`;
+            premiumStatus.classList.remove("arrow-icon");
+            premiumStatus.classList.add("premium-status");
+        } else {
+            // Premium expired
+            localStorage.removeItem("hasPremium");
+            localStorage.removeItem("premiumStartDate");
+            premiumImg.src = "static/premium-quality-banner-design.png";
+            premiumImg.alt = "Join Cookie Premium";
+            premiumLabel.textContent = "Join Cookie Premium";
+            premiumStatus.textContent = "›";
+            premiumStatus.classList.remove("premium-status");
+            premiumStatus.classList.add("arrow-icon");
+        }
+    }
+});
+
+        function handlePremiumClick() {
+            const hasPremium = localStorage.getItem("hasPremium") === "true";
+            if (!hasPremium) {
+                window.location.href = "cookiepremium.html";
+            } else {
+                alert("🎉 You already have Premium!");
+            }
+        }
+    </script>
+    
+
+<script>
+  function editItem(icon, isPhone = false) {
+    let textElement = icon.previousElementSibling.querySelector(".text");
+    let input = document.createElement("input");
+    input.type = "text";
+    input.value = textElement.innerText;
+    input.className = "edit-input";
+    input.style.width = "100%";
+
+    if (isPhone) {
+        input.setAttribute("oninput", "this.value=this.value.replace(/[^0-9]/g, '')");
+    }
+
+    textElement.replaceWith(input);
+    input.addEventListener("blur", function () {
+        textElement.innerText = input.value;
+        input.replaceWith(textElement);
+    });
+    input.focus();
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    let profileImg = document.getElementById("profileImg");
+    let overlay = document.getElementById("fullscreenOverlay");
+    let fullscreenImg = document.getElementById("fullscreenImg");
+    let profileEmail = document.getElementById("profileEmail");
+    let profilePhone = document.getElementById("profilePhone");
+    let profileName = document.getElementById("profileName");
+    // Default image when no profile picture is set
+    const defaultImage = "static/profileupdate.png";
+
+    // Load stored data from localStorage
+    let savedImage = localStorage.getItem("profileImage");
+    let savedName = sessionStorage.getItem("profileName");
+    let savedEmail = sessionStorage.getItem("profileEmail"); // fixed
+    let savedPhone = sessionStorage.getItem("profilePhone"); // fixed
+
+
+    // Set profile image (use default if none found)
+    if (savedImage && savedImage !== "") {
+        profileImg.src = savedImage;
+    } else {
+        profileImg.src = defaultImage; // Set default image if no image found
+    }
+
+    // Set profile details
+    profileName.textContent = savedName || "No name provided";
+    profileEmail.textContent = savedEmail || "No email provided";
+    profilePhone.textContent = savedPhone || "No phone number provided";
+    // Profile image full-screen preview
+    profileImg.addEventListener("click", function () {
+        fullscreenImg.src = profileImg.src;
+        overlay.classList.add("show");
+    });
+
+    overlay.addEventListener("click", function (event) {
+        if (event.target !== fullscreenImg) {
+            overlay.classList.remove("show");
+        }
+    });
+});
+
+</script>
+
+<script>
+    function loadAddresses() {
+        let savedAddresses = JSON.parse(localStorage.getItem("addresses")) || [];
+        let activeAddress = localStorage.getItem("activeAddress");
+        let addressList = document.getElementById("addressList");
+        addressList.innerHTML = "";
+
+        savedAddresses.forEach((address, index) => {
+            let addressContainer = document.createElement("div");
+            addressContainer.className = "container";
+            addressContainer.id = "address-" + index;
+
+            let isActive = address.houseNo === activeAddress;
+
+            addressContainer.innerHTML = `
+   <div id="view-mode-${index}" class="address-box">
+    <div class="address-header">
+        <p>${address.houseNo}, ${address.roadName}</p>
+        <img src="static/edit-icon-png-3602.png" alt="Edit" class="edit-btn" onclick="editAddress(${index})">
+    </div>
+    <p>${address.city}, ${address.state} - ${address.pincode}</p>
+    <p><strong>Type: ${address.addressType}</strong></p>
+
+    <div class="btn-container">
+        <button class="btn set-active-btn ${isActive ? 'active-btn' : ''}" 
+            onclick="setActive(${index}, this)">
+            ${isActive ? 'Active' : 'Set Active'}
+        </button>
+        <button class="btn btn-danger" onclick="deleteAddress(${index})">Delete</button>
+    </div>
+</div>
+
+
+                <div id="edit-mode-${index}" style="display: none;">
+                    <label>House No</label>
+                    <input type="text" id="houseNo-${index}" class="input-field" value="${address.houseNo}">
+                    
+                    <label>Road Name</label>
+                    <input type="text" id="roadName-${index}" class="input-field" value="${address.roadName}">
+                    
+                    <label>City</label>
+                    <input type="text" id="city-${index}" class="input-field" value="${address.city}">
+                    
+                    <label>State</label>
+                    <input type="text" id="state-${index}" class="input-field" value="${address.state}">
+                    
+                    <label>Pincode</label>
+                    <input type="text" id="pincode-${index}" class="input-field" value="${address.pincode}">
+                    
+                    <label>Address Type</label>
+                    <select id="addressType-${index}" class="select-field">
+                        <option value="Home" ${address.addressType === 'Home' ? 'selected' : ''}>Home</option>
+                        <option value="Work" ${address.addressType === 'Work' ? 'selected' : ''}>Work</option>
+                    </select>
+                    
+                    <button class="btn" onclick="saveEdit(${index})">Save</button>
+                    <button class="btn btn-danger" onclick="cancelEdit(${index})">Cancel</button>
+                </div>
+            `;
+
+            addressList.appendChild(addressContainer);
+        });
+
+        // If no active address is set, set the first address as active
+        if (savedAddresses.length > 0 && !activeAddress) {
+            localStorage.setItem("activeAddress", savedAddresses[0].houseNo);
+            loadAddresses();
+        }
+    }
+
+    function editAddress(index) {
+        document.getElementById("view-mode-" + index).style.display = "none";
+        document.getElementById("edit-mode-" + index).style.display = "block";
+    }
+
+    function cancelEdit(index) {
+        document.getElementById("view-mode-" + index).style.display = "block";
+        document.getElementById("edit-mode-" + index).style.display = "none";
+    }
+
+    function saveEdit(index) {
+        let savedAddresses = JSON.parse(localStorage.getItem("addresses")) || [];
+
+        savedAddresses[index] = {
+            houseNo: document.getElementById(`houseNo-${index}`).value,
+            roadName: document.getElementById(`roadName-${index}`).value,
+            city: document.getElementById(`city-${index}`).value,
+            state: document.getElementById(`state-${index}`).value,
+            pincode: document.getElementById(`pincode-${index}`).value,
+            addressType: document.getElementById(`addressType-${index}`).value
+        };
+
+        localStorage.setItem("addresses", JSON.stringify(savedAddresses));
+
+        // If no active address exists, set the first address as active
+        if (!localStorage.getItem("activeAddress")) {
+            localStorage.setItem("activeAddress", savedAddresses[0].houseNo);
+        }
+
+        loadAddresses();
+    }
+
+    function deleteAddress(index) {
+        let savedAddresses = JSON.parse(localStorage.getItem("addresses")) || [];
+        savedAddresses.splice(index, 1);
+        localStorage.setItem("addresses", JSON.stringify(savedAddresses));
+
+        // Remove active address if it was deleted
+        let activeAddress = localStorage.getItem("activeAddress");
+        if (activeAddress && savedAddresses.every(addr => addr.houseNo !== activeAddress)) {
+            localStorage.removeItem("activeAddress");
+        }
+
+        loadAddresses();
+    }
+
+    function setActive(index, btn) {
+        let savedAddresses = JSON.parse(localStorage.getItem("addresses")) || [];
+        localStorage.setItem("activeAddress", savedAddresses[index].houseNo);
+
+        document.querySelectorAll(".set-active-btn").forEach(button => {
+            button.classList.remove("active-btn");
+            button.textContent = "Set Active";
+        });
+
+        btn.classList.add("active-btn");
+        btn.textContent = "Active";
+    }
+
+    document.addEventListener("DOMContentLoaded", loadAddresses);
+</script>
+<script>
+function loadNumbers() {
+let savedNumbers = JSON.parse(localStorage.getItem("phoneNumbers")) || [];
+let activeNumber = localStorage.getItem("activeNumber");
+let phoneList = document.getElementById("phoneList");
+
+phoneList.innerHTML = "";
+
+savedNumbers.forEach((number, index) => {
+    let numberContainer = document.createElement("div");
+    numberContainer.className = "container";
+    numberContainer.id = "number-" + index;
+
+    let isActive = number.number === activeNumber;
+
+    numberContainer.innerHTML = `
+        <div class="number-box">
+            <p>Phone: ${number.number}</p>
+
+            <div class="btn-container">
+                <button class="btn set-active-btn ${isActive ? 'active-btn' : ''}" 
+                    onclick="setActiveNumber(${index}, this)">
+                    ${isActive ? 'Active' : 'Set Active'}
+                </button>
+                <button class="btn btn-danger" onclick="deleteNumber(${index})">Delete</button>
+            </div>
+        </div>
+    `;
+
+    phoneList.appendChild(numberContainer);
+});
+
+// If no active number is set, set the first number as active
+if (savedNumbers.length > 0 && !activeNumber) {
+    localStorage.setItem("activeNumber", savedNumbers[0].number);
+    loadNumbers();
+}
+}
+
+function deleteNumber(index) {
+let savedNumbers = JSON.parse(localStorage.getItem("phoneNumbers")) || [];
+savedNumbers.splice(index, 1);
+localStorage.setItem("phoneNumbers", JSON.stringify(savedNumbers));
+
+let activeNumber = localStorage.getItem("activeNumber");
+if (activeNumber && savedNumbers.every(num => num.number !== activeNumber)) {
+    localStorage.removeItem("activeNumber");
+}
+
+loadNumbers();
+}
+
+function setActiveNumber(index, btn) {
+let savedNumbers = JSON.parse(localStorage.getItem("phoneNumbers")) || [];
+localStorage.setItem("activeNumber", savedNumbers[index].number);
+
+document.querySelectorAll(".set-active-btn").forEach(button => {
+    button.classList.remove("active-btn");
+    button.textContent = "Set Active";
+});
+
+btn.classList.add("active-btn");
+btn.textContent = "Active";
+}
+
+document.addEventListener("DOMContentLoaded", loadNumbers);
+
+
+</script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+</body>
+</html>

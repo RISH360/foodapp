@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order on Train</title>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+
+    <style>
+        body {
+            font-family: "Alike Angular", sans-serif;
+            background: #ebadad;
+            padding: 40px 10px 80px;
+            text-align: center;
+            color: #333;
+        }
+
+        /* Back Button */
+        .back-logo {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+        }
+
+        .back-logo img {
+            width: 10px;
+            height: auto;
+            cursor: pointer;
+        }
+        .Train-title {
+    width: 90%;
+    max-width: 500px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: left;
+    margin-left: 0px;
+    color: #000000;
+    margin-top: 15px; /* Added margin-top to move it down */
+}
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .pnr-image {
+    width: 180px;
+    height: auto; /* Maintains aspect ratio */
+    display: block;
+    margin: 0 auto 15px;
+}
+
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 95%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        input:focus {
+    border: 2px solid #ff4d4d; /* Highlight with red */
+    outline: none; /* Removes default blue outline */
+    background: #fff6f6; /* Light red background */
+    transition: border 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+
+        .error {
+            color: red;
+            font-size: 14px;
+            display: none;
+            margin-top: 5px;
+        }
+
+        .warning {
+            color: #d01c1c;
+            font-size: 14px;
+            display: none;
+            margin-top: 10px;
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .feature img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .feature p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .irctc-container {
+    display: flex;
+    align-items: center; /* Align image and text vertically */
+    gap: 8px; /* Adds space between image and text */
+    justify-content: center; /* Centers everything */
+    margin-top: 20px; /* Moves the container down */
+}
+
+
+.irctc-logo {
+    width: 10px;
+    height: auto; /* Keeps the aspect ratio */
+    display: block;
+}
+
+.irctc-text {
+    font-size: 10px;
+    font-weight: bold;
+    color: black;
+}
+        .button:hover {
+            background: #d01c1c;
+        }
+
+        .footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: white;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center; /* Centers the button */
+}
+
+.button {
+    width: 50%;
+    padding: 10px;
+    background: rgb(228, 22, 22);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+}
+
+/* Dark Mode - Train Title */
+.dark-mode .Train-title {
+    color: #fff;
+}
+
+/* Dark Mode - Main Container */
+.dark-mode .container {
+    background: #222;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Dark Mode - Headings & Paragraphs */
+.dark-mode h1,
+.dark-mode p {
+    color: #fff;
+}
+
+/* Dark Mode - Input Fields */
+.dark-mode input {
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+/* Dark Mode - Error & Warning Messages */
+.dark-mode .error {
+    color: red;
+}
+
+.dark-mode .warning {
+    background: #553c14;
+    color: #ffcc00;
+}
+
+/* Dark Mode - Features Section */
+.dark-mode .feature {
+    background: #333;
+}
+
+/* Dark Mode - IRCTC Logo & Text */
+.dark-mode .irctc-text {
+    color: #fff;
+}
+
+/* Dark Mode - Footer */
+.dark-mode .footer {
+    background: #111;
+    box-shadow: 0px -2px 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode - Button */
+.dark-mode .button {
+    background: rgb(200, 0, 0);
+}
+
+.dark-mode .button:hover {
+    background: rgb(170, 0, 0);
+}
+
+.dark-mode input:focus {
+    border: 2px solid #ff6666; /* Softer red for visibility */
+    outline: none;
+    background: #222; /* Darker background */
+    color: #fff; /* White text for contrast */
+    transition: border 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+    </style>
+    <script>
+        function validatePNR() {
+            var pnr = document.getElementById("pnr").value.trim();
+            var errorMessage = document.getElementById("pnr-error");
+            var warningMessage = document.getElementById("pnr-warning");
+
+            if (!/^\d{10}$/.test(pnr)) {
+                errorMessage.style.display = "block";
+                errorMessage.textContent = "Please enter a valid 10-digit PNR number.";
+                warningMessage.style.display = "none";
+                return false;
+            } else {
+                errorMessage.style.display = "none";
+                
+                // Always show the "Delivery isn't available" message for any valid PNR
+                warningMessage.style.display = "block";
+                warningMessage.innerHTML = "<strong>Sorry, delivery isn't available for this PNR.</strong><br>Delivery isn't available on a few Vande Bharat trains yet. We'll be serving them soon.";
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="back-logo">
+        <a href="settings.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+    <div class="Train-title">Order On Train</div>
+    <div class="container">
+        <h1></h1>
+    
+        <!-- 🖼️ Add your image here -->
+        <img src="static/pngwing.com - 2025-04-04T155835.200.png" alt="Train Order" class="pnr-image" />
+    
+        <p>Enter your PNR to get your order delivered to your seat.</p>
+    
+        <input type="text" id="pnr" placeholder="Enter your 10-digit PNR">
+        <p id="pnr-error" class="error"></p>
+        <p id="pnr-warning" class="warning"></p>
+
+        <div class="features">
+            <div class="feature">
+                <img src="static/[CITYPNG.COM]HD Black Free Delivery Round Stamp Transparent PNG - 1000x1000.png" alt="Guaranteed Delivery">
+                <p><strong>Guaranteed Delivery</strong><br>Enjoy on-time delivery directly to your seat.</p>
+            </div>
+            <div class="feature">
+                <img src="static/pngegg (17).png" alt="Real-Time Tracking">
+                <p><strong>Real-Time Tracking</strong><br>Track your food in real time for better convenience.</p>
+            </div>
+            <div class="feature">
+                <img src="static/—Pngtree—blue meal plan paper_6966163.png" alt="Plan Your Meal">
+                <p><strong>Plan Your Meal</strong><br>Pre-order your meal to avoid last-minute rush.</p>
+            </div>
+            <div class="feature">
+                <img src="static/free-cancellation-icon.png" alt="Free Cancellation">
+                <p><strong>Free Cancellation</strong><br>Cancel anytime before order preparation starts.</p>
+            </div>
+        </div>
+
+        <div class="irctc-container">
+            <img src="static/IRCTC-Color.png" alt="Authorized IRCTC Partner" class="irctc-logo">
+            <span class="irctc-text">Authorized IRCTC Partner</span>
+        </div>
+    </div>
+
+        <div class="footer">
+            <button class="button" onclick="return validatePNR()">Continue</button>
+        </div>
+        
+
+    
+
+</body>
+</html>

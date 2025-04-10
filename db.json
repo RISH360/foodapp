@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "firstName": "Rishan",
+      "lastName": "Mohamed",
+      "nickName": "rish360",
+      "email": "rishan@example.com",
+      "mobile": "9876543210",
+      "password": "$2b$10$ENCRYPTED_HASH_HERE"
+    },
+    {
+      "firstName": "Mohamed",
+      "lastName": "Rishan",
+      "nickName": "RD RISH",
+      "email": "mohamedrishan360@gmail.com",
+      "mobile": "6374349121",
+      "password": "$2b$10$6vKud8GOZagMArXlDt8Z7ub6R9lJyuugSZNx2HHLUhSR32/M/3iYW"
+    }
+  ]
+}

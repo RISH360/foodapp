@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings</title>
+
+    <style>
+     body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffb0b0;
+    color: #333;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+ /* Back Button */
+ .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+/* Container styling */
+.cookie-premium-content {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Premium Banner */
+.cookie-premium-content img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+/* Updated Premium Info Section */
+.premium-info.fancy {
+    background: linear-gradient(90deg, #eeeeee, #e0bf27);
+    color: rgb(0, 0, 0)000;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #ffc764;
+    position: relative;
+}
+
+.top-tag {
+    background-color: #ffffff;
+    color: #000;
+    font-weight: bold;
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.price-row {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.price {
+    color: rgb(255, 0, 0);
+}
+
+.duration {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.savings-text {
+    font-size: 14px;
+    color: #000000;
+    margin-top: 8px;
+}
+
+/* Join Gold Button */
+.join-gold-btn {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.join-gold-btn:hover {
+    background-color: #e68a00;
+}
+
+/* Gold Popup */
+.gold-popup {
+    position: fixed;
+    bottom: -100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    transition: bottom 0.4s ease-in-out;
+    z-index: 1000;
+}
+
+.gold-popup.active {
+    bottom: 0;
+}
+
+.popup-content {
+    padding: 20px;
+}
+
+.popup-content img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+.membership-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.validity {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #777;
+}
+
+.benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.benefit-item img {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.benefit-item p {
+    font-size: 15px;
+    margin: 0;
+    color: #333;
+}
+
+
+/* Payment Section */
+.payment-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding-top: 16px;
+}
+
+.payment-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-method {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-top: 6px;
+    cursor: pointer;
+}
+
+.payment-right {
+    text-align: right;
+}
+
+.total-amount-label {
+    font-weight: bold;
+}
+
+.total-amount {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 6px;
+    color: #ff0000;
+}
+
+.place-order {
+    background-color: #ff0000;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.place-order:hover {
+    background-color: #218838;
+}
+
+/* Gold Benefits & Partners Section */
+.gold-benefits-section,
+.gold-partners-section {
+    margin-top: 30px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: #000000;
+}
+
+/* Headings */
+.gold-benefits-section h3,
+.gold-partners-section h3 {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+/* Benefit Card Styling */
+.benefit-card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    font-size: 14px;
+    color: #000000;
+    width: 100%;              /* ✅ Fix: or remove */
+    max-width: 900px;         /* ✅ Now takes effect */
+    box-sizing: border-box;
+    margin: 0 auto;           /* ✅ Optional: ensures centering in non-flex layouts */
+}
+
+
+.cookie-premium-content {
+    max-width: 600px; /* or 900px */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+.close-popup {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    color: #555;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+
+
+
+        </style>
+        </head>
+<body>
+
+    <div class="back-logo">
+        <a href="profile.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+<!-- cookiepremium.html content -->
+<div class="cookie-premium-content">
+    <img src="static/1stcarasoul.png" alt="Premium Banner">
+
+    <div class="premium-info fancy">
+        <div class="top-tag">UNLIMITED FREE DELIVERIES & MORE</div>
+        <div class="price-row">
+            <span class="price">₹150</span>
+            <span class="duration">for 3 months</span>
+        </div>
+        <button class="join-gold-btn" onclick="openGoldPopup()">Join Premium</button>
+        <p class="savings-text">You are likely to save ₹110 in 3 months!</p>
+    </div>
+    
+
+   <!-- Pop-up Container -->
+<div id="goldPopup" class="gold-popup">
+    <div class="popup-content">
+        <!-- Close Button -->
+        <div class="close-popup" onclick="closeGoldPopup()">×</div>
+
+        <img src="static/gold-membership.png" alt="Gold Membership">
+        <div class="membership-details">
+            <span>3-months Membership</span>
+            <span style="float:right; font-weight:bold; color: rgb(255, 0, 0);">₹150</span>
+        </div>
+        <div class="validity">
+            Valid till: <span id="validTillDate"></span>
+        </div>
+
+        <div class="benefits">
+            <div class="benefit-item">
+                <img src="static/delivery-free.png" alt="Free Delivery">
+                <p>Free delivery for every item</p>
+            </div>
+            <div class="benefit-item">
+                <img src="static/extra-offers.png" alt="Extra Offers">
+                <p>Extra offers on delivery</p>
+            </div>
+        </div>
+
+        <!-- Payment Section (Above Footer) -->
+        <div class="payment-container">
+            <div class="payment-left">
+                <strong>Pay Using ▲</strong>
+                <button class="payment-method" id="selected-payment" onclick="openPaymentOptions()">
+                    Cash on Delivery
+                </button>
+            </div>
+            <div class="payment-right">
+                <span class="total-amount-label">Total:</span>
+                <span id="footer-bill-amount" class="total-amount">₹150</span>
+                <button class="place-order" onclick="placeOrder()">Place Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GOLD BENEFITS -->
+<div class="gold-benefits-section">
+    <h3>⭐ PREMIUM BENEFITS ⭐</h3>
+    <div class="benefit-card">
+        <p><strong>🚚 Free delivery</strong></p>
+        <p>At all restaurants , You get free delivery if the item below ₹499 also . May not be applicable at a few restaurants that manage their own delivery.</p>
+        <p><strong>💳 get 10% Cash back</strong></p>
+        <p>You get 10% cash back on every order, Cash Back add only on Cookie Account. So don't forget to create an cookie account, if order canceled you dont get cash back</p>
+    </div>
+</div>
+
+<!-- GOLD PARTNERS -->
+<div class="gold-partners-section">
+    <h3>⭐ PREMIUM FEATURES ⭐</h3>
+    <div class="benefit-card">
+        <p><strong>🎨 Premium Theme</strong></p>
+        <p>🎉 You get an new Premium Theme Unlocked! Go to <strong>Settings &gt; Appearance</strong> to explore your new look.</p>
+        <p>Enjoy a sleek, refreshed interface designed to elevate your browsing experience. Make your app truly yours with this exclusive theme upgrade.</p>
+    </div>
+</div>
+    
+
+<script>
+    function openGoldPopup() {
+        document.getElementById("goldPopup").classList.add("active");
+    
+        const today = new Date();
+        today.setMonth(today.getMonth() + 3);
+        const validTill = today.toLocaleDateString(undefined, {
+            day: 'numeric', month: 'long', year: 'numeric'
+        });
+        document.getElementById("validTillDate").innerText = validTill;
+    }
+    
+    function closeGoldPopup() {
+        document.getElementById("goldPopup").classList.remove("active");
+    }
+    </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Load and display selected payment method
+        let selectedPayment = localStorage.getItem("selectedPaymentMethod") || "Payment Not Selected";
+        document.getElementById("selected-payment").textContent = selectedPayment;
+    
+        // Check if popup should be shown
+        if (localStorage.getItem("showGoldPopup") === "true") {
+            openGoldPopup();
+            localStorage.removeItem("showGoldPopup"); // show only once
+        }
+    });
+    
+    function placeOrder() {
+        let selectedPayment = localStorage.getItem("selectedPaymentMethod");
+        let grandTotal = parseFloat(localStorage.getItem("grandTotal")) || 0;
+    
+        if (!selectedPayment || selectedPayment === "Payment Not Selected") {
+            alert("⚠️ Please select a payment method before placing the order.");
+            return;
+        }
+    
+        if (selectedPayment === "Cookie Pay") {
+            let cookiePayBalance = parseFloat(localStorage.getItem("cookiePayBalance")) || 0;
+            if (cookiePayBalance < grandTotal) {
+                alert("❌ Insufficient Cookie Pay Balance! Please select another payment method.");
+                return;
+            }
+        }
+
+        
+    // ✅ Store premium access
+    localStorage.setItem("hasPremium", "true");
+    localStorage.setItem("premiumStartDate", new Date().toISOString());
+    
+        alert("✅ Order placed successfully!");
+        localStorage.setItem("hasPremium", "true"); // <-- unlock premium
+        window.location.href = "premiumview.html";
+    }
+    
+    function openPaymentOptions() {
+        window.location.href = "payment-options-premium.html";
+    }
+    </script>
+    
+    
+</body>
+</html> 
