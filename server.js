@@ -1,29 +1,33 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const bcrypt = require("bcrypt");
-const { Low } = require("lowdb");
-const { JSONFile } = require("lowdb/node");
-const path = require("path");
+import express from "express";
+import bodyParser from "body-parser";
+import bcrypt from "bcrypt";
+import { Low } from "lowdb";
+import { JSONFile } from "lowdb/node";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// ✅ Setup DB
 const file = path.join(__dirname, "db.json");
 const adapter = new JSONFile(file);
-const db = new Low(adapter, { users: [] }); // ✅ Fix for missing default data
-
+const db = new Low(adapter, { users: [] });
 
 async function initDB() {
     await db.read();
-    db.data ||= { users: [] }; // Initialize if empty
+    db.data ||= { users: [] };
     await db.write();
 }
 initDB();
 
-// ✅ Middleware
 app.use(bodyParser.json());
 app.use(express.static("public"));
+
+// 👇 Your existing routes (signup, login, etc.) can be copied here unchanged,
+// just make sure the entire file uses `import` syntax instead of `require()`
 
 // Signup Route
 app.post("/signup", async (req, res) => {
@@ -268,6 +272,7 @@ app.post("/delete-account", async (req, res) => {
 });
 
 
+// At the bottom:
 app.listen(port, () => {
     console.log(`🚀 Server running at http://localhost:${port}`);
 });
