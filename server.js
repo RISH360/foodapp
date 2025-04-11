@@ -273,13 +273,14 @@ app.post("/delete-account", async (req, res) => {
 });
 
 
-// Serve static frontend files
-app.use(express.static(path.join(__dirname, "frontend", "public", "static")));
+// Serve static files from the correct folder
+app.use(express.static(path.join(__dirname, "frontend", "public")));
 
-// Serve homepage on "/"
+// Serve index.html at root
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "public", "static", "index.html"));
+  res.sendFile(path.join(__dirname, "frontend", "public", "index.html"));
 });
+
 
 // Start server
 app.listen(port, () => {
