@@ -24,7 +24,8 @@ async function initDB() {
 initDB();
 
 app.use(bodyParser.json());
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "frontend", "public", "static")));
+
 
 // 👇 Your existing routes (signup, login, etc.) can be copied here unchanged,
 // just make sure the entire file uses `import` syntax instead of `require()`
@@ -272,7 +273,15 @@ app.post("/delete-account", async (req, res) => {
 });
 
 
-// At the bottom:
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, "frontend", "public", "static")));
+
+// Serve homepage on "/"
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "public", "static", "index.html"));
+});
+
+// Start server
 app.listen(port, () => {
-    console.log(`🚀 Server running at http://localhost:${port}`);
+  console.log(`🚀 Server running at http://localhost:${port}`);
 });
