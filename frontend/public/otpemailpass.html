@@ -235,83 +235,94 @@
     
 
     <script>
-       let countdown = 30;
-let timerInterval;
-
-function startTimer() {
-    document.getElementById("resend-btn").disabled = true;
-    document.getElementById("timer").textContent = `Resend OTP in ${countdown}s`;
-
-    timerInterval = setInterval(() => {
-        countdown--;
-        document.getElementById("timer").textContent = `Resend OTP in ${countdown}s`;
-
-        if (countdown === 0) {
-            clearInterval(timerInterval);
-            document.getElementById("resend-btn").disabled = false;
-            document.getElementById("timer").textContent = "Didn't receive OTP?";
+        let countdown = 30;
+        let timerInterval;
+        
+        let generatedMobileOTP = "";
+        let generatedEmailOTP = "";
+        
+        function generateOTPs() {
+            generatedMobileOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            generatedEmailOTP = Math.floor(100000 + Math.random() * 900000).toString();
+            alert(`Your Mobile OTP is: ${generatedMobileOTP}\nYour Email Code is: ${generatedEmailOTP}`);
         }
-    }, 1000);
-}
-
-function resendOTP() {
-    alert("OTP has been resent!");
-    countdown = 30;
-    startTimer();
-}
-
-function moveToNext(current, nextId) {
-    if (current.value.length === 1 && nextId) {
-        document.getElementById(nextId).focus();
-    }
-}
-
-function verifyOTP() {
-    let mobileOTP = "";
-    let emailOTP = "";
-
-    // Collect OTP inputs correctly
-    document.querySelectorAll(".otp-inputs:nth-of-type(1) input").forEach(input => {
-        mobileOTP += input.value;
-    });
-
-    document.querySelectorAll(".otp-inputs:nth-of-type(2) input").forEach(input => {
-        emailOTP += input.value;
-    });
-
-    let otpError = document.getElementById("otp-error");
-    let emailError = document.getElementById("email-error");
-
-    // Validate Mobile OTP
-    if (mobileOTP.length < 6) {
-        otpError.style.display = "block";
-    } else {
-        otpError.style.display = "none";
-    }
-
-    // Validate Email Code
-    if (emailOTP.length < 6) {
-        emailError.style.display = "block";
-    } else {
-        emailError.style.display = "none";
-    }
-
-    // Show loading screen and redirect if valid
-    if (mobileOTP.length === 6 && emailOTP.length === 6) {
-        const loadingScreen = document.getElementById("loading-screen");
-        loadingScreen.classList.remove("hidden"); // Show loading screen
-
-        setTimeout(() => {
-            alert("OTP Verified!");
-            window.location.href = "N-foodinterfacepage.html"; // Redirect after 5 seconds
-            loadingScreen.classList.add("hidden"); // Hide loading screen
-        }, 1000); // 5 seconds delay
-    }
-}
-
-startTimer();
-
-    </script>
+        
+        function startTimer() {
+            document.getElementById("resend-btn").disabled = true;
+            document.getElementById("timer").textContent = `Resend OTP in ${countdown}s`;
+        
+            timerInterval = setInterval(() => {
+                countdown--;
+                document.getElementById("timer").textContent = `Resend OTP in ${countdown}s`;
+        
+                if (countdown === 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById("resend-btn").disabled = false;
+                    document.getElementById("timer").textContent = "Didn't receive OTP?";
+                }
+            }, 1000);
+        }
+        
+        function resendOTP() {
+            generateOTPs(); // Show new OTPs
+            countdown = 30;
+            startTimer();
+        }
+        
+        function moveToNext(current, nextId) {
+            if (current.value.length === 1 && nextId) {
+                document.getElementById(nextId).focus();
+            }
+        }
+        
+        function verifyOTP() {
+            let mobileOTP = "";
+            let emailOTP = "";
+        
+            // Collect OTP inputs correctly
+            document.querySelectorAll(".otp-inputs:nth-of-type(1) input").forEach(input => {
+                mobileOTP += input.value;
+            });
+        
+            document.querySelectorAll(".otp-inputs:nth-of-type(2) input").forEach(input => {
+                emailOTP += input.value;
+            });
+        
+            let otpError = document.getElementById("otp-error");
+            let emailError = document.getElementById("email-error");
+        
+            // Validate Mobile OTP
+            if (mobileOTP.length < 6 || mobileOTP !== generatedMobileOTP) {
+                otpError.style.display = "block";
+            } else {
+                otpError.style.display = "none";
+            }
+        
+            // Validate Email Code
+            if (emailOTP.length < 6 || emailOTP !== generatedEmailOTP) {
+                emailError.style.display = "block";
+            } else {
+                emailError.style.display = "none";
+            }
+        
+            // Show loading screen and redirect if valid
+            if (mobileOTP === generatedMobileOTP && emailOTP === generatedEmailOTP) {
+                const loadingScreen = document.getElementById("loading-screen");
+                loadingScreen.classList.remove("hidden");
+        
+                setTimeout(() => {
+                    alert("OTP Verified!");
+                    window.location.href = "N-foodinterfacepage.html";
+                    loadingScreen.classList.add("hidden");
+                }, 1000);
+            }
+        }
+        
+        // Call these when page loads
+        generateOTPs();
+        startTimer();
+        </script>
+        
     
 </body>
 </html>

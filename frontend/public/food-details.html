@@ -677,29 +677,31 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         document.getElementById("add-to-cart").addEventListener("click", function () {
-    let cart = JSON.parse(localStorage.getItem("cartProducts")) || [];
+    const userEmail = sessionStorage.getItem("profileEmail");
+    const cartKey = `cartProducts_${userEmail}`;
+    let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
 
-    // Check if product exists in the cart
-    const productExists = cart.some(p => p.name === name);
+    const productIndex = cart.findIndex(p => p.name === name);
 
-    if (productExists) {
-        // Remove product if already added
-        cart = cart.filter(p => p.name !== name);
-        localStorage.setItem("cartProducts", JSON.stringify(cart));
+    if (productIndex !== -1) {
+        // Remove product from cart
+        cart.splice(productIndex, 1);
+        localStorage.setItem(cartKey, JSON.stringify(cart));
 
         this.classList.remove("added");
         this.textContent = "Add to Cart";
     } else {
         // Add product to cart
-        addToCart();
+        addToCart(); // This uses cartKey too
         this.classList.add("added");
         this.textContent = "Added to Cart";
     }
 
-    // Animation effect
+    // Animate the button
     this.classList.add("cart-animation");
     setTimeout(() => this.classList.remove("cart-animation"), 300);
 });
+
 
 // Maintain button state on page load
 document.addEventListener("DOMContentLoaded", function () {

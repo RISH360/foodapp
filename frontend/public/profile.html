@@ -704,15 +704,20 @@ document.addEventListener("DOMContentLoaded", function () {
     let profileEmail = document.getElementById("profileEmail");
     let profilePhone = document.getElementById("profilePhone");
     let profileName = document.getElementById("profileName");
+    let changeImageBtn = document.getElementById("changeImageBtn");
+    let imageInput = document.getElementById("imageInput");
+    let removeImageBtn = document.getElementById("removeImageBtn");
+
     // Default image when no profile picture is set
     const defaultImage = "static/profileupdate.png";
 
-    // Load stored data from localStorage
-    let savedImage = localStorage.getItem("profileImage");
+    // Load stored data from sessionStorage
     let savedName = sessionStorage.getItem("profileName");
-    let savedEmail = sessionStorage.getItem("profileEmail"); // fixed
-    let savedPhone = sessionStorage.getItem("profilePhone"); // fixed
+    let savedEmail = sessionStorage.getItem("profileEmail");
+    let savedPhone = sessionStorage.getItem("profilePhone");
 
+    // Load profile image from localStorage (stored under the user's email)
+    let savedImage = localStorage.getItem(savedEmail + "_profileImage");
 
     // Set profile image (use default if none found)
     if (savedImage && savedImage !== "") {
@@ -725,6 +730,7 @@ document.addEventListener("DOMContentLoaded", function () {
     profileName.textContent = savedName || "No name provided";
     profileEmail.textContent = savedEmail || "No email provided";
     profilePhone.textContent = savedPhone || "No phone number provided";
+
     // Profile image full-screen preview
     profileImg.addEventListener("click", function () {
         fullscreenImg.src = profileImg.src;
@@ -736,7 +742,40 @@ document.addEventListener("DOMContentLoaded", function () {
             overlay.classList.remove("show");
         }
     });
+
+    // When the user clicks the "Change Image" button, trigger the file input click
+    changeImageBtn.addEventListener("click", function () {
+        imageInput.click();
+    });
+
+    // When the user selects a new image, update the profile image
+    imageInput.addEventListener("change", function (event) {
+        let file = event.target.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                profileImg.src = e.target.result;
+
+                // Save the new profile image to localStorage under the user's email
+                if (savedEmail) {
+                    localStorage.setItem(savedEmail + "_profileImage", e.target.result);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // When the user clicks the "Remove Image" button, reset the profile image to the default
+    removeImageBtn.addEventListener("click", function () {
+        profileImg.src = defaultImage;
+
+        // Remove the profile image from localStorage
+        if (savedEmail) {
+            localStorage.removeItem(savedEmail + "_profileImage");
+        }
+    });
 });
+
 
 </script>
 

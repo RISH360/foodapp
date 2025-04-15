@@ -610,7 +610,10 @@ document.addEventListener("DOMContentLoaded", () => {
         paymentButton.textContent = savedPayment;
     }
 
-    let cartProducts = JSON.parse(localStorage.getItem("cartProducts")) || [];
+    const userEmail = sessionStorage.getItem("profileEmail");
+    let cartKey = `cartProducts_${userEmail}`;
+    let cartProducts = JSON.parse(localStorage.getItem(cartKey)) || [];
+
     let itemTotal = 0;
 
     cartContainer.innerHTML = ""; // Clear previous content to prevent duplicates
@@ -658,7 +661,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const index = parseInt(event.target.getAttribute("data-index"));
             if (!isNaN(index) && index >= 0 && index < cartProducts.length) {
                 cartProducts.splice(index, 1);
-                localStorage.setItem("cartProducts", JSON.stringify(cartProducts));
+                localStorage.setItem(cartKey, JSON.stringify(cartProducts));
 
                 if (cartProducts.length === 0) {
                     localStorage.removeItem("cartProducts");
@@ -758,9 +761,10 @@ function placeOrder() {
     const address = document.getElementById("cart-deliveryAddress").textContent.trim();
     const phone = document.getElementById("cart-phoneNumber").textContent.trim();
     const paymentMethod = document.getElementById("selected-payment").textContent.trim();
-    let cartProducts = JSON.parse(localStorage.getItem("cartProducts")) || [];
 
-    // ✅ Check if Cookie Pay was already processed
+    const cartKey = `cartProducts_${sessionStorage.getItem("profileEmail")}`;
+    let cartProducts = JSON.parse(localStorage.getItem(cartKey)) || [];
+
     let cookiePayPaid = localStorage.getItem("cookiePayPaid") === "true";
 
     if (address === "Not set" || phone === "Not set") {
@@ -783,30 +787,30 @@ function placeOrder() {
         const updatedOrders = [...existingOrders, ...cartProducts];
         localStorage.setItem("orderedProducts", JSON.stringify(updatedOrders));
 
-        localStorage.removeItem("cartProducts");
+        localStorage.removeItem(cartKey);
 
-        // ✅ Keep address and phone number after cancellation
+        // Keep address and phone number
         let activeAddress = localStorage.getItem("activeAddress");
         let activePhone = localStorage.getItem("activeNumber");
 
-        localStorage.setItem("activeAddress", activeAddress); // Prevent deletion
-        localStorage.setItem("activeNumber", activePhone); // Keep phone number
+        localStorage.setItem("activeAddress", activeAddress);
+        localStorage.setItem("activeNumber", activePhone);
 
         const loadingScreen = document.getElementById("loading-screen");
         const loadingText = document.getElementById("loading-text");
 
-        loadingScreen.classList.remove("hidden"); // Show loading screen
+        loadingScreen.classList.remove("hidden");
 
         setTimeout(() => {
             loadingText.textContent = "Your order has been confirmed!";
-        }, 5000); // After 5 seconds, change text
+        }, 5000);
 
         setTimeout(() => {
             loadingText.textContent = "Wait for confirmation from our delivery partner...";
-        }, 6000); // After 1 more second, change text again
+        }, 6000);
 
         setTimeout(() => {
-            window.location.href = "orderedview.html"; // Redirect after 3 more seconds
+            window.location.href = "orderedview.html";
         }, 9000);
 
     } else {

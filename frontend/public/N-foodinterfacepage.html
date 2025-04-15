@@ -1590,21 +1590,27 @@
         document.addEventListener("DOMContentLoaded", function () {
             const profileImg = document.getElementById("profileImg");
             const skeleton = document.querySelector(".profile-skeleton");
-        
+    
             const defaultImage = "static/profileupdate.png";
-            const savedImage = localStorage.getItem("profileImage");
+    
+            // Get user's email from sessionStorage
+            const userEmail = sessionStorage.getItem("profileEmail");
+    
+            // Use email to get the correct profile image
+            const savedImage = userEmail ? localStorage.getItem(userEmail + "_profileImage") : null;
             const finalImage = savedImage && savedImage !== "" ? savedImage : defaultImage;
-        
+    
             const tempImg = new Image();
             tempImg.src = finalImage;
-        
+    
             tempImg.onload = function () {
                 profileImg.src = finalImage;
                 profileImg.style.display = "block";
                 skeleton.style.display = "none";
             };
         });
-        </script>
+    </script>
+    
 
 <div class="search-container">
     <img src="static/pngegg (15).png" class="search-icon" alt="Search">  

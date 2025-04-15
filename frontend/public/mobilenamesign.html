@@ -150,7 +150,7 @@
     
 
     <script>
-      function submitUserDetails() {
+ function submitUserDetails() {
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
     const nickname = document.getElementById("nickname").value.trim();
@@ -161,7 +161,7 @@
 
     let isValid = true;
 
-    // Name validation (no numbers allowed)
+    // Validation
     if (!/^[a-zA-Z]+$/.test(firstName)) {
         firstNameError.style.display = "block";
         isValid = false;
@@ -176,7 +176,6 @@
         lastNameError.style.display = "none";
     }
 
-    // Nickname required validation
     if (!nickname) {
         nicknameError.style.display = "block";
         isValid = false;
@@ -184,16 +183,41 @@
         nicknameError.style.display = "none";
     }
 
-    // Show loading screen and redirect if valid
     if (isValid) {
-        const loadingScreen = document.getElementById("loading-screen");
-        loadingScreen.classList.remove("hidden"); // Show loading screen
+        const mobile = localStorage.getItem("registeredMobile");
+        if (!mobile) {
+            alert("Mobile number not found. Please start the process again.");
+            return;
+        }
 
-        setTimeout(() => {
-            alert(`Welcome, ${firstName} ${lastName} (Nickname: ${nickname})!`);
-            window.location.href = "N-foodinterfacepage.html"; // Redirect after 5 seconds
-            loadingScreen.classList.add("hidden"); // Hide loading screen
-        }, 5000); // 5 seconds delay
+        const loadingScreen = document.getElementById("loading-screen");
+        loadingScreen.classList.remove("hidden");
+
+        // Send details to server
+        fetch("/update-user-details", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mobile, firstName, lastName, nickname })
+        })
+        .then(res => res.json())
+        .then(data => {
+            loadingScreen.classList.add("hidden");
+
+            if (data.success) {
+                // Store nickname and phone for future profile use
+                sessionStorage.setItem("profileName", nickname);
+                sessionStorage.setItem("profilePhone", mobile);
+
+                alert(`Welcome, ${firstName} ${lastName} (Nickname: ${nickname})!`);
+                window.location.href = "mobilesetpassword.html";
+            } else {
+                alert(data.message || "Something went wrong.");
+            }
+        })
+        .catch(err => {
+            loadingScreen.classList.add("hidden");
+            alert("Error connecting to server.");
+        });
     }
 }
 

@@ -122,10 +122,13 @@
                 pattern="[0-9]*" 
                 maxlength="6"
             >
+            <button id="resend-btn" onclick="resendOTP()">Resend OTP</button>
             <button onclick="confirmOTP()">Confirm</button>
+            
         </div>
     </div>
 </div>
+
 
 
 <!-- Include JWT Decoder -->
@@ -198,6 +201,9 @@ function closePopup() {
     document.getElementById("popup-container").classList.remove("active");
 }
 
+let generatedOTP = "";
+
+// Function to send OTP (Step 1)
 function sendOTP() {
     const phoneNumber = document.getElementById("phoneNumber").value;
 
@@ -211,51 +217,104 @@ function sendOTP() {
     loadingScreen.classList.remove("hidden"); // Show loading screen
 
     setTimeout(() => {
-        const generatedOTP = Math.floor(100000 + Math.random() * 900000);
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
         // Display OTP Message
-        const otpMessage = document.getElementById("otp-message");
-        otpMessage.textContent = `Your OTP code is: ${generatedOTP}`;
-        otpMessage.style.display = "block";
+        showToast(`Your OTP code is: ${generatedOTP}`);
 
         document.getElementById("phone-input-section").classList.add("hidden");
         document.getElementById("otp-input-section").classList.remove("hidden");
 
         localStorage.setItem("generatedOTP", generatedOTP);
 
-        setTimeout(() => {
-            otpMessage.style.display = "none";
-        }, 15000);
-
-        loadingScreen.classList.add("hidden"); // Hide loading screen after 5 seconds
-    }, 5000); // 5 seconds delay for loading screen effect
+        loadingScreen.classList.add("hidden");
+    }, 2000); // Simulate delay for OTP generation
 }
 
+// Function to confirm OTP (Step 2)
 function confirmOTP() {
     const enteredOTP = document.getElementById("otpInput").value;
+    const phoneNumber = document.getElementById("phoneNumber").value;
 
-    // Allow only 6-digit OTP numbers
     if (!/^\d{6}$/.test(enteredOTP)) {
         alert("Please enter a valid 6-digit OTP.");
         return;
     }
 
     const loadingScreen = document.getElementById("loading-screen");
-    loadingScreen.classList.remove("hidden"); // Show loading screen
+    loadingScreen.classList.remove("hidden");
 
     setTimeout(() => {
-        const generatedOTP = localStorage.getItem("generatedOTP");
+        const storedOTP = localStorage.getItem("generatedOTP");
 
-        if (enteredOTP === generatedOTP) {
+        if (enteredOTP === storedOTP) {
             alert("OTP Verified Successfully!");
-            window.location.href = "mobilenamesign.html";  // Redirect after 5 seconds
+
+            // Send the phone number to the backend for registration
+            fetch('/register-mobile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ mobile: phoneNumber }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.setItem("registeredMobile", phoneNumber); // ✅ Store here
+                    window.location.href = "mobilenamesign.html"; // Redirect after success
+                } else {
+                    alert(data.message); // Show error message from backend
+                }
+            })
+            .catch(error => {
+                alert("An error occurred. Please try again.");
+            });
+
         } else {
             alert("Incorrect OTP. Please try again.");
         }
 
-        loadingScreen.classList.add("hidden"); // Hide loading screen
+        loadingScreen.classList.add("hidden");
     }, 5000); // 5 seconds delay for loading screen effect
 }
+
+// Function to resend OTP
+function resendOTP() {
+    const loadingScreen = document.getElementById("loading-screen");
+    loadingScreen.classList.remove("hidden");
+
+    setTimeout(() => {
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+        showToast(`Your new OTP code is: ${generatedOTP}`);
+
+        localStorage.setItem("generatedOTP", generatedOTP);
+
+        loadingScreen.classList.add("hidden");
+    }, 2000); // Simulate delay for OTP generation
+}
+
+// Reusable toast popup function
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    // Show the toast after a small delay
+    setTimeout(() => {
+        toast.classList.add("show");
+    }, 100);
+
+    // Remove the toast after 4 seconds
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => document.body.removeChild(toast), 500);
+    }, 4000); // Keep the toast for 4 seconds
+}
+
 
 </script>
 

@@ -1,5 +1,7 @@
 function addToCart() {
-    let cart = JSON.parse(localStorage.getItem("cartProducts")) || [];
+    const userEmail = sessionStorage.getItem("profileEmail");
+    const cartKey = `cartProducts_${userEmail}`;
+    let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
 
     const cartProduct = {
         name: name,
@@ -19,7 +21,7 @@ function addToCart() {
         cart.push(cartProduct);
     }
 
-    localStorage.setItem("cartProducts", JSON.stringify(cart));
+    localStorage.setItem(cartKey, JSON.stringify(cart));
 }
 
 // Order Now Button

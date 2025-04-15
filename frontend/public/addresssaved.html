@@ -156,21 +156,39 @@
 
     <div class="address-title">Address Book</div>
     <div id="addressList"></div>
-    <button class="btn" onclick="window.location.href='profile.html'">Change</button>
-
+    <button id="changeBtn" class="btn" onclick="window.location.href='profile.html'">Change</button>
+    
     <script>
         function loadAddresses() {
             let savedAddresses = JSON.parse(localStorage.getItem("addresses")) || [];
             let activeAddress = localStorage.getItem("activeAddress");
             let addressList = document.getElementById("addressList");
+            let changeBtn = document.getElementById("changeBtn");
             addressList.innerHTML = "";
-
+    
+            if (savedAddresses.length === 0) {
+                changeBtn.style.display = "none";
+    
+                let emptyMessage = document.createElement("div");
+                emptyMessage.style.background = "#fff";
+                emptyMessage.style.padding = "20px";
+                emptyMessage.style.borderRadius = "10px";
+                emptyMessage.style.boxShadow = "0 2px 6px rgba(0,0,0,0.1)";
+                emptyMessage.style.textAlign = "center";
+                emptyMessage.innerText = "You haven't saved any address yet.";
+    
+                addressList.appendChild(emptyMessage);
+                return;
+            }
+    
+            changeBtn.style.display = "inline-block";
+    
             savedAddresses.forEach((address, index) => {
                 let addressContainer = document.createElement("div");
                 addressContainer.className = "container";
-                
+    
                 let isActive = address.houseNo === activeAddress;
-                
+    
                 addressContainer.innerHTML = `
                     <div class="address-box">
                         <p><strong>${address.houseNo}, ${address.roadName}</strong></p>
@@ -179,12 +197,13 @@
                         <p class="active-label">${isActive ? "Active Address" : "Inactive Address"}</p>
                     </div>
                 `;
-                
+    
                 addressList.appendChild(addressContainer);
             });
         }
-
+    
         document.addEventListener("DOMContentLoaded", loadAddresses);
     </script>
+    
 </body>
 </html>

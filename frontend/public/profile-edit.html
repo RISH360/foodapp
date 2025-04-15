@@ -241,7 +241,7 @@
     </div>
     
     <script>
- document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     let profileImg = document.getElementById("profileImg");
     let removeImageBtn = document.getElementById("removeImageBtn");
     let changeImageBtn = document.getElementById("changeImageBtn");
@@ -252,14 +252,15 @@
 
     const defaultImage = "static/profileupdate.png";
 
-    // ✅ Add this missing line
-    let savedImage = localStorage.getItem("profileImage");
-
-    // Load data from sessionStorage
+    // Use sessionStorage to get the user's email
     let savedEmail = sessionStorage.getItem("profileEmail");
     let savedPhone = sessionStorage.getItem("profilePhone");
     let savedName = sessionStorage.getItem("profileName");
 
+    // Use the email to store the profile picture separately for each user in localStorage
+    let savedImage = localStorage.getItem(savedEmail + "_profileImage");
+
+    // If an image is found, display it, otherwise use the default image
     if (savedImage && savedImage !== "") {
         profileImg.src = savedImage;
         removeImageBtn.style.display = "block";
@@ -268,33 +269,48 @@
         removeImageBtn.style.display = "none";
     }
 
+    // Display the user's saved information
     if (savedEmail) emailDisplay.textContent = savedEmail;
     if (savedPhone) phoneDisplay.textContent = savedPhone;
     if (savedName) nameDisplay.textContent = savedName;
 
+    // When the user clicks on the "Change Image" button, trigger the file input click
     changeImageBtn.addEventListener("click", function () {
         imageInput.click();
     });
 
+    // When the user selects a new image, update the profile image
     imageInput.addEventListener("change", function (event) {
         let file = event.target.files[0];
         if (file) {
             let reader = new FileReader();
             reader.onload = function (e) {
                 profileImg.src = e.target.result;
-                localStorage.setItem("profileImage", e.target.result);
+                
+                // Save the new profile image to localStorage using the email as a key
+                if (savedEmail) {
+                    localStorage.setItem(savedEmail + "_profileImage", e.target.result);
+                }
+
                 removeImageBtn.style.display = "block";
             };
             reader.readAsDataURL(file);
         }
     });
 
+    // When the user clicks the "Remove Image" button, reset the profile image to the default
     removeImageBtn.addEventListener("click", function () {
         profileImg.src = defaultImage;
-        localStorage.setItem("profileImage", "");
+
+        // Remove the profile image from localStorage
+        if (savedEmail) {
+            localStorage.removeItem(savedEmail + "_profileImage");
+        }
+
         removeImageBtn.style.display = "none";
     });
 });
+
 
      
     </script>
