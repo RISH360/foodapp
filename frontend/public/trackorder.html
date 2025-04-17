@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order</title>
+    <script src="footer.js" defer></script>
+    <script src="appearance.js" defer></script>
+    <link rel="stylesheet" href="appearance.css">
+    <link rel="stylesheet" href="assist.css">
+
+    <style>
+
+        .hidden {
+            display: none !important;
+        }
+
+        #no-order-message {
+            text-align: center;
+            color: rgb(92, 92, 92);
+            font-weight: bold;
+            display: none;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #ebadad;
+            margin: 0;
+            padding: 10px;
+            padding-top: 80px;
+            padding-bottom: 100px;
+        }
+
+         /* Back Button */
+        .back-logo {
+            position: absolute;
+            top: 30px; /* Adjust as needed */
+            left: 20px;
+        }
+
+        .back-loco img {
+            width: 10px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+
+
+        .container {
+            background: rgb(255, 255, 255);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .track-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 90%;
+    max-width: 350px;
+    font-weight: bold;
+    position: relative;
+    z-index: 10; /* Brings header to the front */
+    margin-left: 20px; /* Moves the entire header (text + image) to the right */
+    margin-bottom: 10px;
+    font-size: 20px; /* Increased font size */
+}
+
+.track-header img {
+    width: 25px;
+    margin-left: 12px; /* Increases spacing between text and image */
+    margin-top: -5px;
+}
+
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .food-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .food-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+        }
+
+        .combined-container {
+    background: #ffffff;
+    padding: 10px; /* Reduced padding for smaller height */
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    height: auto; /* Ensures content defines height */
+    max-height: 90px; /* Limits the overall height */
+}
+
+.combined-container .section-header {
+    background-color: #ff4757;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 14px 12px; /* Increased padding for more height */
+    border-radius: 6px 6px 0 0;
+    width: 105%; 
+    position: relative;
+    top: -15px;
+    left: -15px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); 
+}
+
+#status {
+    display: block; 
+    margin: 0 0 -14px 0; /* Negative margin for further upward movement */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#timer-display {
+    display: inline-block; 
+    margin-top: 0; /* Removed margin for maximum upward shift */
+    font-size: 18px;
+    color: #ff4757;
+    font-weight: bold;
+}
+
+
+/* Adjust Content Padding to Avoid Overlap */
+.container {
+    padding-top: 35px; /* Space for the red header */
+}
+        .delivery-status {
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .delivery-info {
+    background-color: #ffffff;
+    padding: 10px 15px;  /* Reduced padding for smaller height */
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left; 
+    margin-top: 10px;
+    height: auto; /* Ensures dynamic height */
+    max-height: 60px; /* Limits height to keep it compact */
+    overflow: hidden; /* Prevents excessive space */
+}
+
+.delivery-info p {
+    margin: 0; 
+    position: relative;
+    top: -15px; /* Moves text slightly up */
+    font-size: 15px;
+    color: #333;
+}
+
+.delivery-info p:not(:last-child) {
+    margin-bottom: 5px; /* Adds gap between text lines */
+}
+
+.delivery-info strong {
+    color: #ff4757;
+}
+.payment-method {
+    background-color: #ffffff;
+    padding: 8px 15px 10px; /* Reduced top padding to move text up */
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left; 
+    margin-top: 5px; /* Reduced top margin */
+    height: auto;
+    max-height: 55px; /* Slightly reduced height for a compact view */
+    overflow: hidden;
+}
+
+.payment-method p {
+    margin: 0;
+    font-size: 15px;
+    color: #333;
+    position: relative;
+    top: -15px; /* Moves the text slightly up */
+}
+
+
+.payment-method strong {
+    color: #ff4757;
+}
+
+  
+.otp-container {
+    background-color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center; 
+    margin-top: 10px;
+    height: 60px;
+    max-height: 80px;
+    overflow: hidden;
+}
+#otp-code {
+    font-size: 18px;
+    color: #ff4757;
+    font-weight: bold;
+    margin-bottom: 3px; /* Reduced margin to move OTP code up */
+    margin-top: 1px; /* Moves OTP code slightly upward */
+}
+
+.otp-container button {
+    background-color: #ff4757;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    margin-top: 6px; /* Moves the button slightly upward */
+}
+
+.otp-container button:hover {
+    background-color: #e43d4d;
+}
+
+
+
+.footer {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px; /* Increased height */
+    display: flex;
+    justify-content: space-between; /* Ensures no gap */
+    align-items: flex-end;
+    padding: 10px 0; /* Increased padding for better spacing */
+    z-index: 1000; /* Ensures footer stays above other elements */
+}
+
+.footer-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-button {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    font-size: 14px; /* Improved text readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    line-height: 1; /* Ensures no extra spacing between text and image */
+}
+
+.footer-button img {
+    width: 24px; /* Larger icons for better visibility */
+    height: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease; /* Added smooth scaling */
+    margin-bottom: 5px; /* Improved spacing */
+}
+
+.footer-button span {
+    margin-top: 8px; /* Better spacing for text */
+}
+
+.footer-button:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Moving Underline */
+.underline {
+    position: absolute;
+    bottom: 70px; /* Aligned with increased footer height */
+    height: 5px; /* Slightly thicker underline for visibility */
+    background-color: black;
+    width: 450px;
+    left: 33%; /* Centered the underline */
+    transition: transform 0.3s ease, left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .underline {
+    bottom: 70px;
+    height: 5px;
+    width: 180px;
+    background-color: black;
+    left: 34%; /* Move to the center */
+    transition: transform 0.3s ease, left 0.3s ease;
+  }
+}
+
+
+/* Order Details Container */
+.order-details {
+    background-color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    margin-top: 10px;
+    height: auto; /* Makes the container height flexible */
+}
+
+/* Section Header 1 */
+.section-header-1 {
+    background-color: #ff4757;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px 10px; /* Adjusted padding */
+    border-radius: 6px 6px 0 0;
+    width: calc(100% + 10px); /* Decreased width */
+    position: relative;
+    top: -10px; /* Moved up */
+    left: -15px; /* Moved to the left */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Ordered Food Container */
+#ordered-food-container {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+#ordered-food-container p {
+    margin: 3px 0;
+    line-height: 1.5; /* Ensures better spacing */
+}
+
+
+.food-item:last-child {
+    border-bottom: none;
+}
+
+
+/* Food Name */
+.food-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 2px; /* Reduced space */
+}
+
+/* Food Price */
+.food-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff4757;
+}
+
+
+
+/* Adjust Section Headers */
+.section-header {
+    padding: 5px 8px; /* Reduce padding */
+}
+
+
+
+/* Adjust Text Spacing */
+.food-details {
+    margin-left: 3px; /* Reduce left margin */
+}
+
+/* Delivery Boy Container */
+.delivery-boy {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    padding: 5px 15px; /* Reduced padding */
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    min-width: 420px;
+    max-width: 1000px;
+    margin: 10px auto;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    height: 90px; /* Ensures height adjusts to content */
+}
+
+/* Delivery Boy Text */
+.delivery-boy-text {
+    font-size: 16px; /* Reduce font size */
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px; /* Reduced margin */
+    text-align: left;
+}
+
+/* Delivery Boy Info */
+.delivery-boy-info {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Reduced gap */
+    justify-content: flex-start;
+    width: 100%;
+}
+
+/* Delivery Boy Image */
+.delivery-boy-info img {
+    width: 40px; /* Reduced size */
+    height: 40px; /* Reduced size */
+    border-radius: 50%;
+    object-fit: cover;
+    position: relative;
+    top: 6px; /* Move the image down without affecting container height */
+}
+
+/* Delivery Boy Name */
+.delivery-boy-name {
+    font-size: 12px; /* Reduced font size */
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+    flex-grow: 1;
+    position: relative;
+    top: 7px; /* Move the name down without affecting container height */
+}
+
+.payment-method p {
+    margin-top: 30px; /* Adjust the value as needed */
+}
+
+.delivery-info p:first-of-type {
+    margin-top: 25px; /* Adjust the value as needed */
+}
+
+.delivery-boy {
+    min-width: unset; /* Remove fixed min-width */
+    width: 100%; /* Allow flexible width */
+    max-width: 100%; /* Prevent overflow */
+    margin: 10px auto; /* Keep it centered */
+}
+
+/* Buttons Container */
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: -55px; /* Increased negative margin for higher position */
+}
+
+ 
+
+/* Message & Cancel Order in the Same Row */
+.button-row {
+    display: flex;
+    flex-direction: row;
+    gap: 6px; /* Reduced gap */
+}
+
+/* Button Styling */
+.buttons button {
+    border: 1px solid black; /* Border for Contact & Message buttons */
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-align: center;
+    width: fit-content;
+    background-color: white; /* Default background for Contact & Message */
+    color: black; /* Default text color */
+}
+
+/* Cancel Button - Red Background, White Text, No Border */
+.cancel-btn {
+    background-color: #ff0015 !important;
+    color: white !important;
+    border: none !important; /* No border */
+}
+
+/* Hover Effects */
+.buttons button:hover {
+    background-color: #ff9797; /* Light red hover for all buttons */
+}
+
+/* Ensure Contact Button Stays Wider */
+.contact-btn {
+    min-width: 180px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 450px) {
+    .buttons {
+        flex-direction: column;
+        align-items: flex-end;
+        width: 100%;
+    }
+
+    .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 5px;
+        width: 100%;
+    }
+
+    .buttons button {
+        min-width: 100px; /* Reduce button width */
+        padding: 4px 8px; /* Reduce padding for smaller size */
+        font-size: 10px; /* Reduce font size */
+    }
+
+    .message-btn, .cancel-btn {
+        min-width: 80px; /* Smaller width */
+        padding: px 6px;
+        font-size: 9px;
+    }
+
+    .contact-btn {
+        width: 58% !important; /* Force full width within the container */
+        padding: 14px 20px; /* Increase padding */
+        font-size: 16px; /* Make text slightly larger */
+        margin-left: 80px !important; /* Adjust left movement */
+        text-align: center;
+        display: block; /* Ensure proper width application */
+    }
+}
+
+#cancellation-policy {
+    font-size: 12px;
+    color: #666; /* Light gray text */
+    text-align: center;
+    max-width: 90%;
+    margin: 40px auto 20px auto; /* Increased top margin */
+    padding: 10px;
+    border-radius: 8px;
+    clear: both; /* Ensures it appears below floated elements */
+    display: block; /* Makes sure it's a separate section */
+}
+
+
+
+/* Dark Mode for Map Container */
+.dark-mode .map-container {
+    background: #222;
+}
+
+/* Dark Mode for Combined Container */
+.dark-mode .combined-container {
+    background: #333;
+    color: #fff;
+    box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode for Delivery Status */
+.dark-mode .delivery-status {
+    background: #2a2a2a;
+    color: #fff;
+}
+
+/* Dark Mode for Delivery Info */
+.dark-mode .delivery-info {
+    background: #2a2a2a;
+    color: #fff;
+    box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .delivery-info p {
+    color: #ddd;
+}
+
+/* Dark Mode for Payment Method */
+.dark-mode .payment-method {
+    background: #2a2a2a;
+    color: #fff;
+}
+
+.dark-mode .payment-method p {
+    color: #ddd;
+}
+
+/* Dark Mode for OTP Container */
+.dark-mode .otp-container {
+    background: #2a2a2a;
+    color: #fff;
+}
+
+.dark-mode #otp-code {
+    color: #ff4757;
+}
+
+.dark-mode .otp-container button {
+    background-color: #ff4757;
+}
+
+.dark-mode .otp-container button:hover {
+    background-color: #e43d4d;
+}
+
+/* Dark Mode for Order Details */
+.dark-mode .order-details {
+    background-color: #2a2a2a;
+    color: #fff;
+    box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode for Ordered Food Container */
+.dark-mode #ordered-food-container {
+    color: #ddd;
+}
+
+.dark-mode #ordered-food-container p {
+    color: #ddd;
+}
+
+/* Dark Mode for Section Header */
+.dark-mode .section-header-1 {
+    background-color: #ff4757;
+    color: #ffffff;
+}
+
+/* Dark Mode for Food Name & Price */
+.dark-mode .food-name {
+    color: #ffffff;
+}
+
+.dark-mode .food-price {
+    color: #ff4757;
+}
+
+/* Dark Mode for Delivery Boy Container */
+.dark-mode .delivery-boy {
+    background: #2a2a2a;
+    color: #fff;
+    box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode for Delivery Boy Text */
+.dark-mode .delivery-boy-text {
+    color: #fff;
+}
+
+/* Dark Mode for Delivery Boy Name */
+.dark-mode .delivery-boy-name {
+    color: #ddd;
+}
+
+/* Dark Mode for Payment Method */
+.dark-mode .payment-method p {
+    color: #ddd;
+}
+
+/* Dark Mode for Delivery Info */
+.dark-mode .delivery-info p {
+    color: #ddd;
+}
+
+/* Dark Mode Buttons */
+.dark-mode .buttons button {
+    background-color: #333; /* Dark background */
+    color: white; /* White text */
+    border: 1px solid #fff; /* White border */
+}
+
+/* Dark Mode Hover Effect */
+.dark-mode .buttons button:hover {
+    background-color: #ff4757; /* Red hover effect */
+    color: white;
+}
+
+/* Dark Mode Contact Button */
+.dark-mode .contact-btn {
+    background-color: #444; /* Slightly lighter dark shade */
+    color: white;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <img src="static/Picsart_25-03-06_14-08-38-557.png" alt="Ball" class="ball" id="ball">
+
+    <div class="back-logo">
+        <a href="N-foodinterfacepage.html" class="back-log">
+            <div class="back-loco">
+                <img src="static/pngkey.com-menu-icon-png-9694963.png" alt="back-button">
+            </div>
+        </a>
+    </div>
+
+<!-- track Heading with Small Image -->
+<div class="track-header">
+    <span>Track</span> 
+    <img src="static/pngwing.com (18).png" alt="track-icon">
+</div>
+
+
+
+    <!-- Google Map (India) -->
+    <div class="map-container">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3945.072949164735!2d76.93663701478075!3d8.524139393886266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05bdbfbf635e4b%3A0x9f8f7d7cceec94c6!2sThiruvananthapuram%2C%20Kerala!5e0!3m2!1sen!2sin!4v1610942132135!5m2!1sen!2sin" 
+            width="100%" height="100%" style="border:0;" allowfullscreen="">
+        </iframe>
+    </div>
+
+ <!-- Combined Delivery Status & Timer Container -->
+<div class="combined-container">
+    <div class="section-header">Delivery Status</div>
+    <span id="status">Your order is on the way 🚀</span>
+    <h3>Arriving in: <span id="timer-display">15:00</span></h3>
+</div>
+
+
+<!-- Delivery Details -->
+<div class="container delivery-info">
+    <p><strong>Address:</strong> <span id="delivery-address">Loading...</span></p>
+    <p><strong>Phone Number:</strong> <span id="phone-number">Loading...</span></p>
+</div>
+
+<!-- Payment Method -->
+<div class="container payment-method">
+    <p><strong>Selected:</strong> <span id="payment-method">Loading...</span></p>
+</div>
+
+
+<!-- OTP Container -->
+<div class="container otp-container">
+    <p id="otp-code">Loading...</p>
+    <button onclick="copyOTP()">Copy OTP</button>
+</div>
+
+
+<!-- Order Details -->
+<div class="container order-details">
+    <div class="section-header-1">Ordered Food</div>
+    <div id="ordered-food-container"></div>
+</div>
+
+
+<div class="container delivery-boy">
+    <div class="delivery-boy-text">Delivery Boy</div>
+    
+    <div class="delivery-boy-info">
+        <img src="static/22de8dbda07ba5571a97736b12905a17.jpg" alt="Delivery Boy">
+        <div class="delivery-boy-name">Libin Raj</div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="buttons">
+        <button class="contact-btn" onclick="setDeliveryBoyAndRedirect()">Contact</button>
+        <div class="button-row">
+            <button class="message-btn" onclick="window.location.href='chat.html'">Message</button>
+            <button class="cancel-btn" onclick="window.location.href='confirmcancellation.html'">Cancel Order</button>
+        </div>
+    </div>
+</div>
+
+<!-- Ensure Cancellation Policy is OUTSIDE -->
+<p id="cancellation-policy">
+    <strong>CANCELLATION POLICY</strong><br>
+    Help us to reduce food waste by avoiding cancellations. The amount paid is non-refundable after placing the order.
+</p>
+
+<p id="no-order-message">
+    You have not ordered anything yet!
+</p>
+
+
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("🚀 Track Order Page Loaded...");
+
+    // ✅ Select elements safely
+    const deliveryAddress = document.getElementById("delivery-address");
+    const phoneNumber = document.getElementById("phone-number");
+    const paymentMethod = document.getElementById("payment-method");
+    const otpCode = document.getElementById("otp-code");
+    const orderedContainer = document.getElementById("ordered-food-container");
+    const timerDisplay = document.getElementById("timer-display");
+
+    const noOrderMessage = document.getElementById("no-order-message");
+
+    // Containers to manage visibility
+    const mapContainer = document.querySelector(".map-container");
+    const deliveryInfoContainer = document.querySelector(".delivery-info");
+    const paymentMethodContainer = document.querySelector(".payment-method");
+    const otpContainer = document.querySelector(".otp-container");
+    const orderDetailsContainer = document.querySelector(".order-details");
+    const deliveryStatusContainer = document.querySelector(".combined-container");
+    const deliveryBoyContainer = document.querySelector(".delivery-boy");
+    const cancellationPolicy = document.getElementById("cancellation-policy");
+
+    // ✅ Check if order was canceled
+    let canceledMessage = localStorage.getItem("orderCanceled");
+    if (canceledMessage) {
+        document.body.innerHTML = `<h2 style="text-align:center;">${canceledMessage}</h2>`;
+        localStorage.removeItem("orderCanceled");
+        return;
+    }
+
+    // ✅ Load Address
+    let savedAddresses = JSON.parse(localStorage.getItem("addresses")) || [];
+    let activeAddress = savedAddresses.find(addr => addr.houseNo === localStorage.getItem("activeAddress"));
+
+    deliveryAddress.textContent = activeAddress
+        ? `${activeAddress.houseNo}, ${activeAddress.roadName}, ${activeAddress.city}, ${activeAddress.state} - ${activeAddress.pincode}`
+        : "Not set";
+
+    // ✅ Load Phone Number
+    let savedNumbers = JSON.parse(localStorage.getItem("phoneNumbers")) || [];
+    let activeNumber = localStorage.getItem("activeNumber"); // Use correct key
+
+    let phoneEntry = savedNumbers.find(num => num.number === activeNumber);
+    phoneNumber.textContent = phoneEntry ? phoneEntry.number : "Not set";
+
+    // ✅ Load Payment Method
+    paymentMethod.textContent = localStorage.getItem("selectedPaymentMethod") || "Not set";
+
+    // ✅ Generate and Store OTP
+    let storedOTP = localStorage.getItem("deliveryOTP");
+    if (!storedOTP) {
+        storedOTP = Math.floor(100000 + Math.random() * 900000);
+        localStorage.setItem("deliveryOTP", storedOTP);
+    }
+    otpCode.textContent = storedOTP;
+
+    // ✅ Copy OTP to Clipboard
+    window.copyOTP = function () {
+        navigator.clipboard.writeText(otpCode.textContent).then(() => {
+            alert(`OTP copied: ${otpCode.textContent}`);
+        }).catch(err => {
+            console.error("Failed to copy OTP:", err);
+        });
+    };
+
+    // ✅ Load Ordered Products
+    let orderedProducts = JSON.parse(localStorage.getItem("orderedProducts") || "[]");
+
+    if (Array.isArray(orderedProducts) && orderedProducts.length > 0) {
+        orderedContainer.innerHTML = orderedProducts.map(product => `
+            <div class="food-item">
+                <img src="${product.img}" class="food-image" alt="Food Image">
+                <div>
+                    <strong>${product.name}</strong>
+                    <p>₹${product.price} x ${product.quantity}</p>
+                </div>
+            </div>
+        `).join("");
+
+        // ✅ Show containers when products are available
+        [mapContainer, deliveryInfoContainer, paymentMethodContainer, 
+         otpContainer, orderDetailsContainer, deliveryStatusContainer, 
+         deliveryBoyContainer, cancellationPolicy].forEach(container => {
+            container.classList.remove("hidden");
+        });
+
+        // ✅ Hide "No Order" message
+        noOrderMessage.style.display = "none";
+
+    } else {
+        // Show "No Order" message only when no products are available
+        noOrderMessage.style.display = "block";
+        
+        // Hide all containers if no products are available
+        [mapContainer, deliveryInfoContainer, paymentMethodContainer, 
+         otpContainer, orderDetailsContainer, deliveryStatusContainer, 
+         deliveryBoyContainer, cancellationPolicy, timerDisplay].forEach(container => {
+            container.classList.add("hidden");
+        });
+    }
+
+    // ✅ Timer Handling
+    let timeLeft = parseInt(localStorage.getItem("orderTimer")) || 900; // 15 minutes default
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    }
+
+    function startTimer() {
+        updateTimerDisplay();
+        const timerInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                localStorage.removeItem("orderTimer");
+                timerDisplay.textContent = "Time Expired!";
+                return;
+            }
+            timeLeft--;
+            localStorage.setItem("orderTimer", timeLeft);
+            updateTimerDisplay();
+        }, 1000);
+    }
+
+    if (orderedProducts.length > 0 && timerDisplay) {
+        startTimer();
+    }
+});
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    console.log("🚀 Track Order Page Loaded...");
+
+    const deliveryBoyNameElement = document.querySelector(".delivery-boy-name");
+    const deliveryBoyImageElement = document.querySelector(".delivery-boy-info img");
+
+    // ✅ Delivery Boys Data
+    const deliveryBoys = [
+        { name: "Libin Raj", img: "static/Picsart_25-03-17_23-47-00-294.jpg" },
+        { name: "Shine p pathrose", img: "static/Picsart_25-03-17_23-48-33-218.jpg" },
+        { name: "Abin raj", img: "static/Picsart_25-03-17_23-50-54-751.jpg" },
+        { name: "Anu prasad", img: "static/Picsart_25-03-17_23-53-04-136.jpg" },
+        { name: "jalees", img: "static/Picsart_25-03-18_00-00-21-548.jpg" }
+    ];
+
+    // ✅ Check if delivery boy already set
+    let savedDeliveryBoy = JSON.parse(localStorage.getItem("deliveryBoy"));
+    
+    if (!savedDeliveryBoy) {
+        // Select a random delivery boy if not already set
+        const randomDeliveryBoy = deliveryBoys[Math.floor(Math.random() * deliveryBoys.length)];
+        localStorage.setItem("deliveryBoy", JSON.stringify(randomDeliveryBoy));
+        savedDeliveryBoy = randomDeliveryBoy;
+    }
+
+    // Display the selected delivery boy
+    deliveryBoyNameElement.textContent = savedDeliveryBoy.name;
+    deliveryBoyImageElement.src = savedDeliveryBoy.img;
+    deliveryBoyImageElement.alt = savedDeliveryBoy.name;
+
+    // ✅ Reset delivery boy on arrival or cancellation
+    const resetDeliveryBoy = () => {
+        localStorage.removeItem("deliveryBoy");
+    };
+
+    document.querySelector(".contact-btn").addEventListener("click", () => {
+    const savedDeliveryBoy = JSON.parse(localStorage.getItem("deliveryBoy"));
+    
+    if (savedDeliveryBoy) {
+        localStorage.setItem("selectedDeliveryBoy", JSON.stringify(savedDeliveryBoy));
+        window.location.href = 'contact.html';  // Redirect to Contact Page
+    }
+});
+
+
+    document.querySelector(".cancel-btn").addEventListener("click", resetDeliveryBoy);
+    document.querySelector(".confirm-btn")?.addEventListener("click", resetDeliveryBoy);
+});
+
+    </script>
+
+    <script>
+
+let ball = document.getElementById("ball");
+let isDragging = false;
+let offsetX, offsetY;
+
+// Create message container dynamically
+let message = document.createElement("div");
+message.classList.add("message");
+document.body.appendChild(message);
+
+function typeMessage(text, duration, callback) {
+    let index = 0;
+    let tempText = "";
+    message.innerHTML = ""; // Clear previous text
+    updateMessagePosition();
+
+    message.style.opacity = "1";
+    message.style.transform = "translateY(0)";
+    
+    function typeNextLetter() {
+        if (index < text.length) {
+            tempText += text[index] === " " ? "&nbsp;" : text[index]; // Preserve spaces
+            message.innerHTML = tempText;
+            index++;
+            setTimeout(typeNextLetter, 40); // Typing speed
+        } else {
+            setTimeout(() => {
+                message.style.opacity = "0";
+                message.style.transform = "translateY(10px)";
+                setTimeout(() => {
+                    message.innerHTML = "";
+                    if (callback) callback();
+                }, 500);
+            }, duration);
+        }
+    }
+
+    typeNextLetter();
+}
+
+// ✅ Run check when page loads
+window.onload = checkAssistStatus;
+
+function updateMessagePosition() {
+    let x = ball.offsetLeft;
+    let y = ball.offsetTop;
+    let maxX = window.innerWidth - ball.clientWidth;
+    let messageWidth = message.clientWidth;
+
+    if (x > maxX / 2) {
+        let newLeft = x - messageWidth - 10;
+        message.style.left = newLeft < 0 ? "10px" : newLeft + "px";
+    } else {
+        let newLeft = x + 70;
+        message.style.left = newLeft + messageWidth > window.innerWidth 
+            ? (window.innerWidth - messageWidth - 10) + "px" 
+            : newLeft + "px";
+    }
+
+    message.style.top = (y - -3) + "px";
+    message.style.display = "block";
+}
+
+function smoothUpdate() {
+    updateMessagePosition();
+    requestAnimationFrame(smoothUpdate);
+}
+smoothUpdate(); 
+
+// 🟢 Check Assist Mode (ON/OFF) when page loads
+function checkAssistStatus() {
+    let isAssistOn = localStorage.getItem("cookieAssist") === "on";
+    if (!isAssistOn) {
+        ball.style.display = "none";
+        message.style.display = "none";
+    } else {
+        ball.style.display = "block";
+        message.style.display = "block";
+        checkMissingInfo();
+    }
+}
+
+// 🟢 Make ball draggable
+ball.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    offsetX = e.clientX - ball.offsetLeft;
+    offsetY = e.clientY - ball.offsetTop;
+    ball.style.cursor = "grabbing";
+});
+
+document.addEventListener("mousemove", (e) => {
+    if (isDragging) {
+        let x = e.clientX - offsetX;
+        let y = e.clientY - offsetY;
+
+        let maxX = window.innerWidth - ball.clientWidth;
+        let maxY = window.innerHeight - ball.clientHeight;
+
+        // Constrain movement within screen bounds
+        x = Math.max(0, Math.min(maxX, x));
+        y = Math.max(0, Math.min(maxY, y));
+
+        ball.style.top = y + "px";
+        ball.style.left = x + "px";
+    }
+});
+
+// Touch Events for Mobile
+ball.addEventListener("touchstart", (e) => {
+    isDragging = true;
+    const touch = e.touches[0];
+    offsetX = touch.clientX - ball.offsetLeft;
+    offsetY = touch.clientY - ball.offsetTop;
+    ball.style.cursor = "grabbing";
+}, { passive: false });
+
+document.addEventListener("touchmove", (e) => {
+    if (isDragging) {
+        const touch = e.touches[0];
+        let x = touch.clientX - offsetX;
+        let y = touch.clientY - offsetY;
+
+        let maxX = window.innerWidth - ball.clientWidth;
+        let maxY = window.innerHeight - ball.clientHeight;
+
+        x = Math.max(0, Math.min(maxX, x));
+        y = Math.max(0, Math.min(maxY, y));
+
+        ball.style.left = x + "px";
+        ball.style.top = y + "px";
+
+        e.preventDefault(); // ✋ Stop default scroll
+    }
+}, { passive: false });
+
+document.addEventListener("touchend", () => {
+    if (isDragging) {
+        let maxX = window.innerWidth - ball.clientWidth;
+        let x = ball.offsetLeft;
+
+        if (x > maxX / 2) {
+            ball.style.left = maxX + "px";
+        } else {
+            ball.style.left = "0px";
+        }
+    }
+    isDragging = false;
+    ball.style.cursor = "grab";
+});
+
+
+document.addEventListener("mouseup", () => {
+    if (isDragging) {
+        isDragging = false;
+        ball.style.cursor = "grab";
+
+        let maxX = window.innerWidth - ball.clientWidth;
+        let currentX = ball.offsetLeft;
+
+        // Snap to nearest edge (left or right)
+        let snapX = currentX < maxX / 2 ? 0 : maxX;  
+
+        // Smooth transition to the edge
+        ball.style.transition = "left 0.3s ease";
+        ball.style.left = snapX + "px";
+
+        // Remove transition after animation to keep smooth dragging
+        setTimeout(() => {
+            ball.style.transition = "";
+        }, 300);
+    }
+});
+
+
+let lastTap = 0;
+let isMessageActive = false; // Prevent multiple activations
+
+ball.addEventListener("click", handleDoubleTap);
+ball.addEventListener("touchend", handleDoubleTap);
+
+function handleDoubleTap(e) {
+    e.preventDefault(); // Prevent unwanted zooming on mobile
+    let currentTime = new Date().getTime();
+    let tapLength = currentTime - lastTap;
+
+    if (tapLength < 300 && tapLength > 0) { // Double-tap detected
+        console.log("Double tap detected! Attempting to show help messages.");
+
+        if (!isMessageActive) { // Prevent overlapping messages
+            isMessageActive = true;
+            showHelpMessages(() => {
+                console.log("Finished displaying help messages.");
+                isMessageActive = false; // Reset flag after sequence completes
+            });
+        } else {
+            console.log("Help messages already active. Ignoring double-tap.");
+        }
+    }
+
+    lastTap = currentTime;
+}
+
+// Ensure event listener is correctly applied
+document.getElementById("ball").addEventListener("dblclick", handleDoubleTap);
+document.getElementById("ball").addEventListener("touchend", handleDoubleTap);
+
+// Track Order Check
+let orderedProducts = JSON.parse(localStorage.getItem("orderedProducts") || "[]");
+let hasActiveOrder = orderedProducts.length > 0;
+
+// Check Track Order Storage
+let trackOrderProducts = JSON.parse(localStorage.getItem("trackOrder") || "[]");
+let hasTrackOrder = trackOrderProducts.length > 0;
+
+function showHelpMessages(callback) {
+
+    let isAssistOn = localStorage.getItem("cookieAssist") === "on";
+    if (!isAssistOn) return; // ✅ Prevent messages from showing when assist is OFF
+    
+    // 🔥 Re-check ordered and track order dynamically before displaying messages
+    let orderedProducts = JSON.parse(localStorage.getItem("orderedProducts") || "[]");
+    let hasActiveOrder = orderedProducts.length > 0;
+
+    let trackOrderProducts = JSON.parse(localStorage.getItem("trackOrder") || "[]");
+    let hasTrackOrder = trackOrderProducts.length > 0;
+
+    if (hasTrackOrder) {
+        typeMessage("🚀 Your order is on the move! Track its status now.", 4000, () => {
+            setTimeout(() => {
+                typeMessage("🕒 Estimated time of arrival is shown in Track Order.", 3000, () => {
+                    setTimeout(() => {
+                        typeMessage("🔍 Need help? Visit our support section anytime!", 3000, () => {
+                            setTimeout(() => {
+                                typeMessage("💡 Pro tip: Save your favorite dishes for quicker reorders!", 3000, callback);
+                            }, 2000);
+                        });
+                    }, 2000);
+                });
+            }, 2000);
+        });
+    } else if (hasActiveOrder) {
+    typeMessage("Feel like you need help? Wait, let me guess !", 4000, () => {
+        setTimeout(() => {
+            typeMessage("You can view where the delivery partner has reached through maps.", 3000, () => {
+                setTimeout(() => {
+                    typeMessage("If the delivery partner has arrived, show the given OTP, which is available in Track Order.", 3000, () => {
+                        setTimeout(() => {
+                            typeMessage("After OTP verification, you will receive your product.", 3000, () => {
+                                setTimeout(() => {
+                                    typeMessage("If you want to cancel the order, click 'Cancel Order', then click 'Confirm'.", 3000, () => {
+                                        setTimeout(() => {
+                                            typeMessage("Please avoid cancellation due to food wastage.", 3000, () => {
+                                                setTimeout(() => {
+                                                    typeMessage("The amount paid is non-refundable after placing the order.", 3000, () => {
+                                                        setTimeout(() => {
+                                                            typeMessage("If you want to contact the delivery partner, you can call or message them from Track Order.", 3000, () => {
+                                                                setTimeout(() => {
+                                                                    typeMessage("If you need more help, you can chat with our Cookies customer support in settings 💬", 3000, () => {
+                                                                        setTimeout(() => {
+                                                                            typeMessage("If you want to see your purchased transactions, just go to settings and click 'Cookies Credits", 3000, () => {
+                                                                                setTimeout(() => {
+                                                                                    typeMessage("If you want to order food on a train, just go settings and click 'Order on Train.", 3000, () => {
+                                                                                        setTimeout(() => {
+                                                                                            typeMessage("If you want to see your coupons, just go to settings and click 'Coupons", 3000, () => {
+                                                                                                setTimeout(() => {
+                                                                                                    typeMessage("If you don't want my help, go to settings, click 'Cookies Assist Help' below and turn me off. 🔕", 3000, callback);
+                                                                                                }, 2000);
+                                                                                            });
+                                                                                        }, 2000);
+                                                                                    });
+                                                                                }, 2000);
+                                                                            });
+                                                                        }, 2000);
+                                                                    });
+                                                                }, 2000);
+                                                            });
+                                                        }, 2000);
+                                                    });
+                                                }, 2000);
+                                            });
+                                        }, 2000);
+                                    });
+                                }, 2000);
+                            });
+                        }, 2000);
+                    });
+                }, 2000);
+            });
+        }, 2000);
+    });
+
+
+    } else {
+        typeMessage("Feel like you need help? Wait, let me guess !", 3000, () => {
+            setTimeout(() => {
+                typeMessage("Looks like you haven't ordered any product, Explore food at dining", 3000, () => {
+                    setTimeout(() => {
+                        typeMessage("🌟 Check out today’s special offers & discounts!", 3000, () => {
+                            setTimeout(() => {
+                                typeMessage("👀 Browse our menu and discover something delicious", 3000, () => {
+                                    setTimeout(() => {
+                                        typeMessage("💡 Tip: You can save items for later in your wishlist!", 3000, callback);
+                                    }, 2000);
+                                });
+                            }, 2000);
+                        });
+                    }, 2000);
+                });
+            }, 2000);
+        });
+    }
+}
+
+// Show help message after 5 seconds of inactivity
+setTimeout(() => {
+    if (!isMessageActive) {
+        isMessageActive = true;
+        showHelpMessages(() => {
+            isMessageActive = false;
+        });
+    }
+}, 5000);
+
+
+    </script>
+
+<footer class="footer">
+    <div class="footer-menu">
+        <a class="footer-button" href="N-foodinterfacepage.html">
+            <img src="static/pngwing.com (19).png">
+            <span>Dining</span>
+        </a>
+        <a class="footer-button" href="trackorder.html">
+            <img src="static/pngwing.com (18).png">
+            <span>Track</span>
+        </a>
+        <a class="footer-button" href="liveevent.html">
+            <img src="static/icons8-live-50.png">
+            <span>Events</span>
+        </a>
+        <div class="underline"></div> <!-- Moving underline -->
+    </div>
+   </footer>
+
+</body>
+</html>

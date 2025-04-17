@@ -1,0 +1,62 @@
+{
+  "users": [
+    {
+      "firstName": "Rishan",
+      "lastName": "Mohamed",
+      "nickName": "rish360",
+      "email": "rishan@example.com",
+      "mobile": "9876543210",
+      "password": "$2b$10$ENCRYPTED_HASH_HERE",
+      "cart": [],
+      "orders": [
+        {
+          "id": "ORD12345678",
+          "items": [
+            {
+              "name": "Cookie Dough",
+              "price": 50,
+              "quantity": 2
+            }
+          ],
+          "total": 100,
+          "status": "Processing",
+          "placedAt": "2025-04-12T12:34:56.789Z"
+        }
+      ],
+      "addresses": []
+    },
+    {
+      "firstName": "Mohamed",
+      "lastName": "Rishan",
+      "nickName": "RD RISH",
+      "email": "mohamedrishan360@gmail.com",
+      "mobile": "6374349121",
+      "password": "$2b$10$6vKud8GOZagMArXlDt8Z7ub6R9lJyuugSZNx2HHLUhSR32/M/3iYW",
+      "cart": [],
+      "orders": [],
+      "addresses": []
+    },
+    {
+      "firstName": "rete",
+      "lastName": "retret",
+      "nickName": "ertert",
+      "email": "aaaaaaaa@gmail.com",
+      "mobile": "1111111111",
+      "password": "$2b$10$oZSK4S/2b8YIQyvWydtKm.5WqUwbVr5eojtYGWcY5P/37x5j.LEdy",
+      "cart": [],
+      "orders": [],
+      "addresses": []
+    },
+    {
+      "firstName": "ryna",
+      "lastName": "look",
+      "nickName": "ryna",
+      "email": "",
+      "mobile": "2222222222",
+      "password": "$2b$10$DZqn79eB3OlYOdCKATmTxexZFUxmLtQthKxHKDAnZ2jJr0eNtaT6i",
+      "cart": [],
+      "orders": [],
+      "addresses": []
+    }
+  ]
+}
